@@ -30,7 +30,7 @@
     }
     .payment-page {
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       min-height: 100vh;
       min-height: 100svh;
       margin: 0 auto;
@@ -47,9 +47,10 @@
         margin: 20px auto;
       }
     }
+    /* ปรับกรอบสีฟ้าด้านบนให้สั้นลง (ลดความสูงลงเหลือ 48px) */
     .topbar {
       width: 100%;
-      height: 64px;
+      height: 48px;
       background: #173966;
       border-top: 3px solid #d7dce3;
       display: flex;
@@ -60,48 +61,33 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       color: #fff;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.1;
       font-weight: 700;
       letter-spacing: .3px;
       white-space: nowrap;
     }
     .brand-icon-img {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
       object-fit: cover;
       background: #fff;
     }
     .content {
       width: 100%;
       flex: 1;
-      padding: 24px 20px 36px;
+      padding: 20px 20px 30px;
       text-align: center;
     }
-    .promptpay {
-      display: inline-block;
-      border: 2px solid #64859a;
-      color: #16436b;
-      font-weight: 700;
-      font-size: 15px;
-      padding: 4px 12px;
-      margin: 0 auto 16px;
-      box-shadow: inset 0 0 0 1px #edf2f4;
-      background: #f8fafc;
-    }
-    .promptpay small {
-      font-weight: 500;
-      margin-left: 4px;
-    }
-    
-    /* ปรับขนาด QR Code ให้เล็กลง กระชับ พอดีกับทุกหน้าจอ */
+
+    /* ปรับขนาด QR Code ให้เล็กลงอีกนิด (จาก 200px / 58vw เป็น 165px / 48vw) */
     .qr-wrap {
-      width: min(200px, 58vw);
+      width: min(165px, 48vw);
       aspect-ratio: 1 / 1;
-      margin: 0 auto 10px;
+      margin: 0 auto 12px;
       border: none;
       border-radius: 0;
       padding: 0;
@@ -124,7 +110,7 @@
       border-radius: 4px;
     }
     
-    /* ไอคอนตรงกลาง QR Code เป็นลิงก์รูปภาพ - ปรับขนาดให้เล็กลง */
+    /* ไอคอนตรงกลาง QR Code */
     .qr-center-icon {
       position: absolute;
       z-index: 10;
@@ -134,7 +120,7 @@
       width: 16%;
       aspect-ratio: 1;
       border: 2px solid white;
-      border-radius: 6px;
+      border-radius: 5px;
       background: #173966;
       display: flex;
       align-items: center;
@@ -148,59 +134,54 @@
       object-fit: cover;
     }
 
-    .qr-note {
-      margin: 0 auto 16px;
-      font-size: 11px;
-      color: #999;
-    }
     .amount {
       color: #d89a35;
-      font-size: 26px;
+      font-size: 24px;
       line-height: 1.2;
       font-weight: 700;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
     }
     .order {
       color: #c49a5b;
       font-size: 13px;
-      line-height: 1.6;
-      margin: 0 auto 20px;
+      line-height: 1.5;
+      margin: 0 auto 16px;
       overflow-wrap: anywhere;
     }
     .date {
       font-size: 12px;
-      line-height: 1.8;
+      line-height: 1.7;
       color: #777;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       overflow-wrap: anywhere;
     }
     .warning {
       color: #a85b5b;
-      font-size: 13px;
-      line-height: 1.65;
+      font-size: 12.5px;
+      line-height: 1.6;
       font-weight: 700;
-      margin: 7px 0 24px;
+      margin: 6px 0 20px;
     }
     hr {
       border: 0;
       border-top: 1px solid #e6e6e6;
-      margin: 0 0 20px;
+      margin: 0 0 18px;
     }
     .instructions {
       margin: 0;
-      padding-left: 22px;
+      padding-left: 20px;
       text-align: left;
       font-size: 12px;
-      line-height: 1.75;
+      line-height: 1.7;
       color: #555;
     }
     .instructions li {
       padding-left: 3px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .banks {
-      margin-top: 24px;
-      font-size: 13px;
+      margin-top: 20px;
+      font-size: 12.5px;
       color: #888;
     }
   </style>
@@ -232,7 +213,7 @@
       <div class="order">หมายเลขคำสั่งซื้อ: <span id="orderId">26102516412021672219001</span></div>
 
       <div class="date">
-        สร้างเมื่อ <span id="createdAt">26/10/2026 00:00 น.</span>
+        สร้างเมื่อ <span id="createdAt">26/10/2026 00:00 น.</span><br>
         สิ้นสุด <span id="expiresAt">26/10/2026 00:10 น.</span>
       </div>
 
@@ -251,13 +232,12 @@
   </main>
 
   <script>
-    // แก้ไขข้อมูลตัวอย่างหรือเชื่อมค่าจากระบบชำระเงินจริง
+    // ข้อมูลตัวอย่างสำหรับแสดงผล
     const payment = {
       amount: "209.00",
       orderId: "26102516412021672219001",
       createdAt: "26/10/2026 00:00 น.",
       expiresAt: "26/10/2026 00:10 น.",
-      // คุณสามารถใส่ลิงก์รูปภาพ QR Code และโลโก้ไอคอนตรงกลางได้จากจุดนี้
       qrImageUrl: "https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png",
       centerIconUrl: "https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png"
     };
