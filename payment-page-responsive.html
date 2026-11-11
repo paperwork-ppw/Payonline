@@ -222,16 +222,14 @@
       <div class="qr-wrap" aria-label="พื้นที่แสดง QR Code">
         <div class="qr-image-container">
           <!-- กำหนดลิงก์รูปภาพ QR Code ได้ที่ src -->
-          <img id="qrImage" src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png'">
+          <img id="qrImage" src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png" alt="PromptPay QR Code" class="qr-image" onerror="this.src='https://placehold.co/300x300/f8fafc/173966?text=QR+Code'">
           
           <!-- ไอคอนตรงกลาง QR Code เป็นลิงก์รูปภาพ -->
           <div class="qr-center-icon">
-            <img id="centerIcon" src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" class="qr-center-img" onerror="this.src='https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png'">
+            <img id="centerIcon" src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" class="qr-center-img" onerror="this.src='https://placehold.co/100x100/173966/ffffff?text=PP'">
           </div>
         </div>
       </div>
-      <p class="qr-note">พื้นที่ QR Code ตัวอย่าง — เปลี่ยนเป็น QR จริงก่อนใช้งาน</p>
-
       <div class="amount"><span id="amount">209.00</span></div>
       <div class="order">หมายเลขคำสั่งซื้อ: <span id="orderId">26102516412021672219001</span></div>
 
@@ -262,8 +260,8 @@
       createdAt: "26/10/2026 00:00 น.",
       expiresAt: "26/10/2026 00:10 น.",
       // คุณสามารถใส่ลิงก์รูปภาพ QR Code และโลโก้ไอคอนตรงกลางได้จากจุดนี้
-      qrImageUrl: "https://placehold.co/300x300/f8fafc/173966?text=QR+Code",
-      centerIconUrl: "https://placehold.co/100x100/173966/ffffff?text=PP"
+      qrImageUrl: "https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png",
+      centerIconUrl: "https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png"
     };
     
     document.getElementById("amount").textContent = payment.amount;
