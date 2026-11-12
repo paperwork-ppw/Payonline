@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <meta name="theme-color" content="#173966">
   <title>ชำระเงิน | Thai QR Payment</title>
   <style>
@@ -45,6 +45,19 @@
         min-height: auto;
         border-radius: 20px;
         margin: 20px auto;
+        max-height: 95vh;
+        overflow-y: auto;
+      }
+    }
+    @media (max-width: 360px) {
+      .content {
+        padding: 14px 14px 20px !important;
+      }
+      .qr-wrap {
+        width: min(140px, 45vw) !important;
+      }
+      .amount {
+        font-size: 21px !important;
       }
     }
     /* ปรับกรอบสีฟ้าด้านบนให้สั้นลง (ลดความสูงลงเหลือ 48px) */
@@ -81,6 +94,9 @@
       flex: 1;
       padding: 20px 20px 30px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     /* ปรับขนาด QR Code ให้เล็กลงอีกนิด (จาก 200px / 58vw เป็น 165px / 48vw) */
@@ -94,6 +110,7 @@
       background: transparent;
       position: relative;
       box-shadow: none;
+      flex-shrink: 0;
     }
     .qr-image-container {
       position: relative;
@@ -166,6 +183,7 @@
       border: 0;
       border-top: 1px solid #e6e6e6;
       margin: 0 0 18px;
+      width: 100%;
     }
     .instructions {
       margin: 0;
@@ -196,35 +214,37 @@
     </header>
 
     <section class="content">
-      <!-- พื้นที่แสดง QR Code รูปแบบลิงก์รูปภาพ -->
-      <div class="qr-wrap" aria-label="พื้นที่แสดง QR Code">
-        <div class="qr-image-container">
-          <!-- กำหนดลิงก์รูปภาพ QR Code ได้ที่ src -->
-          <img id="qrImage" src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png" alt="PromptPay QR Code" class="qr-image" onerror="this.src='https://placehold.co/300x300/f8fafc/173966?text=QR+Code'">
-          
-          <!-- ไอคอนตรงกลาง QR Code เป็นลิงก์รูปภาพ -->
-          <div class="qr-center-icon">
-            <img id="centerIcon" src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" class="qr-center-img" onerror="this.src='https://placehold.co/100x100/173966/ffffff?text=PP'">
+      <div>
+        <!-- พื้นที่แสดง QR Code รูปแบบลิงก์รูปภาพ -->
+        <div class="qr-wrap" aria-label="พื้นที่แสดง QR Code">
+          <div class="qr-image-container">
+            <!-- กำหนดลิงก์รูปภาพ QR Code ได้ที่ src -->
+            <img id="qrImage" src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png" alt="PromptPay QR Code" class="qr-image" onerror="this.src='https://placehold.co/300x300/f8fafc/173966?text=QR+Code'">
+            
+            <!-- ไอคอนตรงกลาง QR Code เป็นลิงก์รูปภาพ -->
+            <div class="qr-center-icon">
+              <img id="centerIcon" src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" class="qr-center-img" onerror="this.src='https://placehold.co/100x100/173966/ffffff?text=PP'">
+            </div>
           </div>
         </div>
+
+        <div class="amount"><span id="amount">209.00</span></div>
+        <div class="order">หมายเลขคำสั่งซื้อ: <span id="orderId">26102516412021672219001</span></div>
+
+        <div class="date">
+          สร้างเมื่อ <span id="createdAt">26/10/2026 00:00 น.</span>สิ้นสุด <span id="expiresAt">26/10/2026 00:10 น.</span>
+        </div>
+
+        <div class="warning">อาร์คิวโค้ดและอื่นๆสามารถสแกนได้เพียงครั้งเดียวเท่านั้น</div>
+        <hr>
+
+        <ol class="instructions">
+          <li>หากนี่ไม่ใช่คำสั่งซื้อของคุณกรุณาอย่าชำระเงิน</li>
+          <li>เตือนอีกครั้ง กรุณาอย่าบันทึกหมายเลขบัญชี เพราะจะมีการเปลี่ยนแปลงได้ตลอดเวลาโดยไม่ต้องแจ้งให้ทราบล่วงหน้า อย่าลืมตรวจสอบบัญชีปลายทางก่อนทำการโอนเงินเสมอ</li>
+          <li>คุณสามารถใช้ปุ่ม “คัดลอก” เพื่อคัดลอกหมายเลขบัญชีไปยังหน้าการโอนเงินผ่านธนาคารของคุณเพื่อหลีกเลี่ยงข้อผิดพลาด</li>
+          <li>กรุณาฝากเงินให้ตรงเวลาและชำระเฉพาะจำนวนเงินที่แสดง มิฉะนั้น คุณจะไม่ได้รับจำนวนเงินเต็ม</li>
+        </ol>
       </div>
-
-      <div class="amount"><span id="amount">209.00</span></div>
-      <div class="order">หมายเลขคำสั่งซื้อ: <span id="orderId">26102516412021672219001</span></div>
-
-      <div class="date">
-        สร้างเมื่อ <span id="createdAt">26/10/2026 00:00 น.</span>สิ้นสุด <span id="expiresAt">26/10/2026 00:10 น.</span>
-      </div>
-
-      <div class="warning">อาร์คิวโค้ดและอื่นๆสามารถสแกนได้เพียงครั้งเดียวเท่านั้น</div>
-      <hr>
-
-      <ol class="instructions">
-        <li>หากนี่ไม่ใช่คำสั่งซื้อของคุณกรุณาอย่าชำระเงิน</li>
-        <li>เตือนอีกครั้ง กรุณาอย่าบันทึกหมายเลขบัญชี เพราะจะมีการเปลี่ยนแปลงได้ตลอดเวลาโดยไม่ต้องแจ้งให้ทราบล่วงหน้า อย่าลืมตรวจสอบบัญชีปลายทางก่อนทำการโอนเงินเสมอ</li>
-        <li>คุณสามารถใช้ปุ่ม “คัดลอก” เพื่อคัดลอกหมายเลขบัญชีไปยังหน้าการโอนเงินผ่านธนาคารของคุณเพื่อหลีกเลี่ยงข้อผิดพลาด</li>
-        <li>กรุณาฝากเงินให้ตรงเวลาและชำระเฉพาะจำนวนเงินที่แสดง มิฉะนั้น คุณจะไม่ได้รับจำนวนเงินเต็ม</li>
-      </ol>
 
       <div class="banks">Accepts all banks | รับทุกธนาคาร</div>
     </section>
