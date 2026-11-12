@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#080b12">
   <title>NOVATEK — Technology for Life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
 
     /* Topbar & Left Hamburger Navigation */
     .topbar {
-      height: 64px;
+      height: 52px;
       max-width: 1440px;
       margin: auto;
       padding: 0 4.5%;
@@ -35,30 +35,30 @@
     .head-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 11px;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       text-decoration: none;
       color: #f7f8fb;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 4px;
+      letter-spacing: 3.5px;
     }
     .brand-mark {
-      font-size: 25px;
+      font-size: 21px;
       font-weight: 800;
-      letter-spacing: -5px;
+      letter-spacing: -4px;
       color: #547bff;
       transform: skewY(-8deg);
-      margin-right: 7px;
+      margin-right: 5px;
     }
     .head-actions {
       display: flex;
       align-items: center;
-      gap: 17px;
+      gap: 14px;
     }
 
     /* Expandable Left-Sliding Search Bar */
@@ -76,16 +76,16 @@
       background: #121826;
       border: 1px solid transparent;
       border-radius: 20px;
-      height: 34px;
+      height: 30px;
       margin-right: 0;
       transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease, margin-right 0.3s ease, border-color 0.25s ease;
     }
     .search-bar-wrap.active .inline-search-box {
-      width: min(260px, 46vw);
+      width: min(230px, 42vw);
       opacity: 1;
-      margin-right: 8px;
+      margin-right: 6px;
       border-color: #36476b;
-      padding: 0 10px 0 14px;
+      padding: 0 8px 0 12px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
     }
     .inline-search-box input {
@@ -94,7 +94,9 @@
       border: 0;
       color: #f5f7fb;
       font-family: inherit;
-      font-size: 12px;
+      font-size: 16px;
+      transform: scale(0.78);
+      transform-origin: left center;
       outline: none;
     }
     .inline-search-box input::placeholder {
@@ -155,8 +157,8 @@
       padding: 0;
       color: #f4f5f9;
       cursor: pointer;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -164,8 +166,8 @@
     }
     .icon-btn:hover { color: #6c91ff; transform: scale(1.06); }
     .icon-btn svg {
-      width: 19px;
-      height: 19px;
+      width: 16px;
+      height: 16px;
       fill: none;
       stroke: currentColor;
       stroke-width: 1.6;
@@ -174,16 +176,16 @@
     }
     .cart-count {
       position: absolute;
-      right: -7px;
-      top: -6px;
+      right: -6px;
+      top: -5px;
       background: #3266ff;
       color: white;
-      font-size: 9px;
+      font-size: 8px;
       font-style: normal;
       font-weight: 700;
       border-radius: 20px;
-      min-width: 15px;
-      height: 15px;
+      min-width: 13px;
+      height: 13px;
       display: grid;
       place-items: center;
       box-shadow: 0 2px 6px rgba(50, 102, 255, 0.5);
@@ -1155,13 +1157,15 @@
       .product-card { height: 235px; }
     }
     @media(max-width:768px) {
-      .topbar { height: 48px; padding: 0 4%; }
-      .head-left { gap: 10px; }
-      .brand { font-size: 10px; letter-spacing: 2.5px; gap: 5px; }
-      .brand-mark { font-size: 19px; letter-spacing: -3px; margin-right: 3px; }
-      .head-actions { gap: 12px; }
-      .icon-btn, .icon-btn svg { width: 16px; height: 16px; }
-      .cart-count { right: -6px; top: -5px; font-size: 7.5px; min-width: 12px; height: 12px; }
+      .topbar { height: 42px; padding: 0 4%; }
+      .head-left { gap: 8px; }
+      .brand { font-size: 9.5px; letter-spacing: 2.2px; gap: 4px; }
+      .brand-mark { font-size: 17px; letter-spacing: -3px; margin-right: 2px; }
+      .head-actions { gap: 10px; }
+      .icon-btn, .icon-btn svg { width: 14px; height: 14px; }
+      .cart-count { right: -5px; top: -4px; font-size: 7px; min-width: 11px; height: 11px; }
+      .inline-search-box { height: 26px; }
+      .search-bar-wrap.active .inline-search-box { width: min(175px, 40vw); }
 
       .hero { height: 225px; }
       .hero-slide { padding: 22px 4% 0; }
