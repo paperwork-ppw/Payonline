@@ -1120,6 +1120,714 @@
     }
     .detail-hero img { max-height: 145px; max-width: 100%; object-fit: contain; }
 
+    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit matching reference images) */
+    .bottom-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 15, 0.72);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      z-index: 65;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 480px;
+      height: 92dvh;
+      max-height: 820px;
+      background: #ffffff;
+      color: #111827;
+      border-radius: 22px 22px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.55);
+      position: relative;
+    }
+    .bottom-sheet-overlay.open .bottom-sheet-panel { transform: translateY(0); }
+
+    /* Withdraw Page Design (Image 3298) */
+    .wd-top-blue {
+      background: linear-gradient(180deg, #1045e8 0%, #1d5bf6 100%);
+      color: #ffffff;
+      padding: 16px 18px 20px;
+      position: relative;
+    }
+    .wd-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .wd-header-bar button {
+      background: none;
+      border: 0;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      display: grid;
+      place-items: center;
+    }
+    .wd-header-bar h3 { margin: 0; font-size: 16px; font-weight: 700; }
+    .wd-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 16px;
+    }
+    .wd-tab {
+      height: 36px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.85);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .wd-tab.active {
+      background: #ffffff;
+      color: #111827;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+    .wd-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .wd-amount-box {
+      width: 100%;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0 14px;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      outline: none;
+    }
+    .wd-amount-box::placeholder { color: rgba(255, 255, 255, 0.45); font-weight: 400; }
+    .wd-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px 24px;
+      background: #ffffff;
+    }
+    .bank-card-box {
+      background: linear-gradient(135deg, #1b1e2e 0%, #2a2438 100%);
+      border: 2px solid #ef4444;
+      border-radius: 12px;
+      padding: 16px;
+      color: #ffffff;
+      margin-bottom: 12px;
+      position: relative;
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 3.5px #ef4444;
+    }
+    .bank-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .bank-card-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .bank-card-num {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .bank-card-owner {
+      font-size: 11px;
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
+    .add-account-dashed {
+      width: 100%;
+      height: 52px;
+      background: #f5f6fa;
+      border: 1px dashed #d1d5db;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: 0.2s;
+    }
+    .add-account-dashed:hover { background: #eef1f8; border-color: #9ca3af; }
+    .wd-rules {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.75;
+    }
+    .wd-rules h4 {
+      margin: 0 0 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .wd-rules b { color: #111827; }
+    .wd-rules .red-num { color: #ef4444; font-weight: 700; }
+    .wd-footer {
+      padding: 12px 18px 20px;
+      background: #ffffff;
+      border-top: 1px solid #f1f5f9;
+    }
+    .wd-submit-btn {
+      width: 100%;
+      height: 48px;
+      border: 0;
+      border-radius: 8px;
+      background: #a5a8b0;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .wd-submit-btn.ready {
+      background: #111827;
+    }
+
+    /* Sub-Sheet inside Bottom Sheet (Add Account & Select Bank - Images 3299 & 3304) */
+    .sub-sheet-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 10;
+      display: flex;
+      align-items: flex-end;
+    }
+    .sub-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+    .sub-sheet-box {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 18px 24px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      max-height: 82dvh;
+      overflow-y: auto;
+    }
+    .sub-sheet-backdrop.open .sub-sheet-box { transform: translateY(0); }
+    .sub-sheet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .sub-sheet-head h4 { margin: 0; font-size: 16px; font-weight: 700; color: #111827; }
+    .sub-sheet-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 0;
+      color: #334155;
+      font-size: 16px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+    .light-field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .light-field-label span { color: #ef4444; margin-right: 2px; }
+    .light-input-box {
+      width: 100%;
+      height: 48px;
+      background: #f5f6fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #111827;
+    }
+    .light-input-box input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      font-family: inherit;
+      font-size: 16px;
+      color: #111827;
+      outline: none;
+    }
+    .bank-select-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f5f6fa;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .bank-select-row:hover { background: #eceff7; }
+    .bank-row-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: #111827; }
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid #cbd5e1;
+      display: grid;
+      place-items: center;
+    }
+    .radio-circle.checked {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+    .black-action-btn {
+      width: 100%;
+      height: 48px;
+      background: #000000;
+      color: #ffffff;
+      border: 0;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Deposit Page Design (Image 3303) */
+    .dp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px 12px;
+      background: #ffffff;
+    }
+    .dp-header button {
+      background: none;
+      border: 0;
+      font-size: 20px;
+      color: #111827;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+    .dp-header h3 { margin: 0; font-size: 16px; font-weight: 700; color: #111827; }
+    .dp-amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 6px 18px 16px;
+    }
+    .dp-amt-btn {
+      height: 46px;
+      background: #f5f6fa;
+      border: 1.5px solid transparent;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .dp-amt-btn.selected {
+      background: #ffffff;
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+    .dp-amt-btn.custom-btn {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .dp-cat-tabs {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 10px 18px 0;
+      border-top: 6px solid #f5f6fa;
+      border-bottom: 1px solid #f1f5f9;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .dp-cat-tabs::-webkit-scrollbar { display: none; }
+    .dp-cat-tab {
+      background: none;
+      border: 0;
+      padding: 8px 2px 10px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      white-space: nowrap;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .dp-cat-tab.active {
+      color: #111827;
+      font-weight: 700;
+    }
+    .dp-cat-tab.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: #ef4444;
+      border-radius: 3px;
+    }
+    .dp-channel-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 18px 20px;
+    }
+    .bank-icon-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    /* Full-Screen In-Tab Payment Gateway Overlay (QR & Bank Payment) */
+    .gateway-overlay {
+      position: fixed;
+      inset: 0;
+      background: #f2f3f5;
+      z-index: 90;
+      display: none;
+      justify-content: center;
+      align-items: stretch;
+      overflow-y: auto;
+    }
+    .gateway-overlay.open { display: flex; }
+    .gateway-page {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #666666;
+      font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    @media (min-width: 481px) {
+      .gateway-overlay { align-items: center; padding: 16px; background: rgba(4, 7, 15, 0.82); backdrop-filter: blur(6px); }
+      .gateway-page {
+        min-height: auto;
+        border-radius: 20px;
+        max-height: 94dvh;
+        overflow-y: auto;
+      }
+    }
+    .gw-topbar {
+      width: 100%;
+      height: 48px;
+      background: #173966;
+      border-top: 3px solid #d7dce3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      flex-shrink: 0;
+    }
+    .gw-back-btn {
+      background: rgba(255, 255, 255, 0.14);
+      border: 0;
+      color: #ffffff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 18px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+    .gw-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .gw-brand-img {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      object-fit: cover;
+      background: #ffffff;
+    }
+    .gw-content {
+      width: 100%;
+      flex: 1;
+      padding: 20px 20px 28px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    /* QR PromptPay Styles */
+    .gw-qr-wrap {
+      width: min(210px, 60vw);
+      aspect-ratio: 1 / 1;
+      margin: 0 auto 14px;
+      position: relative;
+    }
+    .gw-qr-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .gw-qr-center {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 16%;
+      aspect-ratio: 1;
+      border: 2px solid #ffffff;
+      border-radius: 5px;
+      background: #173966;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    }
+    .gw-qr-center img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Bank Transfer Card Styles (K PLUS & Thai Banks) */
+    .gw-bank-card {
+      background: var(--card-bg, linear-gradient(155deg, #008241 0%, #054728 50%, #021c10 100%));
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      margin: 0 auto 18px;
+      text-align: left;
+      color: #ffffff;
+      box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+    .gw-kplus-svg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 220px;
+      height: 130px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .gw-bank-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 14px;
+    }
+    .gw-bank-title { font-size: 16px; font-weight: 700; color: #ffffff; }
+    .gw-chip-icon {
+      width: 34px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gw-chip-icon::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 100%;
+      height: 4.5px;
+      background: #044a29;
+    }
+    .gw-acc-label { font-size: 12px; color: rgba(255, 255, 255, 0.82); margin-bottom: 4px; position: relative; z-index: 1; }
+    .gw-acc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .gw-acc-num { font-size: 21px; font-weight: 700; color: #ffffff; letter-spacing: 0.6px; }
+    .gw-copy-btn {
+      background: #00c853;
+      color: #ffffff;
+      border: 0;
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .gw-copy-btn:hover { background: #00e676; color: #032415; }
+    .gw-divider { border-top: 1px solid rgba(255, 255, 255, 0.18); margin: 12px 0 10px; position: relative; z-index: 1; }
+    .gw-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.92);
+      position: relative;
+      z-index: 1;
+    }
+    .gw-amount { color: #d89a35; font-size: 26px; font-weight: 700; margin: 0 0 6px; }
+    .gw-order { color: #c49a5b; font-size: 13px; margin: 0 auto 14px; overflow-wrap: anywhere; }
+    .gw-date {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      animation: gwBlink 1s infinite alternate;
+    }
+    @keyframes gwBlink {
+      0% { color: #d32f2f; }
+      100% { color: #111111; }
+    }
+    .gw-upload-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 10px;
+      padding: 14px;
+      background: #f8fafc;
+      cursor: pointer;
+      margin-bottom: 14px;
+      transition: 0.2s;
+    }
+    .gw-upload-box:hover { border-color: #173966; background: #f1f5f9; }
+    .gw-verifying {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px 16px;
+      background: #f8fafc;
+      margin-bottom: 14px;
+    }
+    .gw-spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #173966;
+      border-radius: 50%;
+      animation: gwSpin 0.8s linear infinite;
+      margin-bottom: 10px;
+    }
+    @keyframes gwSpin { to { transform: rotate(360deg); } }
+    .gw-warning { color: #a85b5b; font-size: 12.5px; font-weight: 700; margin: 4px 0 16px; }
+    .gw-hr { border: 0; border-top: 1px solid #e6e6e6; margin: 0 0 16px; width: 100%; }
+    .gw-instructions {
+      margin: 0;
+      padding-left: 20px;
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.65;
+      color: #555555;
+    }
+    .gw-instructions li { margin-bottom: 8px; }
+    .gw-banks-foot { margin-top: 18px; font-size: 12.5px; color: #888888; }
+    .gw-success-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px 24px;
+      text-align: center;
+    }
+    .gw-success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      border: 2px solid #a7f3d0;
+      color: #059669;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+    }
+    .gw-copy-toast {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translate(-50%, -18px);
+      background: rgba(255, 255, 255, 0.97);
+      color: #18181b;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid #e4e4e7;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 105;
+      transition: all 0.28s ease;
+    }
+    .gw-copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -1542,11 +2250,78 @@
     </div>
   </div>
 
+  <!-- Bottom-Sliding Wallet Sheet (Withdraw & Deposit) -->
+  <div class="bottom-sheet-overlay" id="walletSheetOverlay" role="dialog" aria-modal="true">
+    <div class="bottom-sheet-panel" id="walletSheetPanel"></div>
+  </div>
+
+  <!-- In-Tab Full Payment Gateway Overlay (QR PromptPay & Thai Bank Transfer) -->
+  <div class="gateway-overlay" id="paymentGatewayOverlay" role="dialog" aria-modal="true">
+    <div class="gateway-page" id="paymentGatewayPage"></div>
+  </div>
+
+  <!-- Minimal Black & White Copy Notification Toast -->
+  <div class="gw-copy-toast" id="gwCopyToast" role="status">
+    <span style="width:32px;height:32px;border-radius:9px;background:#18181b;color:#fff;display:grid;place-items:center;">✓</span>
+    <div style="text-align:left;line-height:1.35;">
+      <strong style="display:block;font-size:13px;color:#18181b;">คัดลอกเลขบัญชีสำเร็จ</strong>
+      <span id="gwCopyToastSub" style="font-size:11.5px;color:#71717a;">เลขที่บัญชีพร้อมวางแล้ว</span>
+    </div>
+  </div>
+
   <div class="toast" id="toastMsg" role="status">ดำเนินการเรียบร้อย</div>
 
   <script>
     // --- State Management ---
     let walletBalance = 12450;
+    let savedBankAccount = null; // Starts empty so user adds bank account first, then shows card box
+    let selectedBankCode = 'KBANK';
+    let selectedDepositAmount = 200;
+    let selectedDepositChannel = 'PromptPay';
+    let depositCatTab = 'recommend';
+
+    const THAI_BANKS = [
+      { code: 'KBANK', name: 'ธนาคารกสิกรไทย', enName: 'Kasikornbank', color: '#138f2d', short: 'K+' },
+      { code: 'BBL', name: 'ธนาคารกรุงเทพ', enName: 'Bangkok Bank', color: '#1e4598', short: 'BBL' },
+      { code: 'SCB', name: 'ธนาคารไทยพาณิชย์', enName: 'Siam Commercial Bank', color: '#4e2a84', short: 'SCB' },
+      { code: 'KTB', name: 'ธนาคารกรุงไทย', enName: 'Krung Thai Bank', color: '#1ba5e1', short: 'KTB' },
+      { code: 'TTB', name: 'ธนาคารทหารไทยธนชาต (ttb)', enName: 'TMBThanachart Bank', color: '#0050f0', short: 'ttb' },
+      { code: 'BAY', name: 'ธนาคารกรุงศรีอยุธยา', enName: 'Bank of Ayudhya', color: '#fec43b', short: 'BAY', darkText: true },
+      { code: 'GSB', name: 'ธนาคารออมสิน', enName: 'Government Savings Bank', color: '#eb198d', short: 'GSB' },
+      { code: 'BAAC', name: 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร (ธ.ก.ส.)', enName: 'BAAC', color: '#1b5e20', short: 'ธกส' }
+    ];
+
+    const DEPOSIT_CHANNELS = {
+      recommend: [
+        { id: 'PromptPay', name: 'PromptPay', color: '#103b66', short: 'QR', type: 'qr' },
+        { id: 'K PLUS', name: 'K PLUS', color: '#138f2d', short: 'K+', type: 'bank', bankTitle: 'ธนาคาร กสิกรไทย (Kbank)', accNum: '123-4-56789-0', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'K PLUS', cardBg: 'linear-gradient(155deg, #008241 0%, #054728 50%, #021c10 100%)' },
+        { id: 'Siam Commercial Bank', name: 'Siam Commercial Bank', color: '#4e2a84', short: 'SCB', type: 'bank', bankTitle: 'ธนาคาร ไทยพาณิชย์ (SCB)', accNum: '408-2-91845-3', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'SCB EASY', cardBg: 'linear-gradient(155deg, #4e2a84 0%, #2c154d 55%, #160929 100%)' },
+        { id: 'Bangkok Bank', name: 'Bangkok Bank', color: '#1e4598', short: 'BBL', type: 'bank', bankTitle: 'ธนาคาร กรุงเทพ (BBL)', accNum: '101-9-48271-6', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'Bualuang mBanking', cardBg: 'linear-gradient(155deg, #1e4598 0%, #102657 55%, #07122b 100%)' },
+        { id: 'Government Savings Bank', name: 'Government Savings Bank', color: '#eb198d', short: 'GSB', type: 'bank', bankTitle: 'ธนาคาร ออมสิน (GSB)', accNum: '020-3-84719-2', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'MyMo', cardBg: 'linear-gradient(155deg, #d81b7a 0%, #7d0d46 55%, #3d0521 100%)' },
+        { id: 'Krung Thai Bank', name: 'Krung Thai Bank', color: '#1ba5e1', short: 'KTB', type: 'bank', bankTitle: 'ธนาคาร กรุงไทย (KTB)', accNum: '019-6-37482-1', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'Krungthai NEXT', cardBg: 'linear-gradient(155deg, #0284c7 0%, #07476e 55%, #032236 100%)' },
+        { id: 'Bank of Ayudhya', name: 'Bank of Ayudhya', color: '#fec43b', short: 'BAY', darkText: true, type: 'bank', bankTitle: 'ธนาคาร กรุงศรีอยุธยา (BAY)', accNum: '334-1-82940-5', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'KMA', cardBg: 'linear-gradient(155deg, #b45309 0%, #632b04 55%, #2e1302 100%)' },
+        { id: 'TrueMoney', name: 'TrueMoney', color: '#ff6a00', short: 'TMN', type: 'bank', bankTitle: 'ทรูมันนี่ วอลเล็ต (TrueMoney)', accNum: '089-999-8877', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'TrueMoney', cardBg: 'linear-gradient(155deg, #ea580c 0%, #7c2d12 55%, #3b1306 100%)' }
+      ],
+      wallet: [
+        { id: 'PromptPay', name: 'PromptPay QR', color: '#103b66', short: 'QR', type: 'qr' },
+        { id: 'TrueMoney', name: 'TrueMoney Wallet', color: '#ff6a00', short: 'TMN', type: 'bank', bankTitle: 'ทรูมันนี่ วอลเล็ต (TrueMoney)', accNum: '089-999-8877', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'TrueMoney', cardBg: 'linear-gradient(155deg, #ea580c 0%, #7c2d12 55%, #3b1306 100%)' }
+      ],
+      mobile: [
+        { id: 'K PLUS', name: 'K PLUS', color: '#138f2d', short: 'K+', type: 'bank', bankTitle: 'ธนาคาร กสิกรไทย (Kbank)', accNum: '123-4-56789-0', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'K PLUS', cardBg: 'linear-gradient(155deg, #008241 0%, #054728 50%, #021c10 100%)' },
+        { id: 'Siam Commercial Bank', name: 'SCB EASY', color: '#4e2a84', short: 'SCB', type: 'bank', bankTitle: 'ธนาคาร ไทยพาณิชย์ (SCB)', accNum: '408-2-91845-3', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'SCB EASY', cardBg: 'linear-gradient(155deg, #4e2a84 0%, #2c154d 55%, #160929 100%)' },
+        { id: 'Bangkok Bank', name: 'Bangkok Bank Mobile', color: '#1e4598', short: 'BBL', type: 'bank', bankTitle: 'ธนาคาร กรุงเทพ (BBL)', accNum: '101-9-48271-6', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'Bualuang mBanking', cardBg: 'linear-gradient(155deg, #1e4598 0%, #102657 55%, #07122b 100%)' },
+        { id: 'Krung Thai Bank', name: 'Krungthai NEXT', color: '#1ba5e1', short: 'KTB', type: 'bank', bankTitle: 'ธนาคาร กรุงไทย (KTB)', accNum: '019-6-37482-1', accName: 'บจก. โนวาเทค เพย์เมนต์', appTag: 'Krungthai NEXT', cardBg: 'linear-gradient(155deg, #0284c7 0%, #07476e 55%, #032236 100%)' }
+      ],
+      cards: [
+        { id: 'VISA / Mastercard', name: 'VISA / Mastercard', color: '#1a1f71', short: 'CARD', type: 'qr' }
+      ]
+    };
+
+    function renderBankBadge(bankObj) {
+      const textColor = bankObj.darkText ? '#111827' : '#ffffff';
+      return `<span class="bank-icon-badge" style="background:${bankObj.color};color:${textColor};">${bankObj.short}</span>`;
+    }
+
     let cartItems = [];
     let appliedCoupon = null;
     const AVAILABLE_COUPONS = {
@@ -1664,80 +2439,587 @@
         closeCartDrawer();
         closeProductDrawer();
         closeModal();
+        closeWalletSheet();
+        closePaymentGateway();
       }
     });
 
-    // 1. Deposit Modal
-    function openDepositModal() {
+    // --- Bottom-Sliding Sheet Controller (Deposit & Order Checkout) ---
+    const walletSheetOverlay = document.getElementById('walletSheetOverlay');
+    const walletSheetPanel = document.getElementById('walletSheetPanel');
+    let sheetMode = 'deposit'; // 'deposit' or 'checkout'
+    let pendingOrderTotalTHB = 0;
+
+    function openWalletSheet() {
       closeMenu();
-      openModal(
-        'ฝากเงินเข้ากระเป๋า (Deposit)',
-        '<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></svg>',
-        `
-          <p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">เลือกจำนวนเงินที่ต้องการเติมเข้าสู่ระบบอัตโนมัติ (PromptPay QR)</p>
-          <div class="amount-presets">
-            <button type="button" class="preset-btn" onclick="selectPreset(this, 300)">฿300</button>
-            <button type="button" class="preset-btn" onclick="selectPreset(this, 500)">฿500</button>
-            <button type="button" class="preset-btn selected" onclick="selectPreset(this, 1000)">฿1,000</button>
-            <button type="button" class="preset-btn" onclick="selectPreset(this, 5000)">฿5,000</button>
-          </div>
-          <div class="modal-input-group">
-            <label>จำนวนเงิน (บาท)</label>
-            <input type="number" id="depositInput" class="modal-input" value="1000" min="50">
-          </div>
-          <button type="button" class="modal-submit" onclick="confirmDeposit()">สร้าง QR Code & ยืนยันฝากเงิน</button>
-        `
-      );
-    }
-
-    window.selectPreset = function(btn, val) {
-      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      const input = document.getElementById('depositInput') || document.getElementById('withdrawInput');
-      if (input) input.value = val;
-    };
-
-    window.confirmDeposit = function() {
-      const val = parseFloat(document.getElementById('depositInput').value);
-      if (!val || val <= 0) return showToast('กรุณาระบุจำนวนเงินที่ถูกต้อง');
-      walletBalance += val;
-      updateBalanceUI();
+      closeCartDrawer();
       closeModal();
-      showToast(`ฝากเงินสำเร็จ +฿${val.toLocaleString('th-TH')}`);
-    };
-
-    // 2. Withdraw Modal
-    function openWithdrawModal() {
-      closeMenu();
-      openModal(
-        'ถอนเงินออกจากระบบ (Withdraw)',
-        '<svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>',
-        `
-          <div style="background:#111724;border:1px solid #232d42;border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:12px;color:#94a3b8;">ยอดเงินที่ถอนได้</span>
-            <strong style="color:#4ade80;font-size:15px;">฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</strong>
-          </div>
-          <div class="modal-input-group">
-            <label>บัญชีธนาคารปลายทาง</label>
-            <input type="text" class="modal-input" value="กสิกรไทย (KBANK) •••-•-8492-1" readonly>
-          </div>
-          <div class="modal-input-group">
-            <label>จำนวนเงินที่ต้องการถอน (บาท)</label>
-            <input type="number" id="withdrawInput" class="modal-input" placeholder="ระบุจำนวนเงิน..." min="100">
-          </div>
-          <button type="button" class="modal-submit" onclick="confirmWithdraw()">ยืนยันการถอนเงิน</button>
-        `
-      );
+      walletSheetOverlay.classList.add('open');
     }
 
-    window.confirmWithdraw = function() {
-      const val = parseFloat(document.getElementById('withdrawInput').value);
-      if (!val || val <= 0) return showToast('กรุณาระบุจำนวนเงินที่ต้องการถอน');
-      if (val > walletBalance) return showToast('ยอดเงินคงเหลือไม่เพียงพอ');
+    function closeWalletSheet() {
+      walletSheetOverlay.classList.remove('open');
+    }
+
+    walletSheetOverlay.addEventListener('click', e => {
+      if (e.target === walletSheetOverlay) closeWalletSheet();
+    });
+
+    // 1. Deposit & Order Payment Channel Selector Sheet
+    function openDepositModal() {
+      sheetMode = 'deposit';
+      renderDepositSheet();
+      openWalletSheet();
+    }
+
+    function openCheckoutChannelSheet(totalUsd) {
+      sheetMode = 'checkout';
+      pendingOrderTotalTHB = Math.round(totalUsd * 34 * 100) / 100;
+      selectedDepositAmount = pendingOrderTotalTHB;
+      renderDepositSheet();
+      openWalletSheet();
+    }
+
+    function renderDepositSheet() {
+      const isCheckout = sheetMode === 'checkout';
+      const presets = [200, 500, 1500, 4000, 10000];
+      const isCustom = !presets.includes(selectedDepositAmount);
+      const channels = DEPOSIT_CHANNELS[depositCatTab] || DEPOSIT_CHANNELS.recommend;
+
+      walletSheetPanel.innerHTML = `
+        <div class="dp-header">
+          <button type="button" onclick="closeWalletSheet()" aria-label="ย้อนกลับ">‹</button>
+          <h3>${isCheckout ? 'ชำระเงินคำสั่งซื้อ' : 'เติมเงิน'}</h3>
+          <span style="width:24px;"></span>
+        </div>
+
+        ${isCheckout ? `
+          <div style="padding:10px 18px 16px;text-align:center;">
+            <div style="font-size:12px;color:#6b7280;margin-bottom:4px;">ยอดชำระสุทธิสำหรับสินค้าในตะกร้า</div>
+            <div style="font-size:28px;font-weight:800;color:#ef4444;">฿${pendingOrderTotalTHB.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</div>
+          </div>
+        ` : `
+          <div class="dp-amount-grid">
+            ${presets.map(amt => `
+              <button type="button" class="dp-amt-btn ${selectedDepositAmount === amt ? 'selected' : ''}" onclick="selectDepositPreset(${amt})">
+                ${amt.toLocaleString()}
+              </button>
+            `).join('')}
+            <button type="button" class="dp-amt-btn custom-btn ${isCustom ? 'selected' : ''}" onclick="toggleCustomDepositInput()">
+              ${isCustom ? selectedDepositAmount.toLocaleString() : 'ระบุจำนวนเงินเอง'}
+            </button>
+          </div>
+
+          <div id="customDepositWrap" style="display:${isCustom ? 'block' : 'none'};padding:0 18px 14px;">
+            <div class="light-input-box" style="margin-bottom:0;height:44px;">
+              <input type="number" id="customDepositField" placeholder="กรอกจำนวนเงินที่ต้องการเติม (บาท)" value="${isCustom ? selectedDepositAmount : ''}" oninput="onCustomDepositInput(this.value)">
+              <span style="font-size:12px;color:#6b7280;font-weight:600;">THB</span>
+            </div>
+          </div>
+        `}
+
+        <div class="dp-cat-tabs">
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'recommend' ? 'active' : ''}" onclick="switchDepositCat('recommend')">แนะนำ</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'wallet' ? 'active' : ''}" onclick="switchDepositCat('wallet')">💳 วอลเล็ต</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'mobile' ? 'active' : ''}" onclick="switchDepositCat('mobile')">📱 โมบายแบงก์กิ้ง</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'cards' ? 'active' : ''}" onclick="switchDepositCat('cards')">🪪 Cards</button>
+        </div>
+
+        <div class="dp-channel-list">
+          ${channels.map(ch => `
+            <div class="bank-select-row" onclick="selectDepositChannel('${ch.id}')">
+              <div class="bank-row-left">
+                ${renderBankBadge(ch)}
+                <span>${ch.name}</span>
+              </div>
+              <div class="radio-circle ${selectedDepositChannel === ch.id ? 'checked' : ''}">
+                ${selectedDepositChannel === ch.id ? '✓' : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="wd-footer">
+          <button type="button" class="black-action-btn" onclick="confirmDepositSheet()">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/></svg>
+            ชำระเงิน
+          </button>
+        </div>
+      `;
+    }
+
+    window.selectDepositPreset = function(amt) {
+      selectedDepositAmount = amt;
+      renderDepositSheet();
+    };
+
+    window.toggleCustomDepositInput = function() {
+      const wrap = document.getElementById('customDepositWrap');
+      if (wrap) {
+        wrap.style.display = 'block';
+        const field = document.getElementById('customDepositField');
+        if (field) field.focus();
+      }
+    };
+
+    window.onCustomDepositInput = function(val) {
+      const num = parseFloat(val);
+      if (num > 0) selectedDepositAmount = num;
+    };
+
+    window.switchDepositCat = function(cat) {
+      depositCatTab = cat;
+      const list = DEPOSIT_CHANNELS[cat];
+      if (list && list.length) selectedDepositChannel = list[0].id;
+      renderDepositSheet();
+    };
+
+    window.selectDepositChannel = function(chId) {
+      selectedDepositChannel = chId;
+      renderDepositSheet();
+    };
+
+    function formatThaiDateTime(dateObj) {
+      const dd = String(dateObj.getDate()).padStart(2, '0');
+      const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const yyyy = dateObj.getFullYear();
+      const hh = String(dateObj.getHours()).padStart(2, '0');
+      const min = String(dateObj.getMinutes()).padStart(2, '0');
+      return `${dd}/${mm}/${yyyy} ${hh}:${min} น.`;
+    }
+
+    // --- In-Tab Payment Gateway (QR PromptPay & Thai Bank Transfer) ---
+    const paymentGatewayOverlay = document.getElementById('paymentGatewayOverlay');
+    const paymentGatewayPage = document.getElementById('paymentGatewayPage');
+    let currentGatewayTx = null;
+    let gwCopyTimer;
+
+    function closePaymentGateway() {
+      paymentGatewayOverlay.classList.remove('open');
+    }
+
+    function showGwCopyToast(text) {
+      const el = document.getElementById('gwCopyToast');
+      const sub = document.getElementById('gwCopyToastSub');
+      if (!el || !sub) return;
+      sub.textContent = text;
+      el.classList.add('show');
+      clearTimeout(gwCopyTimer);
+      gwCopyTimer = setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+    window.copyGatewayAccount = function(accNum) {
+      const rawNumber = String(accNum).replace(/-/g, '');
+      const tempInput = document.createElement('textarea');
+      tempInput.value = rawNumber;
+      tempInput.style.position = 'fixed';
+      tempInput.style.opacity = '0';
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {}
+      document.body.removeChild(tempInput);
+      showGwCopyToast(`เลขที่บัญชี ${rawNumber} พร้อมวางแล้ว`);
+    };
+
+    window.handleGatewaySlipUpload = function(event) {
+      const file = event.target.files[0];
+      if (!file || !currentGatewayTx) return;
+      const uploadBox = document.getElementById('gwUploadBox');
+      const verifyingBox = document.getElementById('gwVerifyingBox');
+      if (uploadBox) uploadBox.style.display = 'none';
+      if (verifyingBox) verifyingBox.style.display = 'flex';
+
+      setTimeout(() => {
+        if (currentGatewayTx.purpose === 'deposit') {
+          walletBalance += currentGatewayTx.amount;
+          updateBalanceUI();
+        } else if (currentGatewayTx.purpose === 'checkout') {
+          cartItems = [];
+          appliedCoupon = null;
+          updateCartUI();
+        }
+        const formView = document.getElementById('gwFormView');
+        const successView = document.getElementById('gwSuccessView');
+        if (formView) formView.style.display = 'none';
+        if (successView) successView.style.display = 'flex';
+      }, 2200);
+    };
+
+    function openInTabPaymentGateway(amountValue, channelId, purpose) {
+      const now = new Date();
+      const expire = new Date(now.getTime() + 10 * 60000);
+      const formattedAmount = Number(amountValue).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      const orderId = `${now.getFullYear().toString().slice(-2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${Math.floor(100000000000000 + Math.random() * 900000000000000)}`;
+      const createdAt = formatThaiDateTime(now);
+      const expiresAt = formatThaiDateTime(expire);
+
+      const allChannels = [
+        ...DEPOSIT_CHANNELS.recommend,
+        ...DEPOSIT_CHANNELS.wallet,
+        ...DEPOSIT_CHANNELS.mobile,
+        ...DEPOSIT_CHANNELS.cards
+      ];
+      const channelObj = allChannels.find(c => c.id === channelId) || DEPOSIT_CHANNELS.recommend[0];
+      const isQR = channelObj.type === 'qr';
+
+      currentGatewayTx = {
+        amount: Number(amountValue),
+        purpose,
+        orderId
+      };
+
+      const qrTopVisual = `
+        <div class="gw-qr-wrap" aria-label="พื้นที่แสดง QR Code">
+          <img src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png" alt="PromptPay QR Code" class="gw-qr-img" onerror="this.src='https://placehold.co/300x300/f8fafc/173966?text=QR+Code'">
+          <div class="gw-qr-center">
+            <img src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" onerror="this.src='https://placehold.co/100x100/173966/ffffff?text=PP'">
+          </div>
+        </div>
+      `;
+
+      const bankCardVisual = `
+        <div class="gw-bank-card" style="--card-bg:${channelObj.cardBg || 'linear-gradient(155deg, #008241 0%, #054728 50%, #021c10 100%)'};">
+          <svg class="gw-kplus-svg" viewBox="0 0 220 130" fill="none" preserveAspectRatio="none">
+            <polygon points="35,0 65,0 95,130 65,130" fill="#00b853" opacity="0.55"/>
+            <polygon points="75,0 105,0 165,130 135,130" fill="#b71c1c" opacity="0.72"/>
+            <polygon points="135,0 162,0 175,130 148,130" fill="#009e49" opacity="0.45"/>
+          </svg>
+          <div class="gw-bank-top">
+            <div class="gw-bank-title">${channelObj.bankTitle || channelObj.name}</div>
+            <div class="gw-chip-icon" aria-hidden="true"></div>
+          </div>
+          <div class="gw-acc-label">เลขที่บัญชีสำหรับโอนเงิน</div>
+          <div class="gw-acc-row">
+            <span class="gw-acc-num">${channelObj.accNum || '123-4-56789-0'}</span>
+            <button type="button" class="gw-copy-btn" onclick="copyGatewayAccount('${channelObj.accNum || '123-4-56789-0'}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>คัดลอก</span>
+            </button>
+          </div>
+          <div class="gw-divider"></div>
+          <div class="gw-footer-row">
+            <span>ชื่อบัญชี: <strong style="color:#fff;">${channelObj.accName || 'บจก. โนวาเทค เพย์เมนต์'}</strong></span>
+            <span style="font-weight:700;">${channelObj.appTag || channelObj.short}</span>
+          </div>
+        </div>
+      `;
+
+      paymentGatewayPage.innerHTML = `
+        <header class="gw-topbar">
+          <button type="button" class="gw-back-btn" onclick="closePaymentGateway()" aria-label="ย้อนกลับ">‹</button>
+          <div class="gw-brand">
+            <img src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="Logo" class="gw-brand-img" onerror="this.style.display='none'">
+            <span>${isQR ? 'THAI QR PAYMENT' : 'THAI BANK PAYMENT'}</span>
+          </div>
+          <span style="width:30px;"></span>
+        </header>
+
+        <section class="gw-content">
+          <div id="gwFormView">
+            ${isQR ? qrTopVisual : bankCardVisual}
+
+            <div class="gw-amount">${formattedAmount}</div>
+            <div class="gw-order">หมายเลขคำสั่งซื้อ: ${orderId}</div>
+
+            <div class="gw-date">
+              สร้างเมื่อ ${createdAt} สิ้นสุด ${expiresAt}
+            </div>
+
+            <div>
+              <label for="gwSlipInput" class="gw-upload-box" id="gwUploadBox">
+                <div style="font-size:22px;margin-bottom:4px;">📤</div>
+                <div style="font-size:12.5px;font-weight:700;color:#334155;">คลิกเพื่ออัปโหลดสลิปโอนเงิน</div>
+                <div style="font-size:11px;color:#64748b;margin-top:2px;">รองรับไฟล์รูปภาพ JPG, PNG</div>
+              </label>
+              <input type="file" id="gwSlipInput" accept="image/*" style="display:none;" onchange="handleGatewaySlipUpload(event)">
+
+              <div class="gw-verifying" id="gwVerifyingBox">
+                <div class="gw-spinner"></div>
+                <div style="font-size:14.5px;font-weight:700;color:#1e293b;margin-bottom:4px;">กำลังตรวจสอบรายการ...</div>
+                <div style="font-size:12px;color:#64748b;">กรุณารอสักครู่ ระบบกำลังยืนยันยอดชำระเงินของคุณ</div>
+              </div>
+            </div>
+
+            <div class="gw-warning">อาร์คิวโค้ดและอื่นๆสามารถสแกนได้เพียงครั้งเดียวเท่านั้น</div>
+            <hr class="gw-hr">
+
+            <ol class="gw-instructions">
+              <li>หากนี่ไม่ใช่คำสั่งซื้อของคุณกรุณาอย่าชำระเงิน</li>
+              <li>เตือนอีกครั้ง กรุณาอย่าบันทึกหมายเลขบัญชี เพราะจะมีการเปลี่ยนแปลงได้ตลอดเวลาโดยไม่ต้องแจ้งให้ทราบล่วงหน้า อย่าลืมตรวจสอบบัญชีปลายทางก่อนทำการโอนเงินเสมอ</li>
+              <li>คุณสามารถใช้ปุ่ม “คัดลอก” เพื่อคัดลอกหมายเลขบัญชีไปยังหน้าการโอนเงินผ่านธนาคารของคุณเพื่อหลีกเลี่ยงข้อผิดพลาด</li>
+              <li>กรุณาฝากเงินให้ตรงเวลาและชำระเฉพาะจำนวนเงินที่แสดง มิฉะนั้น คุณจะไม่ได้รับจำนวนเงินเต็ม</li>
+              <li>แนะนำ ฝากเงินด้วยบัญชีที่ลงทะเบียน เพื่อความสะดวกรวดเร็วในการตรวจสอบรายการ และ การทำธุรกรรม</li>
+            </ol>
+          </div>
+
+          <div class="gw-success-view" id="gwSuccessView">
+            <div class="gw-success-circle">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h2 style="font-size:22px;font-weight:700;color:#111827;margin:0 0 6px;">ชำระเงินสำเร็จ</h2>
+            <p style="font-size:14px;color:#4b5563;margin:0 0 22px;">
+              ${purpose === 'checkout' ? 'คำสั่งซื้อสินค้าผ่านการตรวจสอบแล้ว' : 'ยอดเงินถูกเติมเข้าสู่กระเป๋าเรียบร้อยแล้ว'}
+            </p>
+            <div style="width:100%;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;margin-bottom:20px;">
+              <div style="font-size:12px;color:#64748b;margin-bottom:4px;">เลขที่คำสั่งซื้อ</div>
+              <div style="font-size:16px;font-weight:700;color:#173966;word-break:break-all;">${orderId}</div>
+            </div>
+            <button type="button" class="black-action-btn" onclick="closePaymentGateway();showToast('ทำรายการเสร็จสมบูรณ์!')">กลับสู่หน้าหลัก</button>
+          </div>
+
+          <div class="gw-banks-foot">Accepts all banks | รับทุกธนาคาร</div>
+        </section>
+      `;
+
+      paymentGatewayOverlay.classList.add('open');
+    }
+
+    window.confirmDepositSheet = function() {
+      const amountToPay = sheetMode === 'checkout' ? pendingOrderTotalTHB : selectedDepositAmount;
+      if (!amountToPay || amountToPay <= 0) {
+        return showToast('กรุณาระบุจำนวนเงินที่ต้องการชำระ');
+      }
+      closeWalletSheet();
+      openInTabPaymentGateway(amountToPay, selectedDepositChannel, sheetMode);
+    };
+
+    // 2. Withdraw Bottom Sheet (Matching Images 3298, 3299, 3304)
+    let wdTabMode = 'cash';
+
+    function openWithdrawModal() {
+      renderWithdrawSheet();
+      openWalletSheet();
+      // If user hasn't added a bank account yet, automatically slide up the "เพิ่มบัญชี" sheet first
+      if (!savedBankAccount) {
+        setTimeout(() => openAddBankSubSheet(), 260);
+      }
+    }
+
+    function renderWithdrawSheet() {
+      const bankMeta = savedBankAccount ? THAI_BANKS.find(b => b.code === savedBankAccount.bankCode) || THAI_BANKS[0] : null;
+
+      walletSheetPanel.innerHTML = `
+        <div class="wd-top-blue">
+          <div class="wd-header-bar">
+            <button type="button" onclick="closeWalletSheet()" aria-label="ย้อนกลับ">‹</button>
+            <h3>ถอนเงิน</h3>
+            <button type="button" onclick="showToast('ประวัติการถอนเงินทั้งหมด')" aria-label="ประวัติรายการ">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+            </button>
+          </div>
+
+          <div class="wd-tabs">
+            <button type="button" class="wd-tab ${wdTabMode === 'cash' ? 'active' : ''}" onclick="switchWdTab('cash')">ถอนเงินสด</button>
+            <button type="button" class="wd-tab ${wdTabMode === 'crypto' ? 'active' : ''}" onclick="switchWdTab('crypto')">ถอนคริปโต</button>
+          </div>
+
+          <div class="wd-label-row">
+            <span>จำนวนเงินที่ถอน</span>
+            <span>ยอดคงเหลือของฉัน: ${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</span>
+          </div>
+          <input type="number" id="wdAmountInput" class="wd-amount-box" placeholder="วงเงิน: 10,000.00" oninput="updateWdSubmitState()">
+        </div>
+
+        <div class="wd-body">
+          ${savedBankAccount && bankMeta ? `
+            <div class="bank-card-box">
+              <div class="bank-card-top">
+                <div class="bank-card-brand">
+                  ${renderBankBadge(bankMeta)}
+                  <span>${bankMeta.enName}</span>
+                </div>
+                <span style="width:20px;height:20px;border-radius:50%;background:#ef4444;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;">✓</span>
+              </div>
+              <div class="bank-card-num">${savedBankAccount.accountNumber}</div>
+              <div class="bank-card-owner">${savedBankAccount.accountName}</div>
+            </div>
+          ` : ''}
+
+          <button type="button" class="add-account-dashed" onclick="openAddBankSubSheet()">
+            <span>+ เพิ่มบัญชี</span>
+            <span style="display:inline-flex;gap:3px;">
+              <span style="width:18px;height:18px;border-radius:50%;background:#1ba5e1;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">KTB</span>
+              <span style="width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">T</span>
+              <span style="width:18px;height:18px;border-radius:50%;background:#4e2a84;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">SCB</span>
+            </span>
+          </button>
+
+          <div class="wd-rules">
+            <h4>รายละเอียดการถอนเงิน <span style="width:15px;height:15px;border:1px solid #9ca3af;border-radius:50%;display:inline-grid;place-items:center;font-size:10px;color:#6b7280;">?</span></h4>
+            <div>1.วงเงินการถอนต่อวัน: <span class="red-num">10,000.00</span></div>
+            <div>2.Up to <b>2</b> withdrawals per day, funds will be credited within approximately <b>1-10 minutes</b></div>
+            <div>3.เวลาทำการถอนเงิน: <b>วันจันทร์ถึงวันเสาร์ 10:00 - 19:00</b></div>
+          </div>
+        </div>
+
+        <div class="wd-footer">
+          <button type="button" id="wdConfirmBtn" class="wd-submit-btn ${savedBankAccount ? 'ready' : ''}" onclick="submitWithdrawAction()">
+            ยืนยันการถอนเงิน (${savedBankAccount ? '2/2' : '1/2'})
+          </button>
+        </div>
+
+        <!-- Sub-Sheet 1: เพิ่มบัญชี (Image 3299) -->
+        <div class="sub-sheet-backdrop" id="addBankSubSheet">
+          <div class="sub-sheet-box">
+            <div class="sub-sheet-head">
+              <h4>เพิ่มบัญชี</h4>
+              <button type="button" class="sub-sheet-close" onclick="closeAddBankSubSheet()">×</button>
+            </div>
+
+            <label class="light-field-label"><span>*</span>ชื่อบัญชี</label>
+            <div class="light-input-box" style="color:#6b7280;">
+              <input type="text" id="newAccNameInput" value="นรินทร์ภัทร มีชัย" readonly style="color:#6b7280;">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#6b7280;flex-shrink:0;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            </div>
+
+            <label class="light-field-label"><span>*</span>Bank / E-Wallet</label>
+            <div class="light-input-box" style="cursor:pointer;" onclick="openBankPickerSubSheet()">
+              <div style="display:flex;align-items:center;gap:10px;" id="selectedBankDisplay">
+                ${renderBankBadge(THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0])}
+                <span style="font-weight:600;">${(THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0]).name}</span>
+              </div>
+              <span style="font-size:18px;color:#6b7280;">›</span>
+            </div>
+
+            <label class="light-field-label"><span>*</span>หมายเลขบัญชี</label>
+            <div class="light-input-box">
+              <input type="tel" id="newAccNumberInput" placeholder="กรุณากรอกหมายเลขบัญชี" maxlength="15" value="${savedBankAccount ? savedBankAccount.accountNumber : ''}">
+            </div>
+
+            <p style="text-align:center;font-size:11px;color:#9ca3af;margin:6px 0 16px;">*บัญชีจะถูกผูกโดยอัตโนมัติหลังจากยืนยันตัวตนสำเร็จ</p>
+            <button type="button" class="black-action-btn" onclick="saveNewBankAccount()">ส่งข้อมูล</button>
+          </div>
+        </div>
+
+        <!-- Sub-Sheet 2: เลือกธนาคาร/วอลเล็ต (Image 3304) -->
+        <div class="sub-sheet-backdrop" id="bankPickerSubSheet">
+          <div class="sub-sheet-box">
+            <div class="sub-sheet-head">
+              <h4>เลือกธนาคาร/วอลเล็ต</h4>
+              <button type="button" class="sub-sheet-close" onclick="closeBankPickerSubSheet()">×</button>
+            </div>
+            <div id="bankPickerList">
+              ${THAI_BANKS.map(b => `
+                <div class="bank-select-row" onclick="chooseBankOption('${b.code}')">
+                  <div class="bank-row-left">
+                    ${renderBankBadge(b)}
+                    <span>${b.name}</span>
+                  </div>
+                  <div class="radio-circle ${selectedBankCode === b.code ? 'checked' : ''}">
+                    ${selectedBankCode === b.code ? '✓' : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <button type="button" class="black-action-btn" style="margin-top:10px;" onclick="confirmBankPicker()">ยืนยัน</button>
+          </div>
+        </div>
+      `;
+    }
+
+    window.switchWdTab = function(mode) {
+      wdTabMode = mode;
+      renderWithdrawSheet();
+    };
+
+    window.openAddBankSubSheet = function() {
+      const sheet = document.getElementById('addBankSubSheet');
+      if (sheet) sheet.classList.add('open');
+    };
+
+    window.closeAddBankSubSheet = function() {
+      const sheet = document.getElementById('addBankSubSheet');
+      if (sheet) sheet.classList.remove('open');
+    };
+
+    window.openBankPickerSubSheet = function() {
+      const sheet = document.getElementById('bankPickerSubSheet');
+      if (sheet) sheet.classList.add('open');
+    };
+
+    window.closeBankPickerSubSheet = function() {
+      const sheet = document.getElementById('bankPickerSubSheet');
+      if (sheet) sheet.classList.remove('open');
+    };
+
+    window.chooseBankOption = function(code) {
+      selectedBankCode = code;
+      const listEl = document.getElementById('bankPickerList');
+      if (listEl) {
+        listEl.innerHTML = THAI_BANKS.map(b => `
+          <div class="bank-select-row" onclick="chooseBankOption('${b.code}')">
+            <div class="bank-row-left">
+              ${renderBankBadge(b)}
+              <span>${b.name}</span>
+            </div>
+            <div class="radio-circle ${selectedBankCode === b.code ? 'checked' : ''}">
+              ${selectedBankCode === b.code ? '✓' : ''}
+            </div>
+          </div>
+        `).join('');
+      }
+    };
+
+    window.confirmBankPicker = function() {
+      const bank = THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0];
+      const displayEl = document.getElementById('selectedBankDisplay');
+      if (displayEl) {
+        displayEl.innerHTML = `${renderBankBadge(bank)}<span style="font-weight:600;">${bank.name}</span>`;
+      }
+      closeBankPickerSubSheet();
+    };
+
+    window.saveNewBankAccount = function() {
+      const accNumInput = document.getElementById('newAccNumberInput');
+      const accNameInput = document.getElementById('newAccNameInput');
+      const accNum = accNumInput ? accNumInput.value.replace(/\D/g, '') : '';
+      if (accNum.length < 8) {
+        return showToast('กรุณากรอกหมายเลขบัญชีให้ถูกต้อง (อย่างน้อย 8 หลัก)');
+      }
+      savedBankAccount = {
+        bankCode: selectedBankCode,
+        accountNumber: accNum,
+        accountName: accNameInput ? accNameInput.value : 'นรินทร์ภัทร มีชัย'
+      };
+      closeAddBankSubSheet();
+      renderWithdrawSheet();
+      showToast('เพิ่มบัญชีธนาคารเรียบร้อยแล้ว');
+    };
+
+    window.updateWdSubmitState = function() {
+      const btn = document.getElementById('wdConfirmBtn');
+      const val = parseFloat(document.getElementById('wdAmountInput')?.value || 0);
+      if (btn && savedBankAccount && val > 0) {
+        btn.classList.add('ready');
+      }
+    };
+
+    window.submitWithdrawAction = function() {
+      if (!savedBankAccount) {
+        openAddBankSubSheet();
+        return showToast('กรุณาเพิ่มบัญชีธนาคารก่อนทำการถอนเงิน');
+      }
+      const val = parseFloat(document.getElementById('wdAmountInput')?.value || 0);
+      if (!val || val <= 0) {
+        return showToast('กรุณาระบุจำนวนเงินที่ต้องการถอน');
+      }
+      if (val > walletBalance) {
+        return showToast('ยอดเงินคงเหลือไม่เพียงพอ');
+      }
       walletBalance -= val;
       updateBalanceUI();
-      closeModal();
-      showToast(`ส่งคำขอถอนเงิน ฿${val.toLocaleString('th-TH')} สำเร็จ`);
+      closeWalletSheet();
+      showToast(`ส่งคำขอถอนเงิน ฿${val.toLocaleString('th-TH')} เข้าบัญชี ${savedBankAccount.accountNumber} สำเร็จ!`);
     };
 
     // 3. Logout Confirmation Modal
@@ -1907,17 +3189,10 @@
     };
 
     window.checkoutCart = function(totalUsd) {
-      const thbEquivalent = totalUsd * 34;
-      if (walletBalance < thbEquivalent) {
-        return showToast(`ยอดเงินไม่พอ (ต้องใช้ ฿${thbEquivalent.toLocaleString('th-TH', { maximumFractionDigits: 0 })})`);
+      if (!totalUsd || totalUsd <= 0) {
+        return showToast('ไม่พบรายการสินค้าในตะกร้า');
       }
-      walletBalance -= thbEquivalent;
-      updateBalanceUI();
-      cartItems = [];
-      appliedCoupon = null;
-      updateCartUI();
-      closeCartDrawer();
-      showToast('ชำระเงินสำเร็จ! ขอบคุณที่สั่งซื้อกับ NOVATEK');
+      openCheckoutChannelSheet(totalUsd);
     };
 
     // 6. Full-Page Product Detail View (Non-Popup)
