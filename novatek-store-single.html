@@ -647,24 +647,16 @@
       box-shadow: 0 0 30px #318aff;
     }
     .shield svg { width: 54px; height: 54px; fill: none; stroke: #d8edff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px #fff); }
-
-    .perks { max-width: 1350px; width: 91%; margin: 0 auto 30px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
-    .perk { min-height: 78px; background: #141820; border: 1px solid #242a35; border-radius: 10px; display: flex; align-items: center; gap: 13px; padding: 12px; }
-    .perk-icon { color: #5b83ff; min-width: 28px; display: grid; place-items: center; }
-    .perk-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-    .perk strong { font-size: 10px; font-weight: 600; display: block; margin-bottom: 5px; }
-    .perk small { font-size: 9px; color: #a5acb9; line-height: 1.4; display: block; }
-
-    /* Beautiful Glassmorphism Popup System */
+    /* Beautiful Glassmorphism Popup System -> Full-Width Bottom-Anchored Sheet across all devices */
     .modal-overlay {
       position: fixed;
       inset: 0;
       background: rgba(4, 7, 15, 0.78);
       backdrop-filter: blur(8px);
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
-      padding: 16px;
+      padding: 0;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
@@ -673,19 +665,20 @@
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 100%;
       background: linear-gradient(165deg, #151c2c 0%, #0d121d 100%);
       border: 1px solid #2a354d;
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(108, 145, 255, 0.12);
-      transform: translateY(18px) scale(0.96);
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      border-bottom: 0;
+      border-radius: 24px 24px 0 0;
+      padding: 24px max(20px, 5vw) 30px;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.78), 0 0 0 1px rgba(108, 145, 255, 0.12);
+      transform: translateY(100%);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
       position: relative;
-      max-height: 88dvh;
+      max-height: 90dvh;
       overflow-y: auto;
     }
-    .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+    .modal-overlay.open .modal-box { transform: translateY(0); }
     .modal-header {
       display: flex;
       align-items: center;
@@ -693,6 +686,13 @@
       margin-bottom: 16px;
       padding-bottom: 12px;
       border-bottom: 1px solid #1e2638;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #modalBody {
+      max-width: 960px;
+      margin: 0 auto;
     }
     .modal-title-wrap { display: flex; align-items: center; gap: 10px; }
     .modal-badge-icon {
@@ -1120,7 +1120,7 @@
     }
     .detail-hero img { max-height: 145px; max-width: 100%; object-fit: contain; }
 
-    /* Bottom-Sliding Product Detail Sheet (Banner Header Style) */
+    /* Bottom-Sliding Product Detail Sheet (Banner Header Style) - Full Edge-to-Edge Width */
     .pd-sheet-overlay {
       position: fixed;
       inset: 0;
@@ -1137,14 +1137,14 @@
     .pd-sheet-overlay.open { opacity: 1; pointer-events: auto; }
     .pd-sheet-panel {
       width: 100%;
-      max-width: 680px;
+      max-width: 100%;
       height: 92dvh;
-      max-height: 840px;
+      max-height: 92dvh;
       background: #0d121d;
       color: #f5f7fb;
       border: 1px solid #232d42;
       border-bottom: 0;
-      border-radius: 22px 22px 0 0;
+      border-radius: 24px 24px 0 0;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -1157,7 +1157,7 @@
     .pd-banner-header {
       position: relative;
       min-height: 220px;
-      padding: 18px 20px 18px;
+      padding: 20px max(20px, 5vw) 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1328,7 +1328,228 @@
     .pd-sheet-body {
       flex: 1;
       overflow-y: auto;
-      padding: 16px 20px 20px;
+      padding: 18px max(20px, 5vw) 24px;
+    }
+    .pd-price-card {
+      background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
+      border: 1px solid #243049;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .pd-sheet-footer {
+      padding: 14px max(20px, 5vw) 24px;
+      background: #0b0f18;
+      border-top: 1px solid #1e2638;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit - Full Edge-to-Edge Width) */
+    .bottom-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 15, 0.72);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      z-index: 65;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 100%;
+      height: 92dvh;
+      max-height: 92dvh;
+      background: #ffffff;
+      color: #111827;
+      border-radius: 24px 24px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.55);
+      position: relative;
+    }
+    .bottom-sheet-overlay.open .bottom-sheet-panel { transform: translateY(0); }
+
+    /* Withdraw Page Design (Image 3298) */
+    .wd-top-blue {
+      background: linear-gradient(180deg, #1045e8 0%, #1d5bf6 100%);
+      color: #ffffff;
+      padding: 18px max(18px, 5vw) 22px;
+      position: relative;
+    }
+    .wd-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .wd-header-bar button {
+      background: none;
+      border: 0;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      display: grid;
+      place-items: center;
+    }
+    .wd-header-bar h3 { margin: 0; font-size: 16px; font-weight: 700; }
+    .wd-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 16px;
+    }
+    .wd-tab {
+      height: 36px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.85);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .wd-tab.active {
+      background: #ffffff;
+      color: #111827;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+    .wd-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .wd-amount-box {
+      width: 100%;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0 14px;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      outline: none;
+    }
+    .wd-amount-box::placeholder { color: rgba(255, 255, 255, 0.45); font-weight: 400; }
+    .wd-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px max(18px, 5vw) 24px;
+      background: #ffffff;
+    }
+    .wd-footer {
+      padding: 14px max(18px, 5vw) 24px;
+      background: #ffffff;
+      border-top: 1px solid #f1f5f9;
+    }
+    .dp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px max(18px, 5vw) 12px;
+      background: #ffffff;
+    }
+    .dp-amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 6px max(18px, 5vw) 16px;
+    }
+    .dp-cat-tabs {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 10px max(18px, 5vw) 0;
+      border-top: 6px solid #f5f6fa;
+      border-bottom: 1px solid #f1f5f9;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .dp-channel-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px max(18px, 5vw) 20px;
+    }
+    .sub-sheet-box {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 24px 24px 0 0;
+      padding: 22px max(18px, 5vw) 28px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      max-height: 85dvh;
+      overflow-y: auto;
+    }
+    /* Phone Number Input Row (+66 Flag Style matching image 3313) */
+    .phone-input-card {
+      width: 100%;
+      height: 54px;
+      background: #f5f6fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .phone-input-card:focus-within {
+      background: #ffffff;
+      border-color: #111827;
+    }
+    .phone-prefix-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding-right: 12px;
+      border-right: 1px solid #d1d5db;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .thai-flag-svg {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .phone-input-card input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      font-family: inherit;
+      font-size: 16px;
+      color: #111827;
+      outline: none;
+    }
+    .phone-input-card input::placeholder {
+      color: #9ca3af;
+      font-weight: 400;
     }
     .pd-price-card {
       background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
@@ -3011,39 +3232,38 @@
               <div style="font-size:12px;color:#64748b;margin-bottom:4px;">เลขที่คำสั่งซื้อ</div>
               <div style="font-size:16px;font-weight:700;color:#173966;word-break:break-all;">${orderId}</div>
             </div>
-            <button type="button" class="black-action-btn" onclick="closePaymentGateway();showToast('ทำรายการเสร็จสมบูรณ์!')">กลับสู่หน้าหลัก</button>
+            <button type="button" class="modal-submit" onclick="closePaymentGateway()">กลับสู่หน้าร้านค้า</button>
           </div>
-
-          <div class="gw-banks-foot">Accepts all banks | รับทุกธนาคาร</div>
         </section>
+
+        <div style="padding:16px 20px;background:#ffffff;border-top:1px solid #e6e6e6;text-align:center;font-size:12.5px;color:#888;">
+          Accepts all banks | รับทุกธนาคาร
+        </div>
       `;
 
       paymentGatewayOverlay.classList.add('open');
     }
 
     window.confirmDepositSheet = function() {
-      const amountToPay = sheetMode === 'checkout' ? pendingOrderTotalTHB : selectedDepositAmount;
-      if (!amountToPay || amountToPay <= 0) {
-        return showToast('กรุณาระบุจำนวนเงินที่ต้องการชำระ');
-      }
       closeWalletSheet();
-      openInTabPaymentGateway(amountToPay, selectedDepositChannel, sheetMode);
+      openInTabPaymentGateway(selectedDepositAmount, selectedDepositChannel, sheetMode === 'checkout' ? 'checkout' : 'deposit');
     };
 
-    // 2. Withdraw Bottom Sheet (Matching Images 3298, 3299, 3304)
+    // 2. Withdraw Bottom Sheet (Matching Images 3298, 3299, 3304 & Wallet Phone Input 3313)
     let wdTabMode = 'cash';
+    let savedWalletPhone = '';
 
     function openWithdrawModal() {
       renderWithdrawSheet();
       openWalletSheet();
-      // If user hasn't added a bank account yet, automatically slide up the "เพิ่มบัญชี" sheet first
-      if (!savedBankAccount) {
+      if (wdTabMode === 'cash' && !savedBankAccount) {
         setTimeout(() => openAddBankSubSheet(), 260);
       }
     }
 
     function renderWithdrawSheet() {
       const bankMeta = savedBankAccount ? THAI_BANKS.find(b => b.code === savedBankAccount.bankCode) || THAI_BANKS[0] : null;
+      const isWalletTab = wdTabMode === 'wallet';
 
       walletSheetPanel.innerHTML = `
         <div class="wd-top-blue">
@@ -3057,7 +3277,7 @@
 
           <div class="wd-tabs">
             <button type="button" class="wd-tab ${wdTabMode === 'cash' ? 'active' : ''}" onclick="switchWdTab('cash')">ถอนเงินสด</button>
-            <button type="button" class="wd-tab ${wdTabMode === 'crypto' ? 'active' : ''}" onclick="switchWdTab('crypto')">ถอนคริปโต</button>
+            <button type="button" class="wd-tab ${wdTabMode === 'wallet' ? 'active' : ''}" onclick="switchWdTab('wallet')">ถอนวอลเล็ต</button>
           </div>
 
           <div class="wd-label-row">
@@ -3068,28 +3288,46 @@
         </div>
 
         <div class="wd-body">
-          ${savedBankAccount && bankMeta ? `
-            <div class="bank-card-box">
-              <div class="bank-card-top">
-                <div class="bank-card-brand">
-                  ${renderBankBadge(bankMeta)}
-                  <span>${bankMeta.enName}</span>
+          ${isWalletTab ? `
+            <div style="margin-bottom:18px;">
+              <label class="light-field-label"><span>*</span>เบอร์โทรศัพท์วอลเล็ต (TrueMoney Wallet)</label>
+              <div class="phone-input-card">
+                <div class="phone-prefix-wrap">
+                  <svg class="thai-flag-svg" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="30" height="20" fill="#A51931"/>
+                    <rect y="3.33" width="30" height="13.33" fill="#F4F5F8"/>
+                    <rect y="6.67" width="30" height="6.67" fill="#2D2A4A"/>
+                  </svg>
+                  <span>+66</span>
+                  <span style="font-size:11px;color:#111827;">▾</span>
                 </div>
-                <span style="width:20px;height:20px;border-radius:50%;background:#ef4444;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;">✓</span>
+                <input type="tel" id="wdWalletPhoneInput" placeholder="กรุณากรอกเบอร์โทรศัพท์" maxlength="10" value="${savedWalletPhone}" oninput="onWalletPhoneInput(this.value)">
               </div>
-              <div class="bank-card-num">${savedBankAccount.accountNumber}</div>
-              <div class="bank-card-owner">${savedBankAccount.accountName}</div>
             </div>
-          ` : ''}
+          ` : `
+            ${savedBankAccount && bankMeta ? `
+              <div class="bank-card-box">
+                <div class="bank-card-top">
+                  <div class="bank-card-brand">
+                    ${renderBankBadge(bankMeta)}
+                    <span>${bankMeta.enName}</span>
+                  </div>
+                  <span style="width:20px;height:20px;border-radius:50%;background:#ef4444;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;">✓</span>
+                </div>
+                <div class="bank-card-num">${savedBankAccount.accountNumber}</div>
+                <div class="bank-card-owner">${savedBankAccount.accountName}</div>
+              </div>
+            ` : ''}
 
-          <button type="button" class="add-account-dashed" onclick="openAddBankSubSheet()">
-            <span>+ เพิ่มบัญชี</span>
-            <span style="display:inline-flex;gap:3px;">
-              <span style="width:18px;height:18px;border-radius:50%;background:#1ba5e1;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">KTB</span>
-              <span style="width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">T</span>
-              <span style="width:18px;height:18px;border-radius:50%;background:#4e2a84;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">SCB</span>
-            </span>
-          </button>
+            <button type="button" class="add-account-dashed" onclick="openAddBankSubSheet()">
+              <span>+ เพิ่มบัญชี</span>
+              <span style="display:inline-flex;gap:3px;">
+                <span style="width:18px;height:18px;border-radius:50%;background:#1ba5e1;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">KTB</span>
+                <span style="width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">T</span>
+                <span style="width:18px;height:18px;border-radius:50%;background:#4e2a84;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">SCB</span>
+              </span>
+            </button>
+          `}
 
           <div class="wd-rules">
             <h4>รายละเอียดการถอนเงิน <span style="width:15px;height:15px;border:1px solid #9ca3af;border-radius:50%;display:inline-grid;place-items:center;font-size:10px;color:#6b7280;">?</span></h4>
@@ -3100,8 +3338,8 @@
         </div>
 
         <div class="wd-footer">
-          <button type="button" id="wdConfirmBtn" class="wd-submit-btn ${savedBankAccount ? 'ready' : ''}" onclick="submitWithdrawAction()">
-            ยืนยันการถอนเงิน (${savedBankAccount ? '2/2' : '1/2'})
+          <button type="button" id="wdConfirmBtn" class="wd-submit-btn ${(isWalletTab ? savedWalletPhone.length >= 9 : !!savedBankAccount) ? 'ready' : ''}" onclick="submitWithdrawAction()">
+            ${isWalletTab ? 'ยืนยันการถอน' : `ยืนยันการถอนเงิน (${savedBankAccount ? '2/2' : '1/2'})`}
           </button>
         </div>
 
@@ -3167,6 +3405,14 @@
     window.switchWdTab = function(mode) {
       wdTabMode = mode;
       renderWithdrawSheet();
+      if (wdTabMode === 'cash' && !savedBankAccount) {
+        setTimeout(() => openAddBankSubSheet(), 180);
+      }
+    };
+
+    window.onWalletPhoneInput = function(val) {
+      savedWalletPhone = val.replace(/\D/g, '');
+      updateWdSubmitState();
     };
 
     window.openAddBankSubSheet = function() {
@@ -3236,17 +3482,42 @@
     window.updateWdSubmitState = function() {
       const btn = document.getElementById('wdConfirmBtn');
       const val = parseFloat(document.getElementById('wdAmountInput')?.value || 0);
-      if (btn && savedBankAccount && val > 0) {
+      if (!btn) return;
+      if (wdTabMode === 'wallet') {
+        if (savedWalletPhone.length >= 9 && val > 0) {
+          btn.classList.add('ready');
+        } else {
+          btn.classList.remove('ready');
+        }
+      } else if (savedBankAccount && val > 0) {
         btn.classList.add('ready');
       }
     };
 
     window.submitWithdrawAction = function() {
+      const val = parseFloat(document.getElementById('wdAmountInput')?.value || 0);
+      if (wdTabMode === 'wallet') {
+        const phoneDigits = (document.getElementById('wdWalletPhoneInput')?.value || savedWalletPhone).replace(/\D/g, '');
+        if (phoneDigits.length < 9) {
+          return showToast('กรุณากรอกเบอร์โทรศัพท์วอลเล็ตให้ถูกต้อง');
+        }
+        if (!val || val <= 0) {
+          return showToast('กรุณาระบุจำนวนเงินที่ต้องการถอน');
+        }
+        if (val > walletBalance) {
+          return showToast('ยอดเงินคงเหลือไม่เพียงพอ');
+        }
+        savedWalletPhone = phoneDigits;
+        walletBalance -= val;
+        updateBalanceUI();
+        closeWalletSheet();
+        return showToast(`ส่งคำขอถอนเงินวอลเล็ต ฿${val.toLocaleString('th-TH')} ไปยังเบอร์ +66 ${phoneDigits} สำเร็จ!`);
+      }
+
       if (!savedBankAccount) {
         openAddBankSubSheet();
         return showToast('กรุณาเพิ่มบัญชีธนาคารก่อนทำการถอนเงิน');
       }
-      const val = parseFloat(document.getElementById('wdAmountInput')?.value || 0);
       if (!val || val <= 0) {
         return showToast('กรุณาระบุจำนวนเงินที่ต้องการถอน');
       }
@@ -3757,4 +4028,4 @@
     updateCartUI();
   </script>
 </body>
-</html>
+  </html>
