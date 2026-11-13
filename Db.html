@@ -82,13 +82,13 @@ body {
     flex-shrink: 0;
 }
 
-/* 3-Bar Hamburger Button (Left Side) */
+/* 3-Bar Hamburger Button (Left Side) - No Border / Frame */
 .hamburger-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 9px;
-    background: #18273e;
-    border: 1px solid #2d4263;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
     color: #f4f7ff;
     display: flex;
     flex-direction: column;
@@ -96,19 +96,19 @@ body {
     justify-content: center;
     gap: 5px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease;
     flex-shrink: 0;
+    padding: 0;
 }
 
 .hamburger-btn:hover {
-    background: #213554;
-    border-color: #36a4ff;
+    opacity: 0.8;
 }
 
 .hamburger-btn span {
     display: block;
-    width: 18px;
-    height: 2px;
+    width: 20px;
+    height: 2.5px;
     background: #ffffff;
     border-radius: 2px;
     transition: 0.25s;
@@ -178,15 +178,6 @@ body {
     color: #ffffff;
 }
 
-.nav-link.danger-link {
-    color: #ff758f;
-}
-
-.nav-link.danger-link:hover {
-    background: rgba(255, 77, 109, 0.2);
-    color: #ff4d6d;
-}
-
 .chevron {
     font-size: 9px;
     opacity: 0.75;
@@ -197,24 +188,27 @@ body {
     transform: rotate(180deg);
 }
 
-/* Desktop Dropdown Panel */
+/* Desktop Dropdown Panel (Single Column Vertical List) */
 .dropdown-menu {
     position: absolute;
     top: calc(100% + 6px);
     left: 0;
-    min-width: 230px;
+    min-width: 250px;
     max-height: 75vh;
     overflow-y: auto;
     background: #132036;
     border: 1px solid #2e4466;
     border-radius: 12px;
-    padding: 6px;
+    padding: 8px;
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
     opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
     transition: all 0.2s ease;
     z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .nav-item:last-child .dropdown-menu,
@@ -231,14 +225,14 @@ body {
 }
 
 .dropdown-group-title {
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 700;
     color: #36a4ff;
-    padding: 8px 10px 4px;
+    padding: 10px 10px 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-top: 1px solid #223450;
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 .dropdown-group-title:first-child {
@@ -250,7 +244,7 @@ body {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 8px 11px;
+    padding: 8px 10px;
     color: #d2deef;
     text-decoration: none;
     font-size: 12px;
@@ -268,7 +262,7 @@ body {
 }
 
 .dropdown-item.sub-indent {
-    padding-left: 20px;
+    padding-left: 18px;
     font-size: 11.5px;
     color: #a9bbd6;
 }
@@ -277,17 +271,17 @@ body {
     color: #ffffff;
 }
 
-/* Desktop "All Menu" Mega Drawer toggled by 3-bar button on PC */
+/* Desktop "All Menu" Single Column Vertical Drawer toggled by 3-bar button on PC */
 .desktop-all-menu {
     display: none;
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
-    width: 100%;
+    width: 380px;
     background: #111c2f;
     border: 1px solid #2e4466;
     border-radius: 14px;
-    padding: 20px;
+    padding: 14px;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);
     z-index: 250;
     max-height: 80vh;
@@ -295,7 +289,9 @@ body {
 }
 
 .desktop-all-menu.show {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     animation: fadeDown 0.2s ease;
 }
 
@@ -304,48 +300,55 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.mega-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-}
-
-.mega-col {
-    background: #16243b;
-    border: 1px solid #253957;
-    border-radius: 10px;
-    padding: 12px;
-}
-
-.mega-col h4 {
-    font-size: 12.5px;
+.mega-section-title {
+    font-size: 11px;
+    font-weight: 700;
     color: #36a4ff;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #263b59;
+    padding: 8px 8px 4px;
+    border-top: 1px solid #223552;
+    margin-top: 4px;
+    text-transform: uppercase;
 }
 
-.mega-col a {
+.mega-section-title:first-child {
+    border-top: none;
+    margin-top: 0;
+}
+
+.mega-link {
     display: block;
     color: #cbd7ea;
     text-decoration: none;
-    font-size: 11.5px;
-    padding: 5px 6px;
-    border-radius: 5px;
+    font-size: 12px;
+    padding: 7px 10px;
+    border-radius: 6px;
     transition: 0.15s;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
 }
 
-.mega-col a:hover {
-    background: #213657;
+.mega-link:hover {
+    background: #1e3354;
     color: #fff;
 }
 
-.mega-col .sub-tag {
-    font-size: 10.5px;
-    color: #7ea8d8;
-    font-weight: 600;
-    margin-top: 6px;
-    padding-left: 6px;
+.mega-sub-link {
+    display: block;
+    color: #a4b8d6;
+    text-decoration: none;
+    font-size: 11.5px;
+    padding: 6px 10px 6px 20px;
+    border-radius: 6px;
+    transition: 0.15s;
+}
+
+.mega-sub-link:hover {
+    background: #1e3354;
+    color: #fff;
 }
 
 .profile {
@@ -366,7 +369,7 @@ body {
     font-weight: 600;
 }
 
-/* ================= MOBILE SIDEBAR DRAWER ================= */
+/* ================= MOBILE SIDEBAR DRAWER (SINGLE COLUMN VERTICAL) ================= */
 
 .sidebar-overlay {
     position: fixed;
@@ -431,6 +434,9 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 10px 12px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .side-section-label {
@@ -448,7 +454,6 @@ body {
     justify-content: space-between;
     width: 100%;
     padding: 10px 12px;
-    margin-bottom: 2px;
     border-radius: 8px;
     background: transparent;
     border: none;
@@ -492,13 +497,15 @@ body {
 .side-submenu {
     display: none;
     padding-left: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     border-left: 1px solid #283e61;
     margin-left: 14px;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .side-accordion.open > .side-submenu {
-    display: block;
+    display: flex;
 }
 
 .side-subitem {
@@ -549,17 +556,10 @@ body {
     opacity: 1;
 }
 
-/* ================= HERO ================= */
+/* ... existing code ... -->
+```
 
-.hero {
-    position: relative;
-    overflow: hidden;
-    min-height: 205px;
-    border-radius: 15px;
-    margin-bottom: 14px;
-    background:
-    linear-gradient(90deg, rgba(8,17,34,.97) 0%, rgba(8,17,34,.85) 40%, rgba(8,17,34,.1) 100%),
-    url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85') center 55% / cover;
+```html:13 Metro Analytics Dashboard:index.html
     display: flex;
     align-items: center;
     padding: 28px;
@@ -1554,7 +1554,7 @@ td {
 <header class="header">
 
     <div class="header-left">
-        <!-- 3-Bar Hamburger Button on the Left -->
+        <!-- 3-Bar Hamburger Button on the Left (No Frame/Border) -->
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="เปิดเมนูหลัก">
             <span></span>
             <span></span>
@@ -1602,7 +1602,7 @@ td {
 
         <!-- สำหรับธุรกิจ & กิจกรรมฟรี -->
         <div class="nav-item">
-            <button class="nav-link" type="button">ธุรกิจ & กิจกรรมฟรี <span class="chevron">▼</span></button>
+            <button class="nav-link" type="button">ธุรกิจ & กิจกรรม <span class="chevron">▼</span></button>
             <div class="dropdown-menu">
                 <div class="dropdown-group-title">สำหรับธุรกิจ</div>
                 <a href="#agent" class="dropdown-item sub-indent" data-menu="สมัครตัวแทน">สมัครตัวแทน</a>
@@ -1643,7 +1643,7 @@ td {
 
         <!-- บัญชีผู้ใช้ อายัด -->
         <div class="nav-item">
-            <button class="nav-link" type="button">บัญชีผู้ใช้ อายัด <span class="chevron">▼</span></button>
+            <button class="nav-link" type="button">บัญชีอายัด <span class="chevron">▼</span></button>
             <div class="dropdown-menu">
                 <a href="#acc-pending" class="dropdown-item" data-menu="รอพิจารณา">รอพิจารณา</a>
                 <a href="#acc-unban" class="dropdown-item" data-menu="ปลดระงับ">ปลดระงับ</a>
@@ -1655,7 +1655,7 @@ td {
         <!-- ข้อตกลงและนโยบาย -->
         <div class="nav-item">
             <button class="nav-link" type="button">ข้อตกลง & นโยบาย <span class="chevron">▼</span></button>
-            <div class="dropdown-menu" style="min-width: 260px;">
+            <div class="dropdown-menu" style="min-width: 270px;">
                 <div class="dropdown-group-title">ข้อตกลงระหว่างการใช้งาน</div>
                 <a href="#agree-tx" class="dropdown-item sub-indent" data-menu="ข้อตกลงการทำธุรกรรม">ข้อตกลงการทำธุรกรรม</a>
                 <a href="#agree-order" class="dropdown-item sub-indent" data-menu="ข้อตกลงการสั่งซื้อ">ข้อตกลงการสั่งซื้อ</a>
@@ -1715,112 +1715,89 @@ td {
         <span>⌄</span>
     </div>
 
-    <!-- DESKTOP MEGA MENU PANEL (OPENS WHEN CLICKING 3-BAR ON PC) -->
+    <!-- DESKTOP MEGA MENU PANEL (SINGLE COLUMN VERTICAL LIST WHEN CLICKING 3-BAR ON PC) -->
     <div class="desktop-all-menu" id="desktopMegaMenu">
-        <div class="mega-grid">
-            <div class="mega-col">
-                <h4>การเงิน & ร้านค้าออนไลน์</h4>
-                <a href="#deposit" data-menu="ฝากเงิน">• ฝากเงิน</a>
-                <a href="#withdraw" data-menu="ถอนเงิน">• ถอนเงิน</a>
-                <div class="sub-tag">ร้านค้าออนไลน์</div>
-                <a href="#order-status" data-menu="สถานะคำสั่งซื้อ">- สถานะคำสั่งซื้อ</a>
-                <a href="#shipping-status" data-menu="สถานะการจัดส่ง">- สถานะการจัดส่ง</a>
-                <div class="sub-tag">บริการ & สินค้า</div>
-                <a href="#topup-game" data-menu="เติมเกมส์">• เติมเกมส์</a>
-                <a href="#premium-app" data-menu="แอพพรีเมี่ยม">• แอพพรีเมี่ยม</a>
-                <a href="#addon-package" data-menu="แพ็กเกจเสริม">• แพ็กเกจเสริม</a>
-                <a href="#cash-card" data-menu="บัตรเติมเงิน">• บัตรเติมเงิน</a>
-                <a href="#boost-followers" data-menu="เพิ่มยอดฟอล">• เพิ่มยอดฟอล</a>
-                <a href="#lucky-draw" data-menu="สุ่มรางวัล">• สุ่มรางวัล</a>
-                <a href="#claim" data-menu="เคลมสินค้า">• เคลมสินค้า</a>
-                <a href="#report-issue" data-menu="แจ้งปัญหาการใช้งาน">• แจ้งปัญหาการใช้งาน</a>
-                <a href="#movies" data-menu="ดูหนังซีรีย์">• ดูหนังซีรีย์</a>
-            </div>
+        <div class="mega-section-title">การเงิน</div>
+        <a href="#deposit" class="mega-link" data-menu="ฝากเงิน">• ฝากเงิน</a>
+        <a href="#withdraw" class="mega-link" data-menu="ถอนเงิน">• ถอนเงิน</a>
 
-            <div class="mega-col">
-                <h4>สำหรับธุรกิจ & กิจกรรมฟรี</h4>
-                <div class="sub-tag">สำหรับธุรกิจ</div>
-                <a href="#agent" data-menu="สมัครตัวแทน">- สมัครตัวแทน</a>
-                <a href="#gateway" data-menu="Payment Gateway">- Payment Gateway</a>
-                <a href="#monthly-pkg" data-menu="แพ็กเกจรายเดือน">- แพ็กเกจรายเดือน</a>
-                <a href="#docs" data-menu="เอกสารการใช้งาน">- เอกสารการใช้งาน</a>
-                <a href="#manual" data-menu="คู่มือการใช้งาน">- คู่มือการใช้งาน</a>
-                <div class="sub-tag">กิจกรรมฟรี</div>
-                <a href="#discount-code" data-menu="โค้ดส่วนลด">- โค้ดส่วนลด</a>
-                <a href="#cash-code" data-menu="โค้ดเงินสด">- โค้ดเงินสด</a>
-                <a href="#coupon" data-menu="คูปอง">- คูปอง</a>
-                <a href="#spin-wheel" data-menu="วงล้อหรรษา">- วงล้อหรรษา</a>
-            </div>
+        <div class="mega-section-title">ร้านค้าออนไลน์ & บริการ</div>
+        <a href="#order-status" class="mega-sub-link" data-menu="สถานะคำสั่งซื้อ">- สถานะคำสั่งซื้อ</a>
+        <a href="#shipping-status" class="mega-sub-link" data-menu="สถานะการจัดส่ง">- สถานะการจัดส่ง</a>
+        <a href="#topup-game" class="mega-link" data-menu="เติมเกมส์">• เติมเกมส์</a>
+        <a href="#premium-app" class="mega-link" data-menu="แอพพรีเมี่ยม">• แอพพรีเมี่ยม</a>
+        <a href="#addon-package" class="mega-link" data-menu="แพ็กเกจเสริม">• แพ็กเกจเสริม</a>
+        <a href="#cash-card" class="mega-link" data-menu="บัตรเติมเงิน">• บัตรเติมเงิน</a>
+        <a href="#boost-followers" class="mega-link" data-menu="เพิ่มยอดฟอล">• เพิ่มยอดฟอล</a>
+        <a href="#lucky-draw" class="mega-link" data-menu="สุ่มรางวัล">• สุ่มรางวัล</a>
+        <a href="#claim" class="mega-link" data-menu="เคลมสินค้า">• เคลมสินค้า</a>
+        <a href="#report-issue" class="mega-link" data-menu="แจ้งปัญหาการใช้งาน">• แจ้งปัญหาการใช้งาน</a>
+        <a href="#movies" class="mega-link" data-menu="ดูหนังซีรีย์">• ดูหนังซีรีย์</a>
 
-            <div class="mega-col">
-                <h4>ประวัติธุรกรรม & แคชรีพอร์ต</h4>
-                <div class="sub-tag">ประวัติธุรกรรม</div>
-                <a href="#hist-deposit" data-menu="ประวัติการฝากเงิน">- ประวัติการฝากเงิน</a>
-                <a href="#hist-withdraw" data-menu="ประวัติการถอนเงิน">- ประวัติการถอนเงิน</a>
-                <a href="#hist-usage" data-menu="ประวัติการใช้งาน">- ประวัติการใช้งาน</a>
-                <a href="#hist-order" data-menu="ประวัติการสั่งซื้อ">- ประวัติการสั่งซื้อ</a>
-                <a href="#hist-game" data-menu="ประวัติการเติมเกมส์">- ประวัติการเติมเกมส์</a>
-                <a href="#hist-app" data-menu="ประวัติการสั่งซื้อแอพพรีเมี่ยม">- ประวัติการสั่งซื้อแอพพรีเมี่ยม</a>
-                <a href="#hist-card" data-menu="ประวัติการสั่งซื้อบัตรเติมเงิน">- ประวัติการสั่งซื้อบัตรเติมเงิน</a>
-                <a href="#hist-pkg" data-menu="ประวัติการสั่งซื้อแพ็กเกจ">- ประวัติการสั่งซื้อแพ็กเกจ</a>
-                <a href="#hist-like" data-menu="ประวัติการสั่งซื้อแพ็กเกจไลก์">- ประวัติการสั่งซื้อแพ็กเกจไลก์</a>
-                <div class="sub-tag">แคชรีพอร์ต</div>
-                <a href="#tax-customer" data-menu="ใบกำกับภาษีลูกค้า">- ใบกำกับภาษีลูกค้า</a>
-                <a href="#tax-shop" data-menu="ใบกำกับภาษีร้านค้า">- ใบกำกับภาษีร้านค้า</a>
-                <a href="#stmt-customer" data-menu="Statement ลูกค้า">- Statement ลูกค้า</a>
-                <a href="#stmt-shop" data-menu="Statement ร้านค้า">- Statement ร้านค้า</a>
-                <a href="#income-source" data-menu="แบบฟอร์มที่มารายได้">- แบบฟอร์มที่มารายได้</a>
-            </div>
+        <div class="mega-section-title">สำหรับธุรกิจ & กิจกรรม</div>
+        <a href="#agent" class="mega-sub-link" data-menu="สมัครตัวแทน">- สมัครตัวแทน</a>
+        <a href="#gateway" class="mega-sub-link" data-menu="Payment Gateway">- Payment Gateway</a>
+        <a href="#monthly-pkg" class="mega-sub-link" data-menu="แพ็กเกจรายเดือน">- แพ็กเกจรายเดือน</a>
+        <a href="#docs" class="mega-sub-link" data-menu="เอกสารการใช้งาน">- เอกสารการใช้งาน</a>
+        <a href="#manual" class="mega-sub-link" data-menu="คู่มือการใช้งาน">- คู่มือการใช้งาน</a>
+        <a href="#discount-code" class="mega-sub-link" data-menu="โค้ดส่วนลด">- โค้ดส่วนลด</a>
+        <a href="#cash-code" class="mega-sub-link" data-menu="โค้ดเงินสด">- โค้ดเงินสด</a>
+        <a href="#coupon" class="mega-sub-link" data-menu="คูปอง">- คูปอง</a>
+        <a href="#spin-wheel" class="mega-sub-link" data-menu="วงล้อหรรษา">- วงล้อหรรษา</a>
 
-            <div class="mega-col">
-                <h4>บัญชีผู้ใช้ อายัด & ข้อตกลง</h4>
-                <div class="sub-tag">บัญชีผู้ใช้ อายัด</div>
-                <a href="#acc-pending" data-menu="รอพิจารณา">- รอพิจารณา</a>
-                <a href="#acc-unban" data-menu="ปลดระงับ">- ปลดระงับ</a>
-                <a href="#acc-permaban" data-menu="แบนถาวร">- แบนถาวร</a>
-                <a href="#acc-controllog" data-menu="คอลโทลล้อค (เก็บประวัติผิดปกติ)">- คอลโทลล้อค (เก็บประวัติผิดปกติ)</a>
-                <div class="sub-tag">ข้อตกลงระหว่างการใช้งาน</div>
-                <a href="#agree-tx" data-menu="ข้อตกลงการทำธุรกรรม">- ข้อตกลงการทำธุรกรรม</a>
-                <a href="#agree-order" data-menu="ข้อตกลงการสั่งซื้อ">- ข้อตกลงการสั่งซื้อ</a>
-                <a href="#agree-refund" data-menu="ข้อตกลงการคืนเงิน">- ข้อตกลงการคืนเงิน</a>
-                <a href="#agree-return" data-menu="ข้อตกลงการคืนสินค้า">- ข้อตกลงการคืนสินค้า</a>
-                <div class="sub-tag">เงื่อนไขการใช้บริการ</div>
-                <a href="#term-tx" data-menu="เงื่อนไขการทำธุรกรรม">- เงื่อนไขการทำธุรกรรม</a>
-                <a href="#term-use" data-menu="เงื่อนไขการใช้งาน">- เงื่อนไขการใช้งาน</a>
-                <a href="#term-reg" data-menu="เงื่อนไขการสมัคร">- เงื่อนไขการสมัคร</a>
-                <a href="#term-order" data-menu="เงื่อนไขการสั่งซื้อ">- เงื่อนไขการสั่งซื้อ</a>
-                <a href="#term-refund" data-menu="เงื่อนไขการคืนเงิน">- เงื่อนไขการคืนเงิน</a>
-                <a href="#term-return" data-menu="เงื่อนไขการคืนสินค้า">- เงื่อนไขการคืนสินค้า</a>
-            </div>
+        <div class="mega-section-title">ประวัติธุรกรรม & แคชรีพอร์ต</div>
+        <a href="#hist-deposit" class="mega-sub-link" data-menu="ประวัติการฝากเงิน">- ประวัติการฝากเงิน</a>
+        <a href="#hist-withdraw" class="mega-sub-link" data-menu="ประวัติการถอนเงิน">- ประวัติการถอนเงิน</a>
+        <a href="#hist-usage" class="mega-sub-link" data-menu="ประวัติการใช้งาน">- ประวัติการใช้งาน</a>
+        <a href="#hist-order" class="mega-sub-link" data-menu="ประวัติการสั่งซื้อ">- ประวัติการสั่งซื้อ</a>
+        <a href="#hist-game" class="mega-sub-link" data-menu="ประวัติการเติมเกมส์">- ประวัติการเติมเกมส์</a>
+        <a href="#hist-app" class="mega-sub-link" data-menu="ประวัติการสั่งซื้อแอพพรีเมี่ยม">- ประวัติการสั่งซื้อแอพพรีเมี่ยม</a>
+        <a href="#hist-card" class="mega-sub-link" data-menu="ประวัติการสั่งซื้อบัตรเติมเงิน">- ประวัติการสั่งซื้อบัตรเติมเงิน</a>
+        <a href="#hist-pkg" class="mega-sub-link" data-menu="ประวัติการสั่งซื้อแพ็กเกจ">- ประวัติการสั่งซื้อแพ็กเกจ</a>
+        <a href="#hist-like" class="mega-sub-link" data-menu="ประวัติการสั่งซื้อแพ็กเกจไลก์">- ประวัติการสั่งซื้อแพ็กเกจไลก์</a>
+        <a href="#tax-customer" class="mega-sub-link" data-menu="ใบกำกับภาษีลูกค้า">- ใบกำกับภาษีลูกค้า</a>
+        <a href="#tax-shop" class="mega-sub-link" data-menu="ใบกำกับภาษีร้านค้า">- ใบกำกับภาษีร้านค้า</a>
+        <a href="#stmt-customer" class="mega-sub-link" data-menu="Statement ลูกค้า">- Statement ลูกค้า</a>
+        <a href="#stmt-shop" class="mega-sub-link" data-menu="Statement ร้านค้า">- Statement ร้านค้า</a>
+        <a href="#income-source" class="mega-sub-link" data-menu="แบบฟอร์มที่มารายได้">- แบบฟอร์มที่มารายได้</a>
 
-            <div class="mega-col">
-                <h4>นโยบายความเป็นส่วนตัว & ติดต่อ</h4>
-                <div class="sub-tag">นโยบายความเป็นส่วนตัว</div>
-                <a href="#pol-privacy" data-menu="นโยบายความเป็นส่วนตัว">- นโยบายความเป็นส่วนตัว</a>
-                <a href="#pol-personal" data-menu="นโยบายข้อมูลส่วนตัว">- นโยบายข้อมูลส่วนตัว</a>
-                <a href="#pol-tx" data-menu="นโยบายข้อมูลธุรกรรม">- นโยบายข้อมูลธุรกรรม</a>
-                <a href="#pol-change" data-menu="นโยบายเปลี่ยนแปลงข้อมูล">- นโยบายเปลี่ยนแปลงข้อมูล</a>
-                <a href="#pol-close" data-menu="นโยบายการปิดบัญชี">- นโยบายการปิดบัญชี</a>
-                <div class="sub-tag">เงื่อนไขความเป็นส่วนตัว</div>
-                <a href="#cond-privacy" data-menu="เงื่อนไขความเป็นส่วนตัว">- เงื่อนไขความเป็นส่วนตัว</a>
-                <a href="#cond-personal" data-menu="เงื่อนไขข้อมูลส่วนตัว">- เงื่อนไขข้อมูลส่วนตัว</a>
-                <a href="#cond-tx" data-menu="เงื่อนไขข้อมูลธุรกรรม">- เงื่อนไขข้อมูลธุรกรรม</a>
-                <a href="#cond-change" data-menu="เงื่อนไขเปลี่ยนแปลงข้อมูล">- เงื่อนไขเปลี่ยนแปลงข้อมูล</a>
-                <a href="#cond-close" data-menu="เงื่อนไขการปิดบัญชี">- เงื่อนไขการปิดบัญชี</a>
-                <div class="sub-tag">ขอบเขตความรับผิดชอบ</div>
-                <a href="#resp-shop" data-menu="การรับผิดชอบสำหรับร้าน">- การรับผิดชอบสำหรับร้าน</a>
-                <a href="#resp-cust" data-menu="การรับผิดชอบสำหรับลูกค้า">- การรับผิดชอบสำหรับลูกค้า</a>
-                <div class="sub-tag">ช่องทางติดต่อ & ตั้งค่า</div>
-                <a href="#contact-line" data-menu="Line Official Account">- Line Official Account</a>
-                <a href="#contact-fb" data-menu="Facebook Page">- Facebook Page</a>
-                <a href="#contact-tg" data-menu="Telegram Bot">- Telegram Bot</a>
-                <a href="#contact-dc" data-menu="Discord Server">- Discord Server</a>
-                <a href="#contact-gmail" data-menu="Gmail Center">- Gmail Center</a>
-                <a href="#contact-tel" data-menu="Telephone">- Telephone</a>
-                <a href="#settings" data-menu="ตั้งค่าเว็บไซต์" style="color:#5eb0ff;margin-top:6px;">• ตั้งค่าเว็บไซต์</a>
-                <a href="#logout" data-menu="ออกจากระบบ" style="color:#ff6b85;">• ออกจากระบบ</a>
-            </div>
-        </div>
+        <div class="mega-section-title">บัญชีผู้ใช้ อายัด & เงื่อนไข</div>
+        <a href="#acc-pending" class="mega-link" data-menu="รอพิจารณา">• รอพิจารณา</a>
+        <a href="#acc-unban" class="mega-link" data-menu="ปลดระงับ">• ปลดระงับ</a>
+        <a href="#acc-permaban" class="mega-link" data-menu="แบนถาวร">• แบนถาวร</a>
+        <a href="#acc-controllog" class="mega-link" data-menu="คอลโทลล้อค (เก็บประวัติผิดปกติ)">• คอลโทลล้อค (เก็บประวัติผิดปกติ)</a>
+        <a href="#agree-tx" class="mega-sub-link" data-menu="ข้อตกลงการทำธุรกรรม">- ข้อตกลงการทำธุรกรรม</a>
+        <a href="#agree-order" class="mega-sub-link" data-menu="ข้อตกลงการสั่งซื้อ">- ข้อตกลงการสั่งซื้อ</a>
+        <a href="#agree-refund" class="mega-sub-link" data-menu="ข้อตกลงการคืนเงิน">- ข้อตกลงการคืนเงิน</a>
+        <a href="#agree-return" class="mega-sub-link" data-menu="ข้อตกลงการคืนสินค้า">- ข้อตกลงการคืนสินค้า</a>
+        <a href="#term-tx" class="mega-sub-link" data-menu="เงื่อนไขการทำธุรกรรม">- เงื่อนไขการทำธุรกรรม</a>
+        <a href="#term-use" class="mega-sub-link" data-menu="เงื่อนไขการใช้งาน">- เงื่อนไขการใช้งาน</a>
+        <a href="#term-reg" class="mega-sub-link" data-menu="เงื่อนไขการสมัคร">- เงื่อนไขการสมัคร</a>
+        <a href="#term-order" class="mega-sub-link" data-menu="เงื่อนไขการสั่งซื้อ">- เงื่อนไขการสั่งซื้อ</a>
+        <a href="#term-refund" class="mega-sub-link" data-menu="เงื่อนไขการคืนเงิน">- เงื่อนไขการคืนเงิน</a>
+        <a href="#term-return" class="mega-sub-link" data-menu="เงื่อนไขการคืนสินค้า">- เงื่อนไขการคืนสินค้า</a>
+        <a href="#pol-privacy" class="mega-sub-link" data-menu="นโยบายความเป็นส่วนตัว">- นโยบายความเป็นส่วนตัว</a>
+        <a href="#pol-personal" class="mega-sub-link" data-menu="นโยบายข้อมูลส่วนตัว">- นโยบายข้อมูลส่วนตัว</a>
+        <a href="#pol-tx" class="mega-sub-link" data-menu="นโยบายข้อมูลธุรกรรม">- นโยบายข้อมูลธุรกรรม</a>
+        <a href="#pol-change" class="mega-sub-link" data-menu="นโยบายเปลี่ยนแปลงข้อมูล">- นโยบายเปลี่ยนแปลงข้อมูล</a>
+        <a href="#pol-close" class="mega-sub-link" data-menu="นโยบายการปิดบัญชี">- นโยบายการปิดบัญชี</a>
+        <a href="#cond-privacy" class="mega-sub-link" data-menu="เงื่อนไขความเป็นส่วนตัว">- เงื่อนไขความเป็นส่วนตัว</a>
+        <a href="#cond-personal" class="mega-sub-link" data-menu="เงื่อนไขข้อมูลส่วนตัว">- เงื่อนไขข้อมูลส่วนตัว</a>
+        <a href="#cond-tx" class="mega-sub-link" data-menu="เงื่อนไขข้อมูลธุรกรรม">- เงื่อนไขข้อมูลธุรกรรม</a>
+        <a href="#cond-change" class="mega-sub-link" data-menu="เงื่อนไขเปลี่ยนแปลงข้อมูล">- เงื่อนไขเปลี่ยนแปลงข้อมูล</a>
+        <a href="#cond-close" class="mega-sub-link" data-menu="เงื่อนไขการปิดบัญชี">- เงื่อนไขการปิดบัญชี</a>
+        <a href="#resp-shop" class="mega-sub-link" data-menu="การรับผิดชอบสำหรับร้าน">- การรับผิดชอบสำหรับร้าน</a>
+        <a href="#resp-cust" class="mega-sub-link" data-menu="การรับผิดชอบสำหรับลูกค้า">- การรับผิดชอบสำหรับลูกค้า</a>
+
+        <div class="mega-section-title">ช่องทางติดต่อ & ตั้งค่า</div>
+        <a href="#contact-line" class="mega-sub-link" data-menu="Line Official Account">- Line Official Account</a>
+        <a href="#contact-fb" class="mega-sub-link" data-menu="Facebook Page">- Facebook Page</a>
+        <a href="#contact-tg" class="mega-sub-link" data-menu="Telegram Bot">- Telegram Bot</a>
+        <a href="#contact-dc" class="mega-sub-link" data-menu="Discord Server">- Discord Server</a>
+        <a href="#contact-gmail" class="mega-sub-link" data-menu="Gmail Center">- Gmail Center</a>
+        <a href="#contact-tel" class="mega-sub-link" data-menu="Telephone">- Telephone</a>
+        <a href="#settings" class="mega-link" data-menu="ตั้งค่าเว็บไซต์" style="color:#5eb0ff;">• ตั้งค่าเว็บไซต์</a>
+        <a href="#logout" class="mega-link" data-menu="ออกจากระบบ" style="color:#ff6b85;">• ออกจากระบบ</a>
     </div>
 
 </header>
