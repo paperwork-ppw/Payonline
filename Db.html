@@ -1,13 +1,13 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>13 Metro Analytics Dashboard</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -23,6 +23,7 @@
     --blue: #1678ff;
     --cyan: #28c6e8;
     --green: #00d6a0;
+    --danger: #ff4d6d;
     --text: #f4f7ff;
     --muted: #8494ad;
 }
@@ -30,8 +31,25 @@
 body {
     background: #080e1a;
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
     min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar for Menus */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0d1626;
+}
+::-webkit-scrollbar-thumb {
+    background: #2b3f5e;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #3d5882;
 }
 
 .dashboard {
@@ -41,30 +59,73 @@ body {
     padding: 20px;
 }
 
-/* HEADER */
+/* ================= HEADER & NAVIGATION ================= */
 
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
-    padding: 15px 20px;
+    padding: 12px 20px;
     background: #111b2c;
     border: 1px solid var(--border);
     border-radius: 14px;
     margin-bottom: 16px;
+    position: relative;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+/* 3-Bar Hamburger Button (Left Side) */
+.hamburger-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: #18273e;
+    border: 1px solid #2d4263;
+    color: #f4f7ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.hamburger-btn:hover {
+    background: #213554;
+    border-color: #36a4ff;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: 0.25s;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .logo-icon {
-    font-size: 35px;
+    font-size: 32px;
     font-weight: 800;
     color: #2694ff;
+    line-height: 1;
 }
 
 .logo-text strong {
@@ -78,30 +139,221 @@ body {
     letter-spacing: 2px;
 }
 
-.nav {
+/* DESKTOP TOP MENU BAR */
+.desktop-nav {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 4px;
+    flex-wrap: wrap;
+    flex: 1;
+    justify-content: center;
 }
 
-.nav a {
-    color: #c0ccdd;
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #c8d4e6;
     text-decoration: none;
-    padding: 11px 13px;
+    padding: 8px 11px;
     border-radius: 8px;
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: transparent;
+    border: none;
+    font-family: inherit;
 }
 
-.nav a.active {
+.nav-link:hover,
+.nav-item:hover > .nav-link,
+.nav-link.active {
     background: #1765d7;
-    color: white;
+    color: #ffffff;
+}
+
+.nav-link.danger-link {
+    color: #ff758f;
+}
+
+.nav-link.danger-link:hover {
+    background: rgba(255, 77, 109, 0.2);
+    color: #ff4d6d;
+}
+
+.chevron {
+    font-size: 9px;
+    opacity: 0.75;
+    transition: transform 0.2s;
+}
+
+.nav-item:hover .chevron {
+    transform: rotate(180deg);
+}
+
+/* Desktop Dropdown Panel */
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 230px;
+    max-height: 75vh;
+    overflow-y: auto;
+    background: #132036;
+    border: 1px solid #2e4466;
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: all 0.2s ease;
+    z-index: 200;
+}
+
+.nav-item:last-child .dropdown-menu,
+.nav-item:nth-last-child(2) .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.nav-item:hover .dropdown-menu,
+.nav-item.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-group-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #36a4ff;
+    padding: 8px 10px 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-top: 1px solid #223450;
+    margin-top: 4px;
+}
+
+.dropdown-group-title:first-child {
+    border-top: none;
+    margin-top: 0;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 11px;
+    color: #d2deef;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 7px;
+    transition: background 0.15s, color 0.15s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.dropdown-item:hover {
+    background: #1e3354;
+    color: #ffffff;
+}
+
+.dropdown-item.sub-indent {
+    padding-left: 20px;
+    font-size: 11.5px;
+    color: #a9bbd6;
+}
+
+.dropdown-item.sub-indent:hover {
+    color: #ffffff;
+}
+
+/* Desktop "All Menu" Mega Drawer toggled by 3-bar button on PC */
+.desktop-all-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background: #111c2f;
+    border: 1px solid #2e4466;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);
+    z-index: 250;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.desktop-all-menu.show {
+    display: block;
+    animation: fadeDown 0.2s ease;
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mega-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.mega-col {
+    background: #16243b;
+    border: 1px solid #253957;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.mega-col h4 {
+    font-size: 12.5px;
+    color: #36a4ff;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #263b59;
+}
+
+.mega-col a {
+    display: block;
+    color: #cbd7ea;
+    text-decoration: none;
+    font-size: 11.5px;
+    padding: 5px 6px;
+    border-radius: 5px;
+    transition: 0.15s;
+}
+
+.mega-col a:hover {
+    background: #213657;
+    color: #fff;
+}
+
+.mega-col .sub-tag {
+    font-size: 10.5px;
+    color: #7ea8d8;
+    font-weight: 600;
+    margin-top: 6px;
+    padding-left: 6px;
 }
 
 .profile {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     font-size: 12px;
+    flex-shrink: 0;
 }
 
 .avatar {
@@ -111,9 +363,193 @@ body {
     border-radius: 50%;
     display: grid;
     place-items: center;
+    font-weight: 600;
 }
 
-/* HERO */
+/* ================= MOBILE SIDEBAR DRAWER ================= */
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 9, 18, 0.72);
+    backdrop-filter: blur(3px);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    max-width: 85vw;
+    height: 100vh;
+    background: #0f192b;
+    border-right: 1px solid #263a59;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 12px 0 35px rgba(0, 0, 0, 0.7);
+}
+
+.mobile-sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid #223450;
+    background: #121f36;
+}
+
+.close-sidebar {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #1b2d4a;
+    border: 1px solid #2f486e;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 12px 30px;
+}
+
+.side-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #6b84a8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 8px 5px;
+}
+
+.side-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 2px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: #d6e2f5;
+    font-size: 13px;
+    font-family: inherit;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.side-item:hover,
+.side-item.active {
+    background: #192b47;
+    color: #ffffff;
+}
+
+.side-item.highlight {
+    background: rgba(22, 120, 255, 0.14);
+    color: #5eb0ff;
+    font-weight: 600;
+}
+
+.side-item.danger {
+    color: #ff6b85;
+    margin-top: 6px;
+}
+
+.side-item .arrow {
+    font-size: 10px;
+    color: #7c93b5;
+    transition: transform 0.2s;
+}
+
+.side-accordion.open > .side-item .arrow {
+    transform: rotate(90deg);
+    color: #36a4ff;
+}
+
+.side-submenu {
+    display: none;
+    padding-left: 14px;
+    margin-bottom: 6px;
+    border-left: 1px solid #283e61;
+    margin-left: 14px;
+}
+
+.side-accordion.open > .side-submenu {
+    display: block;
+}
+
+.side-subitem {
+    display: block;
+    padding: 8px 10px;
+    font-size: 12px;
+    color: #a5b8d4;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.15s;
+}
+
+.side-subitem:hover {
+    background: #182944;
+    color: #ffffff;
+}
+
+.side-sub-header {
+    font-size: 11px;
+    font-weight: 600;
+    color: #4ea8ff;
+    padding: 8px 10px 3px;
+}
+
+/* Toast Notification for Menu Clicks */
+.menu-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #152540;
+    border: 1px solid #2b8aff;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.menu-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ================= HERO ================= */
 
 .hero {
     position: relative;
@@ -179,7 +615,7 @@ body {
     border-color: #0874ff;
 }
 
-/* CARDS */
+/* ================= CARDS ================= */
 
 .stats {
     display: grid;
@@ -227,7 +663,7 @@ body {
     color: var(--green);
 }
 
-/* PANELS */
+/* ================= PANELS ================= */
 
 .panel {
     background: var(--panel);
@@ -264,7 +700,7 @@ body {
     font-size: 10px;
 }
 
-/* PERFORMANCE */
+/* ================= PERFORMANCE ================= */
 
 .performance {
     margin-bottom: 15px;
@@ -348,7 +784,7 @@ canvas {
     font-size: 12px;
 }
 
-/* MAIN GRID */
+/* ================= MAIN GRID ================= */
 
 .main-grid {
     display: grid;
@@ -491,7 +927,7 @@ canvas {
     margin-left: auto;
 }
 
-/* BOTTOM */
+/* ================= BOTTOM ================= */
 
 .bottom-grid {
     display: grid;
@@ -634,12 +1070,20 @@ td {
     padding: 20px;
 }
 
-/* TABLET */
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+@media(max-width: 1150px) {
+    .nav-link {
+        padding: 7px 8px;
+        font-size: 11px;
+    }
+}
 
 @media(max-width: 900px) {
-    .nav a {
-        padding: 9px 7px;
-        font-size: 10px;
+    /* Hide top bar on tablet/mobile and rely on the left side drawer */
+    .desktop-nav,
+    .desktop-all-menu {
+        display: none !important;
     }
 
     .stats {
@@ -656,18 +1100,20 @@ td {
     }
 }
 
-/* MOBILE */
-
 @media(max-width: 600px) {
-
     .dashboard {
         padding: 10px;
     }
 
     .header {
-        padding: 11px;
+        padding: 11px 12px;
         gap: 8px;
         margin-bottom: 10px;
+    }
+
+    .hamburger-btn {
+        width: 34px;
+        height: 34px;
     }
 
     .logo-icon {
@@ -680,10 +1126,6 @@ td {
 
     .logo-text small {
         font-size: 7px;
-    }
-
-    .nav {
-        display: none;
     }
 
     .profile {
@@ -868,8 +1310,6 @@ td {
     }
 }
 
-/* SMALL MOBILE */
-
 @media(max-width: 360px) {
     .dashboard {
         padding: 7px;
@@ -907,25 +1347,365 @@ td {
 
 <body>
 
+<!-- MOBILE SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- MOBILE SIDEBAR DRAWER (LEFT SIDE) -->
+<aside class="mobile-sidebar" id="mobileSidebar" aria-label="Mobile Navigation">
+    <div class="sidebar-header">
+        <div class="logo">
+            <div class="logo-icon" style="font-size: 26px;">13</div>
+            <div class="logo-text">
+                <strong>13 METRO</strong>
+                <small>MENU</small>
+            </div>
+        </div>
+        <button class="close-sidebar" id="closeSidebarBtn" aria-label="ปิดเมนู">✕</button>
+    </div>
+
+    <div class="sidebar-content">
+        <div class="side-section-label">การเงิน</div>
+        <a href="#deposit" class="side-item highlight" data-menu="ฝากเงิน">ฝากเงิน</a>
+        <a href="#withdraw" class="side-item" data-menu="ถอนเงิน">ถอนเงิน</a>
+
+        <div class="side-section-label">บริการ & ร้านค้า</div>
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>ร้านค้าออนไลน์</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#order-status" class="side-subitem" data-menu="สถานะคำสั่งซื้อ">สถานะคำสั่งซื้อ</a>
+                <a href="#shipping-status" class="side-subitem" data-menu="สถานะการจัดส่ง">สถานะการจัดส่ง</a>
+            </div>
+        </div>
+
+        <a href="#topup-game" class="side-item" data-menu="เติมเกมส์">เติมเกมส์</a>
+        <a href="#premium-app" class="side-item" data-menu="แอพพรีเมี่ยม">แอพพรีเมี่ยม</a>
+        <a href="#addon-package" class="side-item" data-menu="แพ็กเกจเสริม">แพ็กเกจเสริม</a>
+        <a href="#cash-card" class="side-item" data-menu="บัตรเติมเงิน">บัตรเติมเงิน</a>
+        <a href="#boost-followers" class="side-item" data-menu="เพิ่มยอดฟอล">เพิ่มยอดฟอล</a>
+        <a href="#lucky-draw" class="side-item" data-menu="สุ่มรางวัล">สุ่มรางวัล</a>
+        <a href="#claim" class="side-item" data-menu="เคลมสินค้า">เคลมสินค้า</a>
+        <a href="#report-issue" class="side-item" data-menu="แจ้งปัญหาการใช้งาน">แจ้งปัญหาการใช้งาน</a>
+        <a href="#movies" class="side-item" data-menu="ดูหนังซีรีย์">ดูหนังซีรีย์</a>
+
+        <div class="side-section-label">ธุรกิจ & กิจกรรม</div>
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>สำหรับธุรกิจ</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#agent" class="side-subitem" data-menu="สมัครตัวแทน">สมัครตัวแทน</a>
+                <a href="#gateway" class="side-subitem" data-menu="Payment Gateway">Payment Gateway</a>
+                <a href="#monthly-pkg" class="side-subitem" data-menu="แพ็กเกจรายเดือน">แพ็กเกจรายเดือน</a>
+                <a href="#docs" class="side-subitem" data-menu="เอกสารการใช้งาน">เอกสารการใช้งาน</a>
+                <a href="#manual" class="side-subitem" data-menu="คู่มือการใช้งาน">คู่มือการใช้งาน</a>
+            </div>
+        </div>
+
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>กิจกรรมฟรี</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#discount-code" class="side-subitem" data-menu="โค้ดส่วนลด">โค้ดส่วนลด</a>
+                <a href="#cash-code" class="side-subitem" data-menu="โค้ดเงินสด">โค้ดเงินสด</a>
+                <a href="#coupon" class="side-subitem" data-menu="คูปอง">คูปอง</a>
+                <a href="#spin-wheel" class="side-subitem" data-menu="วงล้อหรรษา">วงล้อหรรษา</a>
+            </div>
+        </div>
+
+        <div class="side-section-label">ประวัติ & รายงาน</div>
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>ประวัติธุรกรรม</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#hist-deposit" class="side-subitem" data-menu="ประวัติการฝากเงิน">ประวัติการฝากเงิน</a>
+                <a href="#hist-withdraw" class="side-subitem" data-menu="ประวัติการถอนเงิน">ประวัติการถอนเงิน</a>
+                <a href="#hist-usage" class="side-subitem" data-menu="ประวัติการใช้งาน">ประวัติการใช้งาน</a>
+                <a href="#hist-order" class="side-subitem" data-menu="ประวัติการสั่งซื้อ">ประวัติการสั่งซื้อ</a>
+                <a href="#hist-game" class="side-subitem" data-menu="ประวัติการเติมเกมส์">ประวัติการเติมเกมส์</a>
+                <a href="#hist-app" class="side-subitem" data-menu="ประวัติการสั่งซื้อแอพพรีเมี่ยม">ประวัติการสั่งซื้อแอพพรีเมี่ยม</a>
+                <a href="#hist-card" class="side-subitem" data-menu="ประวัติการสั่งซื้อบัตรเติมเงิน">ประวัติการสั่งซื้อบัตรเติมเงิน</a>
+                <a href="#hist-pkg" class="side-subitem" data-menu="ประวัติการสั่งซื้อแพ็กเกจ">ประวัติการสั่งซื้อแพ็กเกจ</a>
+                <a href="#hist-like" class="side-subitem" data-menu="ประวัติการสั่งซื้อแพ็กเกจไลก์">ประวัติการสั่งซื้อแพ็กเกจไลก์</a>
+            </div>
+        </div>
+
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>แคชรีพอร์ต</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#tax-customer" class="side-subitem" data-menu="ใบกำกับภาษีลูกค้า">ใบกำกับภาษีลูกค้า</a>
+                <a href="#tax-shop" class="side-subitem" data-menu="ใบกำกับภาษีร้านค้า">ใบกำกับภาษีร้านค้า</a>
+                <a href="#stmt-customer" class="side-subitem" data-menu="Statement ลูกค้า">Statement ลูกค้า</a>
+                <a href="#stmt-shop" class="side-subitem" data-menu="Statement ร้านค้า">Statement ร้านค้า</a>
+                <a href="#income-source" class="side-subitem" data-menu="แบบฟอร์มที่มารายได้">แบบฟอร์มที่มารายได้</a>
+            </div>
+        </div>
+
+        <div class="side-section-label">สถานะบัญชี & ความปลอดภัย</div>
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>บัญชีผู้ใช้ อายัด</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#acc-pending" class="side-subitem" data-menu="รอพิจารณา">รอพิจารณา</a>
+                <a href="#acc-unban" class="side-subitem" data-menu="ปลดระงับ">ปลดระงับ</a>
+                <a href="#acc-permaban" class="side-subitem" data-menu="แบนถาวร">แบนถาวร</a>
+                <a href="#acc-controllog" class="side-subitem" data-menu="คอลโทลล้อค (เก็บประวัติผิดปกติ)">คอลโทลล้อค (เก็บประวัติผิดปกติ)</a>
+            </div>
+        </div>
+
+        <div class="side-section-label">ข้อตกลง & นโยบาย</div>
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>ข้อตกลงและเงื่อนไขการใช้บริการ</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <div class="side-sub-header">ข้อตกลงระหว่างการใช้งาน</div>
+                <a href="#agree-tx" class="side-subitem" data-menu="ข้อตกลงการทำธุรกรรม">ข้อตกลงการทำธุรกรรม</a>
+                <a href="#agree-order" class="side-subitem" data-menu="ข้อตกลงการสั่งซื้อ">ข้อตกลงการสั่งซื้อ</a>
+                <a href="#agree-refund" class="side-subitem" data-menu="ข้อตกลงการคืนเงิน">ข้อตกลงการคืนเงิน</a>
+                <a href="#agree-return" class="side-subitem" data-menu="ข้อตกลงการคืนสินค้า">ข้อตกลงการคืนสินค้า</a>
+
+                <div class="side-sub-header">เงื่อนไขการใช้บริการ</div>
+                <a href="#term-tx" class="side-subitem" data-menu="เงื่อนไขการทำธุรกรรม">เงื่อนไขการทำธุรกรรม</a>
+                <a href="#term-use" class="side-subitem" data-menu="เงื่อนไขการใช้งาน">เงื่อนไขการใช้งาน</a>
+                <a href="#term-reg" class="side-subitem" data-menu="เงื่อนไขการสมัคร">เงื่อนไขการสมัคร</a>
+                <a href="#term-order" class="side-subitem" data-menu="เงื่อนไขการสั่งซื้อ">เงื่อนไขการสั่งซื้อ</a>
+                <a href="#term-refund" class="side-subitem" data-menu="เงื่อนไขการคืนเงิน">เงื่อนไขการคืนเงิน</a>
+                <a href="#term-return" class="side-subitem" data-menu="เงื่อนไขการคืนสินค้า">เงื่อนไขการคืนสินค้า</a>
+            </div>
+        </div>
+
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>นโยบายเงื่อนไขและความเป็นส่วนตัว</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <div class="side-sub-header">นโยบายความเป็นส่วนตัว</div>
+                <a href="#pol-privacy" class="side-subitem" data-menu="นโยบายความเป็นส่วนตัว">นโยบายความเป็นส่วนตัว</a>
+                <a href="#pol-personal" class="side-subitem" data-menu="นโยบายข้อมูลส่วนตัว">นโยบายข้อมูลส่วนตัว</a>
+                <a href="#pol-tx" class="side-subitem" data-menu="นโยบายข้อมูลธุรกรรม">นโยบายข้อมูลธุรกรรม</a>
+                <a href="#pol-change" class="side-subitem" data-menu="นโยบายเปลี่ยนแปลงข้อมูล">นโยบายเปลี่ยนแปลงข้อมูล</a>
+                <a href="#pol-close" class="side-subitem" data-menu="นโยบายการปิดบัญชี">นโยบายการปิดบัญชี</a>
+
+                <div class="side-sub-header">เงื่อนไขความเป็นส่วนตัว</div>
+                <a href="#cond-privacy" class="side-subitem" data-menu="เงื่อนไขความเป็นส่วนตัว">เงื่อนไขความเป็นส่วนตัว</a>
+                <a href="#cond-personal" class="side-subitem" data-menu="เงื่อนไขข้อมูลส่วนตัว">เงื่อนไขข้อมูลส่วนตัว</a>
+                <a href="#cond-tx" class="side-subitem" data-menu="เงื่อนไขข้อมูลธุรกรรม">เงื่อนไขข้อมูลธุรกรรม</a>
+                <a href="#cond-change" class="side-subitem" data-menu="เงื่อนไขเปลี่ยนแปลงข้อมูล">เงื่อนไขเปลี่ยนแปลงข้อมูล</a>
+                <a href="#cond-close" class="side-subitem" data-menu="เงื่อนไขการปิดบัญชี">เงื่อนไขการปิดบัญชี</a>
+            </div>
+        </div>
+
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>ขอบเขตเงื่อนไขการรับผิดชอบ</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#resp-shop" class="side-subitem" data-menu="การรับผิดชอบสำหรับร้าน">การรับผิดชอบสำหรับร้าน</a>
+                <a href="#resp-cust" class="side-subitem" data-menu="การรับผิดชอบสำหรับลูกค้า">การรับผิดชอบสำหรับลูกค้า</a>
+            </div>
+        </div>
+
+        <div class="side-section-label">ช่วยเหลือ & ตั้งค่า</div>
+        <div class="side-accordion">
+            <button class="side-item" type="button">
+                <span>ช่องทางติดต่อ</span>
+                <span class="arrow">▶</span>
+            </button>
+            <div class="side-submenu">
+                <a href="#contact-line" class="side-subitem" data-menu="Line Official Account">Line Official Account</a>
+                <a href="#contact-fb" class="side-subitem" data-menu="Facebook Page">Facebook Page</a>
+                <a href="#contact-tg" class="side-subitem" data-menu="Telegram Bot">Telegram Bot</a>
+                <a href="#contact-dc" class="side-subitem" data-menu="Discord Server">Discord Server</a>
+                <a href="#contact-gmail" class="side-subitem" data-menu="Gmail Center">Gmail Center</a>
+                <a href="#contact-tel" class="side-subitem" data-menu="Telephone">Telephone</a>
+            </div>
+        </div>
+
+        <a href="#settings" class="side-item" data-menu="ตั้งค่าเว็บไซต์">ตั้งค่าเว็บไซต์</a>
+        <a href="#logout" class="side-item danger" data-menu="ออกจากระบบ">ออกจากระบบ</a>
+    </div>
+</aside>
+
+<!-- TOAST NOTIFICATION -->
+<div class="menu-toast" id="menuToast">
+    <span style="color:#36a4ff;font-weight:bold;">●</span>
+    <span id="toastText">เลือกเมนู</span>
+</div>
+
 <div class="dashboard">
 
-<!-- HEADER -->
+<!-- HEADER (DESKTOP TOP BAR + LEFT 3-BAR HAMBURGER) -->
 <header class="header">
 
-    <div class="logo">
-        <div class="logo-icon">13</div>
-        <div class="logo-text">
-            <strong>13 METRO</strong>
-            <small>ANALYTICS</small>
+    <div class="header-left">
+        <!-- 3-Bar Hamburger Button on the Left -->
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="เปิดเมนูหลัก">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="logo">
+            <div class="logo-icon">13</div>
+            <div class="logo-text">
+                <strong>13 METRO</strong>
+                <small>ANALYTICS</small>
+            </div>
         </div>
     </div>
 
-    <nav class="nav">
-        <a class="active" href="#">▦ Overview</a>
-        <a href="#">▥ Portfolio</a>
-        <a href="#">⌂ Properties</a>
-        <a href="#">▤ Market</a>
-        <a href="#">▣ Reports</a>
+    <!-- PC TOP BAR MENU -->
+    <nav class="desktop-nav" aria-label="Desktop Top Navigation">
+        <div class="nav-item">
+            <a href="#deposit" class="nav-link active" data-menu="ฝากเงิน">ฝากเงิน</a>
+        </div>
+        <div class="nav-item">
+            <a href="#withdraw" class="nav-link" data-menu="ถอนเงิน">ถอนเงิน</a>
+        </div>
+
+        <!-- ร้านค้าออนไลน์ & บริการ -->
+        <div class="nav-item">
+            <button class="nav-link" type="button">ร้านค้า & บริการ <span class="chevron">▼</span></button>
+            <div class="dropdown-menu">
+                <div class="dropdown-group-title">ร้านค้าออนไลน์</div>
+                <a href="#order-status" class="dropdown-item sub-indent" data-menu="สถานะคำสั่งซื้อ">สถานะคำสั่งซื้อ</a>
+                <a href="#shipping-status" class="dropdown-item sub-indent" data-menu="สถานะการจัดส่ง">สถานะการจัดส่ง</a>
+                <div class="dropdown-group-title">บริการดิจิทัล</div>
+                <a href="#topup-game" class="dropdown-item" data-menu="เติมเกมส์">เติมเกมส์</a>
+                <a href="#premium-app" class="dropdown-item" data-menu="แอพพรีเมี่ยม">แอพพรีเมี่ยม</a>
+                <a href="#addon-package" class="dropdown-item" data-menu="แพ็กเกจเสริม">แพ็กเกจเสริม</a>
+                <a href="#cash-card" class="dropdown-item" data-menu="บัตรเติมเงิน">บัตรเติมเงิน</a>
+                <a href="#boost-followers" class="dropdown-item" data-menu="เพิ่มยอดฟอล">เพิ่มยอดฟอล</a>
+                <a href="#lucky-draw" class="dropdown-item" data-menu="สุ่มรางวัล">สุ่มรางวัล</a>
+                <a href="#movies" class="dropdown-item" data-menu="ดูหนังซีรีย์">ดูหนังซีรีย์</a>
+                <div class="dropdown-group-title">บริการหลังการขาย</div>
+                <a href="#claim" class="dropdown-item" data-menu="เคลมสินค้า">เคลมสินค้า</a>
+                <a href="#report-issue" class="dropdown-item" data-menu="แจ้งปัญหาการใช้งาน">แจ้งปัญหาการใช้งาน</a>
+            </div>
+        </div>
+
+        <!-- สำหรับธุรกิจ & กิจกรรมฟรี -->
+        <div class="nav-item">
+            <button class="nav-link" type="button">ธุรกิจ & กิจกรรมฟรี <span class="chevron">▼</span></button>
+            <div class="dropdown-menu">
+                <div class="dropdown-group-title">สำหรับธุรกิจ</div>
+                <a href="#agent" class="dropdown-item sub-indent" data-menu="สมัครตัวแทน">สมัครตัวแทน</a>
+                <a href="#gateway" class="dropdown-item sub-indent" data-menu="Payment Gateway">Payment Gateway</a>
+                <a href="#monthly-pkg" class="dropdown-item sub-indent" data-menu="แพ็กเกจรายเดือน">แพ็กเกจรายเดือน</a>
+                <a href="#docs" class="dropdown-item sub-indent" data-menu="เอกสารการใช้งาน">เอกสารการใช้งาน</a>
+                <a href="#manual" class="dropdown-item sub-indent" data-menu="คู่มือการใช้งาน">คู่มือการใช้งาน</a>
+                <div class="dropdown-group-title">กิจกรรมฟรี</div>
+                <a href="#discount-code" class="dropdown-item sub-indent" data-menu="โค้ดส่วนลด">โค้ดส่วนลด</a>
+                <a href="#cash-code" class="dropdown-item sub-indent" data-menu="โค้ดเงินสด">โค้ดเงินสด</a>
+                <a href="#coupon" class="dropdown-item sub-indent" data-menu="คูปอง">คูปอง</a>
+                <a href="#spin-wheel" class="dropdown-item sub-indent" data-menu="วงล้อหรรษา">วงล้อหรรษา</a>
+            </div>
+        </div>
+
+        <!-- ประวัติธุรกรรม & แคชรีพอร์ต -->
+        <div class="nav-item">
+            <button class="nav-link" type="button">ประวัติ & รายงาน <span class="chevron">▼</span></button>
+            <div class="dropdown-menu">
+                <div class="dropdown-group-title">ประวัติธุรกรรม</div>
+                <a href="#hist-deposit" class="dropdown-item sub-indent" data-menu="ประวัติการฝากเงิน">ประวัติการฝากเงิน</a>
+                <a href="#hist-withdraw" class="dropdown-item sub-indent" data-menu="ประวัติการถอนเงิน">ประวัติการถอนเงิน</a>
+                <a href="#hist-usage" class="dropdown-item sub-indent" data-menu="ประวัติการใช้งาน">ประวัติการใช้งาน</a>
+                <a href="#hist-order" class="dropdown-item sub-indent" data-menu="ประวัติการสั่งซื้อ">ประวัติการสั่งซื้อ</a>
+                <a href="#hist-game" class="dropdown-item sub-indent" data-menu="ประวัติการเติมเกมส์">ประวัติการเติมเกมส์</a>
+                <a href="#hist-app" class="dropdown-item sub-indent" data-menu="ประวัติการสั่งซื้อแอพพรีเมี่ยม">ประวัติการสั่งซื้อแอพพรีเมี่ยม</a>
+                <a href="#hist-card" class="dropdown-item sub-indent" data-menu="ประวัติการสั่งซื้อบัตรเติมเงิน">ประวัติการสั่งซื้อบัตรเติมเงิน</a>
+                <a href="#hist-pkg" class="dropdown-item sub-indent" data-menu="ประวัติการสั่งซื้อแพ็กเกจ">ประวัติการสั่งซื้อแพ็กเกจ</a>
+                <a href="#hist-like" class="dropdown-item sub-indent" data-menu="ประวัติการสั่งซื้อแพ็กเกจไลก์">ประวัติการสั่งซื้อแพ็กเกจไลก์</a>
+                <div class="dropdown-group-title">แคชรีพอร์ต</div>
+                <a href="#tax-customer" class="dropdown-item sub-indent" data-menu="ใบกำกับภาษีลูกค้า">ใบกำกับภาษีลูกค้า</a>
+                <a href="#tax-shop" class="dropdown-item sub-indent" data-menu="ใบกำกับภาษีร้านค้า">ใบกำกับภาษีร้านค้า</a>
+                <a href="#stmt-customer" class="dropdown-item sub-indent" data-menu="Statement ลูกค้า">Statement ลูกค้า</a>
+                <a href="#stmt-shop" class="dropdown-item sub-indent" data-menu="Statement ร้านค้า">Statement ร้านค้า</a>
+                <a href="#income-source" class="dropdown-item sub-indent" data-menu="แบบฟอร์มที่มารายได้">แบบฟอร์มที่มารายได้</a>
+            </div>
+        </div>
+
+        <!-- บัญชีผู้ใช้ อายัด -->
+        <div class="nav-item">
+            <button class="nav-link" type="button">บัญชีผู้ใช้ อายัด <span class="chevron">▼</span></button>
+            <div class="dropdown-menu">
+                <a href="#acc-pending" class="dropdown-item" data-menu="รอพิจารณา">รอพิจารณา</a>
+                <a href="#acc-unban" class="dropdown-item" data-menu="ปลดระงับ">ปลดระงับ</a>
+                <a href="#acc-permaban" class="dropdown-item" data-menu="แบนถาวร">แบนถาวร</a>
+                <a href="#acc-controllog" class="dropdown-item" data-menu="คอลโทลล้อค (เก็บประวัติผิดปกติ)">คอลโทลล้อค (เก็บประวัติผิดปกติ)</a>
+            </div>
+        </div>
+
+        <!-- ข้อตกลงและนโยบาย -->
+        <div class="nav-item">
+            <button class="nav-link" type="button">ข้อตกลง & นโยบาย <span class="chevron">▼</span></button>
+            <div class="dropdown-menu" style="min-width: 260px;">
+                <div class="dropdown-group-title">ข้อตกลงระหว่างการใช้งาน</div>
+                <a href="#agree-tx" class="dropdown-item sub-indent" data-menu="ข้อตกลงการทำธุรกรรม">ข้อตกลงการทำธุรกรรม</a>
+                <a href="#agree-order" class="dropdown-item sub-indent" data-menu="ข้อตกลงการสั่งซื้อ">ข้อตกลงการสั่งซื้อ</a>
+                <a href="#agree-refund" class="dropdown-item sub-indent" data-menu="ข้อตกลงการคืนเงิน">ข้อตกลงการคืนเงิน</a>
+                <a href="#agree-return" class="dropdown-item sub-indent" data-menu="ข้อตกลงการคืนสินค้า">ข้อตกลงการคืนสินค้า</a>
+
+                <div class="dropdown-group-title">เงื่อนไขการใช้บริการ</div>
+                <a href="#term-tx" class="dropdown-item sub-indent" data-menu="เงื่อนไขการทำธุรกรรม">เงื่อนไขการทำธุรกรรม</a>
+                <a href="#term-use" class="dropdown-item sub-indent" data-menu="เงื่อนไขการใช้งาน">เงื่อนไขการใช้งาน</a>
+                <a href="#term-reg" class="dropdown-item sub-indent" data-menu="เงื่อนไขการสมัคร">เงื่อนไขการสมัคร</a>
+                <a href="#term-order" class="dropdown-item sub-indent" data-menu="เงื่อนไขการสั่งซื้อ">เงื่อนไขการสั่งซื้อ</a>
+                <a href="#term-refund" class="dropdown-item sub-indent" data-menu="เงื่อนไขการคืนเงิน">เงื่อนไขการคืนเงิน</a>
+                <a href="#term-return" class="dropdown-item sub-indent" data-menu="เงื่อนไขการคืนสินค้า">เงื่อนไขการคืนสินค้า</a>
+
+                <div class="dropdown-group-title">นโยบายความเป็นส่วนตัว</div>
+                <a href="#pol-privacy" class="dropdown-item sub-indent" data-menu="นโยบายความเป็นส่วนตัว">นโยบายความเป็นส่วนตัว</a>
+                <a href="#pol-personal" class="dropdown-item sub-indent" data-menu="นโยบายข้อมูลส่วนตัว">นโยบายข้อมูลส่วนตัว</a>
+                <a href="#pol-tx" class="dropdown-item sub-indent" data-menu="นโยบายข้อมูลธุรกรรม">นโยบายข้อมูลธุรกรรม</a>
+                <a href="#pol-change" class="dropdown-item sub-indent" data-menu="นโยบายเปลี่ยนแปลงข้อมูล">นโยบายเปลี่ยนแปลงข้อมูล</a>
+                <a href="#pol-close" class="dropdown-item sub-indent" data-menu="นโยบายการปิดบัญชี">นโยบายการปิดบัญชี</a>
+
+                <div class="dropdown-group-title">เงื่อนไขความเป็นส่วนตัว</div>
+                <a href="#cond-privacy" class="dropdown-item sub-indent" data-menu="เงื่อนไขความเป็นส่วนตัว">เงื่อนไขความเป็นส่วนตัว</a>
+                <a href="#cond-personal" class="dropdown-item sub-indent" data-menu="เงื่อนไขข้อมูลส่วนตัว">เงื่อนไขข้อมูลส่วนตัว</a>
+                <a href="#cond-tx" class="dropdown-item sub-indent" data-menu="เงื่อนไขข้อมูลธุรกรรม">เงื่อนไขข้อมูลธุรกรรม</a>
+                <a href="#cond-change" class="dropdown-item sub-indent" data-menu="เงื่อนไขเปลี่ยนแปลงข้อมูล">เงื่อนไขเปลี่ยนแปลงข้อมูล</a>
+                <a href="#cond-close" class="dropdown-item sub-indent" data-menu="เงื่อนไขการปิดบัญชี">เงื่อนไขการปิดบัญชี</a>
+
+                <div class="dropdown-group-title">ขอบเขตเงื่อนไขการรับผิดชอบ</div>
+                <a href="#resp-shop" class="dropdown-item sub-indent" data-menu="การรับผิดชอบสำหรับร้าน">การรับผิดชอบสำหรับร้าน</a>
+                <a href="#resp-cust" class="dropdown-item sub-indent" data-menu="การรับผิดชอบสำหรับลูกค้า">การรับผิดชอบสำหรับลูกค้า</a>
+            </div>
+        </div>
+
+        <!-- ช่องทางติดต่อ & ตั้งค่า -->
+        <div class="nav-item">
+            <button class="nav-link" type="button">ติดต่อ & ตั้งค่า <span class="chevron">▼</span></button>
+            <div class="dropdown-menu">
+                <div class="dropdown-group-title">ช่องทางติดต่อ</div>
+                <a href="#contact-line" class="dropdown-item sub-indent" data-menu="Line Official Account">Line Official Account</a>
+                <a href="#contact-fb" class="dropdown-item sub-indent" data-menu="Facebook Page">Facebook Page</a>
+                <a href="#contact-tg" class="dropdown-item sub-indent" data-menu="Telegram Bot">Telegram Bot</a>
+                <a href="#contact-dc" class="dropdown-item sub-indent" data-menu="Discord Server">Discord Server</a>
+                <a href="#contact-gmail" class="dropdown-item sub-indent" data-menu="Gmail Center">Gmail Center</a>
+                <a href="#contact-tel" class="dropdown-item sub-indent" data-menu="Telephone">Telephone</a>
+                <div class="dropdown-group-title">ระบบ</div>
+                <a href="#settings" class="dropdown-item" data-menu="ตั้งค่าเว็บไซต์">ตั้งค่าเว็บไซต์</a>
+                <a href="#logout" class="dropdown-item" style="color:#ff6b85;" data-menu="ออกจากระบบ">ออกจากระบบ</a>
+            </div>
+        </div>
     </nav>
 
     <div class="profile">
@@ -933,6 +1713,114 @@ td {
         <span>♧</span>
         <div class="avatar">JD</div>
         <span>⌄</span>
+    </div>
+
+    <!-- DESKTOP MEGA MENU PANEL (OPENS WHEN CLICKING 3-BAR ON PC) -->
+    <div class="desktop-all-menu" id="desktopMegaMenu">
+        <div class="mega-grid">
+            <div class="mega-col">
+                <h4>การเงิน & ร้านค้าออนไลน์</h4>
+                <a href="#deposit" data-menu="ฝากเงิน">• ฝากเงิน</a>
+                <a href="#withdraw" data-menu="ถอนเงิน">• ถอนเงิน</a>
+                <div class="sub-tag">ร้านค้าออนไลน์</div>
+                <a href="#order-status" data-menu="สถานะคำสั่งซื้อ">- สถานะคำสั่งซื้อ</a>
+                <a href="#shipping-status" data-menu="สถานะการจัดส่ง">- สถานะการจัดส่ง</a>
+                <div class="sub-tag">บริการ & สินค้า</div>
+                <a href="#topup-game" data-menu="เติมเกมส์">• เติมเกมส์</a>
+                <a href="#premium-app" data-menu="แอพพรีเมี่ยม">• แอพพรีเมี่ยม</a>
+                <a href="#addon-package" data-menu="แพ็กเกจเสริม">• แพ็กเกจเสริม</a>
+                <a href="#cash-card" data-menu="บัตรเติมเงิน">• บัตรเติมเงิน</a>
+                <a href="#boost-followers" data-menu="เพิ่มยอดฟอล">• เพิ่มยอดฟอล</a>
+                <a href="#lucky-draw" data-menu="สุ่มรางวัล">• สุ่มรางวัล</a>
+                <a href="#claim" data-menu="เคลมสินค้า">• เคลมสินค้า</a>
+                <a href="#report-issue" data-menu="แจ้งปัญหาการใช้งาน">• แจ้งปัญหาการใช้งาน</a>
+                <a href="#movies" data-menu="ดูหนังซีรีย์">• ดูหนังซีรีย์</a>
+            </div>
+
+            <div class="mega-col">
+                <h4>สำหรับธุรกิจ & กิจกรรมฟรี</h4>
+                <div class="sub-tag">สำหรับธุรกิจ</div>
+                <a href="#agent" data-menu="สมัครตัวแทน">- สมัครตัวแทน</a>
+                <a href="#gateway" data-menu="Payment Gateway">- Payment Gateway</a>
+                <a href="#monthly-pkg" data-menu="แพ็กเกจรายเดือน">- แพ็กเกจรายเดือน</a>
+                <a href="#docs" data-menu="เอกสารการใช้งาน">- เอกสารการใช้งาน</a>
+                <a href="#manual" data-menu="คู่มือการใช้งาน">- คู่มือการใช้งาน</a>
+                <div class="sub-tag">กิจกรรมฟรี</div>
+                <a href="#discount-code" data-menu="โค้ดส่วนลด">- โค้ดส่วนลด</a>
+                <a href="#cash-code" data-menu="โค้ดเงินสด">- โค้ดเงินสด</a>
+                <a href="#coupon" data-menu="คูปอง">- คูปอง</a>
+                <a href="#spin-wheel" data-menu="วงล้อหรรษา">- วงล้อหรรษา</a>
+            </div>
+
+            <div class="mega-col">
+                <h4>ประวัติธุรกรรม & แคชรีพอร์ต</h4>
+                <div class="sub-tag">ประวัติธุรกรรม</div>
+                <a href="#hist-deposit" data-menu="ประวัติการฝากเงิน">- ประวัติการฝากเงิน</a>
+                <a href="#hist-withdraw" data-menu="ประวัติการถอนเงิน">- ประวัติการถอนเงิน</a>
+                <a href="#hist-usage" data-menu="ประวัติการใช้งาน">- ประวัติการใช้งาน</a>
+                <a href="#hist-order" data-menu="ประวัติการสั่งซื้อ">- ประวัติการสั่งซื้อ</a>
+                <a href="#hist-game" data-menu="ประวัติการเติมเกมส์">- ประวัติการเติมเกมส์</a>
+                <a href="#hist-app" data-menu="ประวัติการสั่งซื้อแอพพรีเมี่ยม">- ประวัติการสั่งซื้อแอพพรีเมี่ยม</a>
+                <a href="#hist-card" data-menu="ประวัติการสั่งซื้อบัตรเติมเงิน">- ประวัติการสั่งซื้อบัตรเติมเงิน</a>
+                <a href="#hist-pkg" data-menu="ประวัติการสั่งซื้อแพ็กเกจ">- ประวัติการสั่งซื้อแพ็กเกจ</a>
+                <a href="#hist-like" data-menu="ประวัติการสั่งซื้อแพ็กเกจไลก์">- ประวัติการสั่งซื้อแพ็กเกจไลก์</a>
+                <div class="sub-tag">แคชรีพอร์ต</div>
+                <a href="#tax-customer" data-menu="ใบกำกับภาษีลูกค้า">- ใบกำกับภาษีลูกค้า</a>
+                <a href="#tax-shop" data-menu="ใบกำกับภาษีร้านค้า">- ใบกำกับภาษีร้านค้า</a>
+                <a href="#stmt-customer" data-menu="Statement ลูกค้า">- Statement ลูกค้า</a>
+                <a href="#stmt-shop" data-menu="Statement ร้านค้า">- Statement ร้านค้า</a>
+                <a href="#income-source" data-menu="แบบฟอร์มที่มารายได้">- แบบฟอร์มที่มารายได้</a>
+            </div>
+
+            <div class="mega-col">
+                <h4>บัญชีผู้ใช้ อายัด & ข้อตกลง</h4>
+                <div class="sub-tag">บัญชีผู้ใช้ อายัด</div>
+                <a href="#acc-pending" data-menu="รอพิจารณา">- รอพิจารณา</a>
+                <a href="#acc-unban" data-menu="ปลดระงับ">- ปลดระงับ</a>
+                <a href="#acc-permaban" data-menu="แบนถาวร">- แบนถาวร</a>
+                <a href="#acc-controllog" data-menu="คอลโทลล้อค (เก็บประวัติผิดปกติ)">- คอลโทลล้อค (เก็บประวัติผิดปกติ)</a>
+                <div class="sub-tag">ข้อตกลงระหว่างการใช้งาน</div>
+                <a href="#agree-tx" data-menu="ข้อตกลงการทำธุรกรรม">- ข้อตกลงการทำธุรกรรม</a>
+                <a href="#agree-order" data-menu="ข้อตกลงการสั่งซื้อ">- ข้อตกลงการสั่งซื้อ</a>
+                <a href="#agree-refund" data-menu="ข้อตกลงการคืนเงิน">- ข้อตกลงการคืนเงิน</a>
+                <a href="#agree-return" data-menu="ข้อตกลงการคืนสินค้า">- ข้อตกลงการคืนสินค้า</a>
+                <div class="sub-tag">เงื่อนไขการใช้บริการ</div>
+                <a href="#term-tx" data-menu="เงื่อนไขการทำธุรกรรม">- เงื่อนไขการทำธุรกรรม</a>
+                <a href="#term-use" data-menu="เงื่อนไขการใช้งาน">- เงื่อนไขการใช้งาน</a>
+                <a href="#term-reg" data-menu="เงื่อนไขการสมัคร">- เงื่อนไขการสมัคร</a>
+                <a href="#term-order" data-menu="เงื่อนไขการสั่งซื้อ">- เงื่อนไขการสั่งซื้อ</a>
+                <a href="#term-refund" data-menu="เงื่อนไขการคืนเงิน">- เงื่อนไขการคืนเงิน</a>
+                <a href="#term-return" data-menu="เงื่อนไขการคืนสินค้า">- เงื่อนไขการคืนสินค้า</a>
+            </div>
+
+            <div class="mega-col">
+                <h4>นโยบายความเป็นส่วนตัว & ติดต่อ</h4>
+                <div class="sub-tag">นโยบายความเป็นส่วนตัว</div>
+                <a href="#pol-privacy" data-menu="นโยบายความเป็นส่วนตัว">- นโยบายความเป็นส่วนตัว</a>
+                <a href="#pol-personal" data-menu="นโยบายข้อมูลส่วนตัว">- นโยบายข้อมูลส่วนตัว</a>
+                <a href="#pol-tx" data-menu="นโยบายข้อมูลธุรกรรม">- นโยบายข้อมูลธุรกรรม</a>
+                <a href="#pol-change" data-menu="นโยบายเปลี่ยนแปลงข้อมูล">- นโยบายเปลี่ยนแปลงข้อมูล</a>
+                <a href="#pol-close" data-menu="นโยบายการปิดบัญชี">- นโยบายการปิดบัญชี</a>
+                <div class="sub-tag">เงื่อนไขความเป็นส่วนตัว</div>
+                <a href="#cond-privacy" data-menu="เงื่อนไขความเป็นส่วนตัว">- เงื่อนไขความเป็นส่วนตัว</a>
+                <a href="#cond-personal" data-menu="เงื่อนไขข้อมูลส่วนตัว">- เงื่อนไขข้อมูลส่วนตัว</a>
+                <a href="#cond-tx" data-menu="เงื่อนไขข้อมูลธุรกรรม">- เงื่อนไขข้อมูลธุรกรรม</a>
+                <a href="#cond-change" data-menu="เงื่อนไขเปลี่ยนแปลงข้อมูล">- เงื่อนไขเปลี่ยนแปลงข้อมูล</a>
+                <a href="#cond-close" data-menu="เงื่อนไขการปิดบัญชี">- เงื่อนไขการปิดบัญชี</a>
+                <div class="sub-tag">ขอบเขตความรับผิดชอบ</div>
+                <a href="#resp-shop" data-menu="การรับผิดชอบสำหรับร้าน">- การรับผิดชอบสำหรับร้าน</a>
+                <a href="#resp-cust" data-menu="การรับผิดชอบสำหรับลูกค้า">- การรับผิดชอบสำหรับลูกค้า</a>
+                <div class="sub-tag">ช่องทางติดต่อ & ตั้งค่า</div>
+                <a href="#contact-line" data-menu="Line Official Account">- Line Official Account</a>
+                <a href="#contact-fb" data-menu="Facebook Page">- Facebook Page</a>
+                <a href="#contact-tg" data-menu="Telegram Bot">- Telegram Bot</a>
+                <a href="#contact-dc" data-menu="Discord Server">- Discord Server</a>
+                <a href="#contact-gmail" data-menu="Gmail Center">- Gmail Center</a>
+                <a href="#contact-tel" data-menu="Telephone">- Telephone</a>
+                <a href="#settings" data-menu="ตั้งค่าเว็บไซต์" style="color:#5eb0ff;margin-top:6px;">• ตั้งค่าเว็บไซต์</a>
+                <a href="#logout" data-menu="ออกจากระบบ" style="color:#ff6b85;">• ออกจากระบบ</a>
+            </div>
+        </div>
     </div>
 
 </header>
@@ -1203,7 +2091,7 @@ td {
                     <tr>
                         <td>
                             <div class="property">
-                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100">
+                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100" alt="Riverside Residences">
                                 Riverside Residences
                             </div>
                         </td>
@@ -1217,7 +2105,7 @@ td {
                     <tr>
                         <td>
                             <div class="property">
-                                <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=100">
+                                <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=100" alt="Metro Tower">
                                 Metro Tower
                             </div>
                         </td>
@@ -1231,7 +2119,7 @@ td {
                     <tr>
                         <td>
                             <div class="property">
-                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100">
+                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100" alt="Lakeside Retail">
                                 Lakeside Retail
                             </div>
                         </td>
@@ -1245,7 +2133,7 @@ td {
                     <tr>
                         <td>
                             <div class="property">
-                                <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=100">
+                                <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=100" alt="Harbor Logistics">
                                 Harbor Logistics
                             </div>
                         </td>
@@ -1259,7 +2147,7 @@ td {
                     <tr>
                         <td>
                             <div class="property">
-                                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=100">
+                                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=100" alt="Pinecrest Mixed-Use">
                                 Pinecrest Mixed-Use
                             </div>
                         </td>
@@ -1385,8 +2273,81 @@ td {
 </div>
 
 <script>
+/* ================= NAVIGATION & MENU INTERACTIONS ================= */
 
-/* PORTFOLIO PERFORMANCE CHART */
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileSidebar = document.getElementById('mobileSidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+const desktopMegaMenu = document.getElementById('desktopMegaMenu');
+
+function openMobileSidebar() {
+    mobileSidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileSidebar() {
+    mobileSidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// 3-Bar Button on Left:
+// - On Mobile/Tablet (<= 900px): opens Left Side Drawer
+// - On Desktop (> 900px): toggles the full Mega Menu below the top bar
+hamburgerBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (window.innerWidth <= 900) {
+        openMobileSidebar();
+    } else {
+        desktopMegaMenu.classList.toggle('show');
+    }
+});
+
+closeSidebarBtn.addEventListener('click', closeMobileSidebar);
+sidebarOverlay.addEventListener('click', closeMobileSidebar);
+
+// Close desktop mega menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!desktopMegaMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+        desktopMegaMenu.classList.remove('show');
+    }
+});
+
+// Mobile Sidebar Accordion Toggles
+document.querySelectorAll('.side-accordion > .side-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        parent.classList.toggle('open');
+    });
+});
+
+// Menu Item Click Feedback Toast
+const menuToast = document.getElementById('menuToast');
+const toastText = document.getElementById('toastText');
+let toastTimeout;
+
+function showMenuToast(label) {
+    toastText.textContent = `เปิดเมนู: ${label}`;
+    menuToast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        menuToast.classList.remove('show');
+    }, 2600);
+}
+
+document.querySelectorAll('[data-menu]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const menuName = link.getAttribute('data-menu');
+        showMenuToast(menuName);
+        closeMobileSidebar();
+        desktopMegaMenu.classList.remove('show');
+    });
+});
+
+/* ================= PORTFOLIO PERFORMANCE CHART ================= */
 
 const canvas = document.getElementById("performanceChart");
 const ctx = canvas.getContext("2d");
@@ -1403,7 +2364,6 @@ let currentType = "return";
 function drawChart() {
 
     const rect = canvas.getBoundingClientRect();
-
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = rect.width * dpr;
@@ -1430,12 +2390,10 @@ function drawChart() {
     ctx.clearRect(0,0,w,h);
 
     /* GRID */
-
     ctx.font = "9px Inter";
     ctx.fillStyle = "#a1b1c8";
 
     for(let i=0;i<=5;i++){
-
         const y = top + ch*i/5;
 
         ctx.strokeStyle = "#2a394e";
@@ -1453,57 +2411,39 @@ function drawChart() {
     }
 
     /* X LABEL */
-
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
     months.forEach((m,i)=>{
-
         const x = left + cw*i/11;
-
         ctx.fillStyle = "#9aaac0";
         ctx.fillText(m,x-8,h-7);
-
     });
 
     /* LINE */
-
     const points = data.map((v,i)=>({
-
         x:left + cw*i/(data.length-1),
-
         y:top + ch - ((v-min)/(max-min))*ch
-
     }));
 
     /* GRADIENT */
-
     const gradient = ctx.createLinearGradient(0,top,0,h);
-
     gradient.addColorStop(0,"rgba(20,125,255,.42)");
     gradient.addColorStop(1,"rgba(20,125,255,0)");
 
     ctx.beginPath();
-
     ctx.moveTo(points[0].x,h-bottom);
-
     points.forEach(p=>ctx.lineTo(p.x,p.y));
-
     ctx.lineTo(points[points.length-1].x,h-bottom);
-
     ctx.closePath();
 
     ctx.fillStyle=gradient;
     ctx.fill();
 
     /* LINE STROKE */
-
     ctx.beginPath();
-
     points.forEach((p,i)=>{
-
         if(i===0) ctx.moveTo(p.x,p.y);
         else ctx.lineTo(p.x,p.y);
-
     });
 
     ctx.strokeStyle="#35a3ff";
@@ -1512,7 +2452,6 @@ function drawChart() {
     ctx.stroke();
 
     /* LAST POINT */
-
     const last = points[points.length-1];
 
     ctx.beginPath();
@@ -1528,29 +2467,27 @@ function drawChart() {
 
     document.getElementById("mainReturn").textContent =
         data[data.length-1].toFixed(1)+"%";
-
 }
 
 document.querySelectorAll(".tab").forEach(tab=>{
-
     tab.addEventListener("click",()=>{
-
         document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-
         tab.classList.add("active");
-
         currentType=tab.dataset.type;
-
         drawChart();
-
     });
-
 });
 
-window.addEventListener("resize",drawChart);
+window.addEventListener("resize", () => {
+    drawChart();
+    if (window.innerWidth > 900) {
+        closeMobileSidebar();
+    } else {
+        desktopMegaMenu.classList.remove('show');
+    }
+});
 
 drawChart();
-
 </script>
 
 </body>
