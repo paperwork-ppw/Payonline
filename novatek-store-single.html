@@ -1120,6 +1120,235 @@
     }
     .detail-hero img { max-height: 145px; max-width: 100%; object-fit: contain; }
 
+    /* Bottom-Sliding Product Detail Sheet (Banner Header Style) */
+    .pd-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 15, 0.78);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      z-index: 62;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .pd-sheet-overlay.open { opacity: 1; pointer-events: auto; }
+    .pd-sheet-panel {
+      width: 100%;
+      max-width: 680px;
+      height: 92dvh;
+      max-height: 840px;
+      background: #0d121d;
+      color: #f5f7fb;
+      border: 1px solid #232d42;
+      border-bottom: 0;
+      border-radius: 22px 22px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.75);
+      position: relative;
+    }
+    .pd-sheet-overlay.open .pd-sheet-panel { transform: translateY(0); }
+    .pd-banner-header {
+      position: relative;
+      min-height: 220px;
+      padding: 18px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #10192b;
+    }
+    .pd-banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.95) contrast(1.08) saturate(1.25);
+      transform: scale(1.04);
+      z-index: 0;
+    }
+    .pd-graphic-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .pd-graphic-watermark {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-42%) rotate(-3deg);
+      font-size: clamp(46px, 11vw, 72px);
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: rgba(255, 255, 255, 0.28);
+      -webkit-text-stroke: 2px rgba(96, 165, 250, 0.45);
+      text-shadow: 0 8px 28px rgba(37, 99, 235, 0.35);
+      user-select: none;
+    }
+    .pd-banner-header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(95deg, rgba(9, 13, 22, 0.85) 0%, rgba(9, 13, 22, 0.48) 52%, rgba(9, 13, 22, 0.08) 100%),
+                  linear-gradient(180deg, rgba(9, 13, 22, 0.12) 0%, rgba(13, 18, 29, 0.88) 100%);
+      z-index: 1;
+    }
+    .pd-banner-top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .pd-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11.5px;
+      color: #a3b1c6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pd-breadcrumb span.current { color: #ffffff; font-weight: 700; }
+    .pd-sheet-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(15, 22, 36, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      font-size: 18px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      backdrop-filter: blur(6px);
+      transition: 0.2s;
+    }
+    .pd-sheet-close:hover { background: #2862f5; border-color: #2862f5; }
+    .pd-banner-main {
+      position: relative;
+      z-index: 2;
+      margin: 10px 0 12px;
+    }
+    .pd-cat-pill {
+      display: inline-block;
+      background: rgba(10, 14, 24, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #f8fafc;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .pd-identity-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pd-thumb-card {
+      width: 74px;
+      height: 74px;
+      border-radius: 16px;
+      border: 2px solid rgba(84, 123, 255, 0.55);
+      background: linear-gradient(145deg, #1a2438, #0f1522);
+      padding: 6px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    }
+    .pd-thumb-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .pd-identity-text { min-width: 0; flex: 1; }
+    .pd-identity-text h2 {
+      margin: 0 0 4px;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+    }
+    .pd-identity-text p {
+      margin: 0;
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .pd-trust-badges {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+    .pd-trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pd-trust-check {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 1.5px solid #22c55e;
+      color: #22c55e;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(34, 197, 94, 0.12);
+    }
+    .pd-sheet-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px 20px;
+    }
+    .pd-price-card {
+      background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
+      border: 1px solid #243049;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .pd-sheet-footer {
+      padding: 14px 20px 22px;
+      background: #0b0f18;
+      border-top: 1px solid #1e2638;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit matching reference images) */
     .bottom-sheet-overlay {
       position: fixed;
@@ -2069,6 +2298,11 @@
     <div class="product-page-card" id="productPageContent"></div>
   </section>
 
+  <!-- Bottom-Sliding Product Detail Sheet with Banner Header -->
+  <div class="pd-sheet-overlay" id="productSheetOverlay" role="dialog" aria-modal="true" aria-label="รายละเอียดสินค้า">
+    <div class="pd-sheet-panel" id="productSheetPanel"></div>
+  </div>
+
   <main id="storeMainContent">
     <!-- Auto-Sliding Hero Banner -->
     <section class="hero" id="heroSlider">
@@ -2438,6 +2672,7 @@
         closeMenu();
         closeCartDrawer();
         closeProductDrawer();
+        closeProductSheet();
         closeModal();
         closeWalletSheet();
         closePaymentGateway();
@@ -2733,6 +2968,7 @@
               สร้างเมื่อ ${createdAt} สิ้นสุด ${expiresAt}
             </div>
 
+            ${isQR ? '' : `
             <div>
               <label for="gwSlipInput" class="gw-upload-box" id="gwUploadBox">
                 <div style="font-size:22px;margin-bottom:4px;">📤</div>
@@ -2747,6 +2983,7 @@
                 <div style="font-size:12px;color:#64748b;">กรุณารอสักครู่ ระบบกำลังยืนยันยอดชำระเงินของคุณ</div>
               </div>
             </div>
+            `}
 
             <div class="gw-warning">อาร์คิวโค้ดและอื่นๆสามารถสแกนได้เพียงครั้งเดียวเท่านั้น</div>
             <hr class="gw-hr">
@@ -3155,10 +3392,11 @@
           <div class="breakdown-row discount">
             <span>ส่วนลดคูปอง (${appliedCoupon.code})</span>
             <span>-$${discountAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-          </div>` : ''}
+          </div>
+          ` : ''}
           <div class="breakdown-row">
             <span>ค่าจัดส่ง</span>
-            <span>${shippingFee === 0 ? 'ฟรี' : '$' + shippingFee.toFixed(2)}</span>
+            <span>${shippingFee === 0 ? '<span style="color:#4ade80;">ฟรี</span>' : `$${shippingFee.toFixed(2)}`}</span>
           </div>
           <div class="breakdown-row">
             <span>ภาษีมูลค่าเพิ่ม (VAT 7%)</span>
@@ -3188,18 +3426,18 @@
       showToast('ลบสินค้าออกจากตะกร้าแล้ว');
     };
 
-    window.checkoutCart = function(totalUsd) {
-      if (!totalUsd || totalUsd <= 0) {
-        return showToast('ไม่พบรายการสินค้าในตะกร้า');
-      }
-      openCheckoutChannelSheet(totalUsd);
+    window.checkoutCart = function(netTotal) {
+      if (!cartItems.length) return;
+      openCheckoutChannelSheet(Number(netTotal));
     };
 
-    // 6. Full-Page Product Detail View (Non-Popup)
+    // 6. Bottom-Sliding Product Detail Sheet with Banner Header
     const productDrawer = document.getElementById('productDrawer');
     const productBackdrop = document.getElementById('productBackdrop');
     const productPageView = document.getElementById('productPageView');
     const storeMainContent = document.getElementById('storeMainContent');
+    const productSheetOverlay = document.getElementById('productSheetOverlay');
+    const productSheetPanel = document.getElementById('productSheetPanel');
     let currentDetailQty = 1;
 
     function closeProductDrawer() {
@@ -3212,6 +3450,14 @@
       storeMainContent.style.display = 'block';
     }
 
+    function closeProductSheet() {
+      productSheetOverlay.classList.remove('open');
+    }
+
+    productSheetOverlay.addEventListener('click', e => {
+      if (e.target === productSheetOverlay) closeProductSheet();
+    });
+
     document.getElementById('backToShopBtn').addEventListener('click', closeProductPage);
     document.getElementById('productCloseBtn').addEventListener('click', closeProductDrawer);
     productBackdrop.addEventListener('click', closeProductDrawer);
@@ -3223,68 +3469,116 @@
       closeInlineSearch();
       currentDetailQty = 1;
 
-      document.getElementById('productPageContent').innerHTML = `
-        <div class="product-page-gallery">
-          <span class="badge blue" style="top:16px;left:16px;font-size:10px;padding:4px 10px;">Official Flagship</span>
-          <img src="${img}" alt="${name}">
-        </div>
-        <div class="product-page-info">
-          <div>
-            <span style="font-size:11px;letter-spacing:2px;color:#6c91ff;font-weight:700;text-transform:uppercase;">NOVATEK OFFICIAL STORE</span>
-            <h1 style="margin:6px 0 8px;font-size:clamp(24px,3vw,32px);font-weight:800;color:#fff;">${name}</h1>
-            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px;">
-              <strong style="font-size:26px;color:#4ade80;font-weight:800;">$${price.toLocaleString()}</strong>
-              <span style="font-size:12px;color:#94a3b8;">รวมภาษีมูลค่าเพิ่มแล้ว • ผ่อน 0% นาน 10 เดือน</span>
-            </div>
+      productSheetPanel.innerHTML = `
+        <div class="pd-banner-header">
+          <img src="${img}" alt="${name}" class="pd-banner-bg">
+          <div class="pd-graphic-overlay" aria-hidden="true">
+            <svg viewBox="0 0 680 240" width="100%" height="100%" preserveAspectRatio="none">
+              <defs>
+                <radialGradient id="pdGlowA" cx="75%" cy="30%" r="55%">
+                  <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.38"/>
+                  <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                </radialGradient>
+                <pattern id="pdGridPattern" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <path d="M 28 0 L 0 0 0 28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="680" height="240" fill="url(#pdGridPattern)"/>
+              <rect width="680" height="240" fill="url(#pdGlowA)"/>
+              <circle cx="570" cy="45" r="85" fill="none" stroke="rgba(147,197,253,0.18)" stroke-width="1.5"/>
+              <circle cx="570" cy="45" r="54" fill="none" stroke="rgba(96,165,250,0.22)" stroke-width="1.5" stroke-dasharray="6 6"/>
+              <path d="M410 240 L510 0 L545 0 L445 240 Z" fill="rgba(59,130,246,0.12)"/>
+              <path d="M475 240 L575 0 L592 0 L492 240 Z" fill="rgba(147,197,253,0.14)"/>
+            </svg>
+            <div class="pd-graphic-watermark">${name}</div>
+          </div>
+          <div class="pd-banner-top">
+            <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+              <span>หน้าหลัก</span>
+              <span>›</span>
+              <span>สินค้า</span>
+              <span>›</span>
+              <span class="current">${name}</span>
+            </nav>
+            <button type="button" class="pd-sheet-close" onclick="closeProductSheet()" aria-label="ปิดหน้าต่าง">×</button>
+          </div>
 
-            <div class="product-tabs-nav">
-              <button type="button" class="p-tab-btn active" onclick="switchProductTab(this, 'tab-overview')">รายละเอียดสินค้า</button>
-              <button type="button" class="p-tab-btn" onclick="switchProductTab(this, 'tab-specs')">สเปกทางเทคนิค</button>
-              <button type="button" class="p-tab-btn" onclick="switchProductTab(this, 'tab-warranty')">การรับประกัน & จัดส่ง</button>
-            </div>
-
-            <div class="p-tab-panel active" id="tab-overview">
-              <p style="margin:0 0 12px;">${desc}</p>
-              <ul style="margin:0;padding-left:18px;color:#9fb0cc;line-height:1.8;">
-                <li>วัสดุเกรดพรีเมียม ออกแบบตามหลักสรีรศาสตร์ ใช้งานได้ยาวนาน</li>
-                <li>รองรับการเชื่อมต่อไร้สายความเร็วสูงและระบบชาร์จไวอัจฉริยะ</li>
-                <li>สินค้าของแท้ 100% พร้อมซีเรียลนัมเบอร์ตรวจสอบได้</li>
-              </ul>
-            </div>
-
-            <div class="p-tab-panel" id="tab-specs">
-              <div class="product-spec-list">
-                <div class="spec-item"><span>แบรนด์ / รุ่น</span><strong>NOVATEK — ${name}</strong></div>
-                <div class="spec-item"><span>การเชื่อมต่อ</span><strong>Bluetooth 5.4 / Wi-Fi 6E / USB-C</strong></div>
-                <div class="spec-item"><span>มาตรฐานกันน้ำกันฝุ่น</span><strong>IP68 Certified</strong></div>
-                <div class="spec-item"><span>อุปกรณ์ภายในกล่อง</span><strong>ตัวเครื่อง, สายชาร์จ USB-C, คู่มือการใช้งาน</strong></div>
+          <div class="pd-banner-main">
+            <span class="pd-cat-pill">สินค้าแนะนำ • พร้อมจัดส่ง</span>
+            <div class="pd-identity-row">
+              <div class="pd-thumb-card">
+                <img src="${img}" alt="${name}">
               </div>
-            </div>
-
-            <div class="p-tab-panel" id="tab-warranty">
-              <div class="product-spec-list">
-                <div class="spec-item"><span>การรับประกันศูนย์</span><strong style="color:#4ade80;">รับประกันศูนย์ NOVATEK 1 ปีเต็ม</strong></div>
-                <div class="spec-item"><span>นโยบายเปลี่ยนคืน</span><strong>เปลี่ยนเครื่องใหม่ภายใน 7 วันหากพบปัญหา</strong></div>
-                <div class="spec-item"><span>การจัดส่ง</span><strong>จัดส่งด่วนพิเศษ 1-2 วันทำการ (ฟรีเมื่อช้อปครบ $500)</strong></div>
+              <div class="pd-identity-text">
+                <h2>${name}</h2>
+                <p>${desc} รับประกันของแท้ 100% เชื่อมต่อระบบจัดส่งอัตโนมัติรวดเร็วทันใจ</p>
               </div>
             </div>
           </div>
 
-          <div class="product-page-actions">
-            <div class="qty-controls" style="height:44px;padding:0 12px;margin-top:0;border-radius:12px;">
+          <div class="pd-trust-badges">
+            <div class="pd-trust-item"><span class="pd-trust-check">✓</span><span>ออนไลน์ 24/7</span></div>
+            <div class="pd-trust-item"><span class="pd-trust-check">✓</span><span>จ่ายได้หลายช่องทาง</span></div>
+            <div class="pd-trust-item"><span class="pd-trust-check">✓</span><span>มีทีมงานคอยช่วย</span></div>
+          </div>
+        </div>
+
+        <div class="pd-sheet-body">
+          <div class="pd-price-card">
+            <div>
+              <div style="font-size:11px;color:#8fa3cc;margin-bottom:2px;">ราคาจำหน่ายพิเศษ</div>
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <strong style="font-size:24px;color:#4ade80;font-weight:800;">$${price.toLocaleString()}</strong>
+                <span style="font-size:11px;color:#94a3b8;">(≈ ฿${(price * 34).toLocaleString()})</span>
+              </div>
+            </div>
+            <div class="qty-controls" style="height:38px;padding:0 10px;margin-top:0;border-radius:10px;">
               <button type="button" class="qty-btn" onclick="updateDetailPageQty(-1)" aria-label="ลดจำนวน">−</button>
-              <span class="qty-val" id="detailPageQtyVal" style="min-width:22px;font-size:14px;">1</span>
+              <span class="qty-val" id="detailPageQtyVal" style="min-width:20px;font-size:13px;">1</span>
               <button type="button" class="qty-btn" onclick="updateDetailPageQty(1)" aria-label="เพิ่มจำนวน">+</button>
             </div>
-            <button type="button" class="preset-btn" style="height:44px;padding:0 18px;flex:1;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', false)">+ เพิ่มลงตะกร้า</button>
-            <button type="button" class="modal-submit" style="flex:1.3;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', true)">ซื้อเลยตอนนี้</button>
           </div>
+
+          <div class="product-tabs-nav" style="margin-top:4px;">
+            <button type="button" class="p-tab-btn active" onclick="switchProductTab(this, 'tab-overview')">รายละเอียดสินค้า</button>
+            <button type="button" class="p-tab-btn" onclick="switchProductTab(this, 'tab-specs')">สเปกทางเทคนิค</button>
+            <button type="button" class="p-tab-btn" onclick="switchProductTab(this, 'tab-warranty')">การรับประกัน</button>
+          </div>
+
+          <div class="p-tab-panel active" id="tab-overview">
+            <p style="margin:0 0 10px;font-size:12.5px;">${desc}</p>
+            <ul style="margin:0;padding-left:18px;color:#9fb0cc;font-size:12px;line-height:1.8;">
+              <li>วัสดุเกรดพรีเมียม ออกแบบตามหลักสรีรศาสตร์ ใช้งานได้ยาวนาน</li>
+              <li>รองรับการเชื่อมต่อไร้สายความเร็วสูงและระบบชาร์จไวอัจฉริยะ</li>
+              <li>สินค้าของแท้ 100% พร้อมซีเรียลนัมเบอร์ตรวจสอบได้</li>
+            </ul>
+          </div>
+
+          <div class="p-tab-panel" id="tab-specs">
+            <div class="product-spec-list">
+              <div class="spec-item"><span>แบรนด์ / รุ่น</span><strong>NOVATEK — ${name}</strong></div>
+              <div class="spec-item"><span>การเชื่อมต่อ</span><strong>Bluetooth 5.4 / Wi-Fi 6E / USB-C</strong></div>
+              <div class="spec-item"><span>มาตรฐานกันน้ำกันฝุ่น</span><strong>IP68 Certified</strong></div>
+              <div class="spec-item"><span>อุปกรณ์ภายในกล่อง</span><strong>ตัวเครื่อง, สายชาร์จ USB-C, คู่มือการใช้งาน</strong></div>
+            </div>
+          </div>
+
+          <div class="p-tab-panel" id="tab-warranty">
+            <div class="product-spec-list">
+              <div class="spec-item"><span>การรับประกันศูนย์</span><strong style="color:#4ade80;">รับประกันศูนย์ NOVATEK 1 ปีเต็ม</strong></div>
+              <div class="spec-item"><span>นโยบายเปลี่ยนคืน</span><strong>เปลี่ยนเครื่องใหม่ภายใน 7 วันหากพบปัญหา</strong></div>
+              <div class="spec-item"><span>การจัดส่ง</span><strong>จัดส่งด่วนพิเศษ 1-2 วันทำการ (ฟรีเมื่อช้อปครบ $500)</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pd-sheet-footer">
+          <button type="button" class="preset-btn" style="height:44px;padding:0 16px;flex:1;font-size:13px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', false)">+ เพิ่มลงตะกร้า</button>
+          <button type="button" class="modal-submit" style="flex:1.25;font-size:13.5px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', true)">ชำระเงินเลย</button>
         </div>
       `;
 
-      storeMainContent.style.display = 'none';
-      productPageView.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      productSheetOverlay.classList.add('open');
     };
 
     window.switchProductTab = function(btn, panelId) {
@@ -3301,13 +3595,17 @@
       if (valEl) valEl.textContent = currentDetailQty;
     };
 
-    window.confirmDetailAddCart = function(name, price, img, goCart) {
+    window.confirmDetailAddCart = function(name, price, img, goCheckout) {
       for (let i = 0; i < currentDetailQty; i++) {
         addItemToCart(name, price, img);
       }
-      if (goCart) {
-        closeProductPage();
-        openCartDrawer();
+      closeProductSheet();
+      if (goCheckout) {
+        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const shippingFee = subtotal >= 500 ? 0 : 15;
+        const vatAmount = subtotal * 0.07;
+        const netTotal = subtotal + shippingFee + vatAmount;
+        openCheckoutChannelSheet(Number(netTotal.toFixed(2)));
       } else {
         showToast(`เพิ่ม ${name} (${currentDetailQty} ชิ้น) ลงตะกร้าแล้ว`);
       }
