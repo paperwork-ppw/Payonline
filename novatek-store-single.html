@@ -2,27 +2,52 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#080b12">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
   <title>NOVATEK — Technology for Life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      /* โทนสี น้ำเงินเทา / เทาขาวฟ้า / ขาวแดง */
+      --bg-main: #0f172a;          /* น้ำเงินเทาเข้ม */
+      --bg-surface: #1e293b;       /* น้ำเงินเทากลาง */
+      --bg-surface-alt: #334155;   /* เทาอมฟ้า */
+      --border-slate: #334155;     /* เส้นขอบน้ำเงินเทา */
+      --text-white: #f8fafc;       /* ขาวสว่าง */
+      --text-grey-blue: #cbd5e1;   /* เทาขาวฟ้า */
+      --text-muted: #94a3b8;       /* เทาอ่อน */
+      --accent-blue: #3b82f6;      /* ฟ้าสดใส */
+      --accent-sky: #60a5fa;       /* ฟ้าอ่อน */
+      --accent-red: #ef4444;       /* แดงสด */
+      --accent-red-dark: #dc2626;  /* แดงเข้ม */
+    }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: #080b12;
-      color: #f5f7fb;
+      background: linear-gradient(180deg, #0f172a 0%, #162033 100%);
+      color: var(--text-white);
       font-family: 'Inter', 'Prompt', Arial, sans-serif;
       font-size: 14px;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    /* Topbar & Left Hamburger Navigation */
+    /* Header & Navigation Wrapper (โทนน้ำเงินเทา-ขาวฟ้า-ขาวแดง) */
+    .site-header {
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #283548;
+      position: sticky;
+      top: 0;
+      z-index: 35;
+    }
+
     .topbar {
-      height: 52px;
+      height: 58px;
       max-width: 1440px;
       margin: auto;
       padding: 0 4.5%;
@@ -35,26 +60,220 @@
     .head-left {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 8px;
       text-decoration: none;
-      color: #f7f8fb;
-      font-size: 11px;
-      font-weight: 700;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
       letter-spacing: 3.5px;
     }
     .brand-mark {
-      font-size: 21px;
+      font-size: 22px;
       font-weight: 800;
       letter-spacing: -4px;
-      color: #547bff;
+      color: var(--accent-sky);
       transform: skewY(-8deg);
       margin-right: 5px;
+      text-shadow: 0 0 14px rgba(59, 130, 246, 0.5);
     }
+
+    /* PC Top Wallet Quick Bar (แสดงข้างเมนูบน PC) */
+    .pc-wallet-bar {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 4px 6px 4px 14px;
+    }
+    .pc-wallet-bal {
+      font-size: 12px;
+      color: var(--text-grey-blue);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pc-wallet-bal strong {
+      color: #60a5fa;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .pc-w-btn {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 20px;
+      border: 0;
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: 0.2s;
+    }
+    .pc-w-btn.deposit {
+      background: #3b82f6;
+      color: #ffffff;
+    }
+    .pc-w-btn.deposit:hover { background: #2563eb; }
+    .pc-w-btn.withdraw {
+      background: #ffffff;
+      color: #dc2626;
+    }
+    .pc-w-btn.withdraw:hover { background: #fee2e2; }
+
+    /* PC Desktop Top Menu Bar (แถบเมนูด้านบนสำหรับ PC) */
+    .pc-navbar {
+      display: none;
+      background: linear-gradient(90deg, #1e293b 0%, #263349 50%, #1e293b 100%);
+      border-top: 1px solid #334155;
+    }
+    .pc-navbar-inner {
+      max-width: 1440px;
+      margin: auto;
+      padding: 0 4.5%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+    .pc-nav-item {
+      position: relative;
+    }
+    .pc-nav-link {
+      background: transparent;
+      border: 0;
+      color: #e2e8f0;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 10px 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.18s ease;
+    }
+    .pc-nav-link:hover,
+    .pc-nav-item:hover > .pc-nav-link {
+      color: #ffffff;
+      background: rgba(59, 130, 246, 0.14);
+      border-bottom-color: #60a5fa;
+    }
+    .pc-nav-link.logout-link {
+      color: #fca5a5;
+    }
+    .pc-nav-link.logout-link:hover {
+      background: rgba(239, 68, 68, 0.16);
+      border-bottom-color: #ef4444;
+      color: #ffffff;
+    }
+    .pc-nav-link svg.caret {
+      width: 12px;
+      height: 12px;
+      stroke: #94a3b8;
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.2s;
+    }
+    .pc-nav-item:hover > .pc-nav-link svg.caret {
+      transform: rotate(180deg);
+      stroke: #60a5fa;
+    }
+
+    /* PC Dropdown & Multi-Level Nested Submenu */
+    .pc-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 235px;
+      background: #1e293b;
+      border: 1px solid #3b4b64;
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 18px 40px rgba(2, 6, 23, 0.72);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 50;
+    }
+    .pc-nav-item:hover > .pc-dropdown,
+    .pc-nav-item.open > .pc-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .pc-nav-item.align-right > .pc-dropdown {
+      left: auto;
+      right: 0;
+    }
+    .pc-drop-btn {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: #e2e8f0;
+      font-family: inherit;
+      font-size: 12px;
+      padding: 8px 11px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .pc-drop-btn:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+    .pc-sub-group {
+      position: relative;
+    }
+    .pc-sub-dropdown {
+      position: absolute;
+      top: -4px;
+      left: calc(100% + 4px);
+      min-width: 225px;
+      background: #1e293b;
+      border: 1px solid #3b4b64;
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 18px 40px rgba(2, 6, 23, 0.75);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(6px);
+      transition: all 0.2s ease;
+      z-index: 55;
+    }
+    .pc-nav-item.align-right .pc-sub-dropdown {
+      left: auto;
+      right: calc(100% + 4px);
+      transform: translateX(-6px);
+    }
+    .pc-sub-group:hover > .pc-sub-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    @media (min-width: 992px) {
+      .menu-open { display: none !important; }
+      .pc-navbar { display: block; }
+      .pc-wallet-bar { display: flex; }
+    }
+
     .head-actions {
       display: flex;
       align-items: center;
@@ -73,18 +292,18 @@
       width: 0;
       opacity: 0;
       overflow: hidden;
-      background: #121826;
+      background: #1e293b;
       border: 1px solid transparent;
       border-radius: 20px;
-      height: 30px;
+      height: 32px;
       margin-right: 0;
       transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease, margin-right 0.3s ease, border-color 0.25s ease;
     }
     .search-bar-wrap.active .inline-search-box {
-      width: min(230px, 42vw);
+      width: min(240px, 42vw);
       opacity: 1;
       margin-right: 6px;
-      border-color: #36476b;
+      border-color: #475569;
       padding: 0 8px 0 12px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
     }
@@ -92,20 +311,20 @@
       width: 100%;
       background: transparent;
       border: 0;
-      color: #f5f7fb;
+      color: #f8fafc;
       font-family: inherit;
       font-size: 16px;
-      transform: scale(0.78);
+      transform: scale(0.8);
       transform-origin: left center;
       outline: none;
     }
     .inline-search-box input::placeholder {
-      color: #7c89a3;
+      color: #94a3b8;
     }
     .inline-search-clear {
       background: none;
       border: 0;
-      color: #8592a6;
+      color: #94a3b8;
       font-size: 15px;
       cursor: pointer;
       padding: 0 2px;
@@ -117,15 +336,15 @@
       top: 42px;
       right: 0;
       width: min(310px, 82vw);
-      background: #121826;
-      border: 1px solid #2b364e;
+      background: #1e293b;
+      border: 1px solid #334155;
       border-radius: 14px;
       padding: 8px;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
       display: none;
       flex-direction: column;
       gap: 6px;
-      z-index: 30;
+      z-index: 45;
     }
     .search-dropdown.show { display: flex; }
     .search-result-item {
@@ -137,40 +356,40 @@
       cursor: pointer;
       transition: background 0.18s;
     }
-    .search-result-item:hover { background: #1a2336; }
+    .search-result-item:hover { background: #334155; }
     .search-result-item img {
       width: 36px;
       height: 36px;
       object-fit: contain;
-      background: #0b0f18;
+      background: #0f172a;
       border-radius: 8px;
       padding: 3px;
     }
     .search-result-meta { flex: 1; min-width: 0; }
     .search-result-meta strong { display: block; font-size: 12px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .search-result-meta span { font-size: 11px; color: #6c91ff; font-weight: 600; }
+    .search-result-meta span { font-size: 11px; color: #60a5fa; font-weight: 600; }
 
     .icon-btn {
       position: relative;
       background: none;
       border: 0;
       padding: 0;
-      color: #f4f5f9;
+      color: #f8fafc;
       cursor: pointer;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: transform 0.2s, color 0.2s;
     }
-    .icon-btn:hover { color: #6c91ff; transform: scale(1.06); }
+    .icon-btn:hover { color: #60a5fa; transform: scale(1.06); }
     .icon-btn svg {
-      width: 16px;
-      height: 16px;
+      width: 17px;
+      height: 17px;
       fill: none;
       stroke: currentColor;
-      stroke-width: 1.6;
+      stroke-width: 1.7;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
@@ -178,23 +397,24 @@
       position: absolute;
       right: -7px;
       top: -6px;
-      background: #3266ff;
+      background: #ef4444;
       color: #fff;
       font-size: 8.5px;
       font-style: normal;
       border-radius: 20px;
-      min-width: 14px;
-      height: 14px;
+      min-width: 15px;
+      height: 15px;
       display: grid;
       place-items: center;
       font-weight: 700;
+      border: 1px solid #ffffff;
     }
 
-    /* Left Side Drawer */
+    /* Mobile Left Side Drawer (โทนน้ำเงินเทา-ขาวฟ้า-ขาวแดง) */
     .menu-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 7, 14, 0.72);
+      background: rgba(15, 23, 42, 0.72);
       backdrop-filter: blur(4px);
       opacity: 0;
       pointer-events: none;
@@ -206,10 +426,10 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: min(310px, 85vw);
+      width: min(315px, 86vw);
       height: 100dvh;
-      background: #0f1420;
-      border-right: 1px solid #242b3a;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-right: 1px solid #334155;
       padding: 16px 16px 20px;
       display: flex;
       flex-direction: column;
@@ -225,13 +445,13 @@
       align-items: center;
       justify-content: space-between;
       padding-bottom: 10px;
-      border-bottom: 1px solid #1f2634;
+      border-bottom: 1px solid #334155;
     }
-    .drawer-title { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #f5f7fb; }
+    .drawer-title { font-size: 12px; font-weight: 800; letter-spacing: 3px; color: #f8fafc; }
     .drawer-close {
-      background: #181f2e;
-      border: 1px solid #2a3346;
-      color: #f5f7fb;
+      background: #334155;
+      border: 1px solid #475569;
+      color: #ffffff;
       width: 28px;
       height: 28px;
       border-radius: 50%;
@@ -242,8 +462,8 @@
       line-height: 1;
     }
     .wallet-card {
-      background: linear-gradient(135deg, #162238 0%, #101726 100%);
-      border: 1px solid #25334d;
+      background: linear-gradient(135deg, #27364f 0%, #172033 100%);
+      border: 1px solid #3b4d6b;
       border-radius: 12px;
       padding: 12px;
     }
@@ -253,8 +473,8 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .wallet-balance-row span { font-size: 11px; color: #94a3b8; }
-    .wallet-balance-row strong { font-size: 15px; color: #4ade80; font-weight: 700; }
+    .wallet-balance-row span { font-size: 11px; color: #cbd5e1; }
+    .wallet-balance-row strong { font-size: 15px; color: #60a5fa; font-weight: 700; }
     .wallet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .wallet-btn {
       height: 36px;
@@ -262,7 +482,7 @@
       border: 1px solid transparent;
       font-family: inherit;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -270,18 +490,18 @@
       gap: 6px;
     }
     .wallet-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; }
-    .btn-deposit { background: #2862f5; color: #fff; }
-    .btn-withdraw { background: #182030; color: #e8ecf5; border-color: #2c364b; }
+    .btn-deposit { background: #3b82f6; color: #ffffff; }
+    .btn-withdraw { background: #ffffff; color: #dc2626; border-color: #fecaca; }
     .drawer-list { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; padding-right: 2px; }
     .drawer-list::-webkit-scrollbar { width: 4px; }
-    .drawer-list::-webkit-scrollbar-thumb { background: #263147; border-radius: 4px; }
+    .drawer-list::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     .drawer-item {
       display: flex;
       align-items: center;
       gap: 11px;
       padding: 10px 12px;
       border-radius: 10px;
-      color: #e8eaf0;
+      color: #f1f5f9;
       text-decoration: none;
       font-size: 12.5px;
       font-weight: 500;
@@ -293,12 +513,12 @@
       font-family: inherit;
       transition: background 0.18s, transform 0.18s;
     }
-    .drawer-item:hover { background: #171e2d; }
+    .drawer-item:hover { background: #293548; }
     .drawer-item svg {
       width: 16px;
       height: 16px;
       fill: none;
-      stroke: #6c91ff;
+      stroke: #60a5fa;
       stroke-width: 1.7;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -308,17 +528,17 @@
     .drawer-chevron {
       width: 14px !important;
       height: 14px !important;
-      stroke: #7c89a3 !important;
+      stroke: #94a3b8 !important;
       transition: transform 0.25s ease;
     }
-    .drawer-group.open > .drawer-item .drawer-chevron { transform: rotate(180deg); stroke: #6c91ff !important; }
-    .drawer-group.open > .drawer-item { background: #151c2b; color: #ffffff; font-weight: 600; }
+    .drawer-group.open > .drawer-item .drawer-chevron { transform: rotate(180deg); stroke: #60a5fa !important; }
+    .drawer-group.open > .drawer-item { background: #273549; color: #ffffff; font-weight: 600; }
     .drawer-submenu {
       display: none;
       flex-direction: column;
       gap: 2px;
       padding: 4px 0 6px 26px;
-      border-left: 1.5px solid #243049;
+      border-left: 1.5px solid #3b82f6;
       margin-left: 19px;
       margin-top: 2px;
     }
@@ -329,7 +549,7 @@
       gap: 8px;
       padding: 7px 10px;
       border-radius: 8px;
-      color: #b4bfd4;
+      color: #cbd5e1;
       text-decoration: none;
       font-size: 11.5px;
       line-height: 1.35;
@@ -341,13 +561,13 @@
       font-family: inherit;
       transition: background 0.16s, color 0.16s;
     }
-    .drawer-subitem:hover { background: #182133; color: #ffffff; }
+    .drawer-subitem:hover { background: #334155; color: #ffffff; }
     .drawer-subitem::before {
       content: "";
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: #4b6cb7;
+      background: #60a5fa;
       flex-shrink: 0;
     }
     .drawer-nested-group { display: flex; flex-direction: column; }
@@ -357,7 +577,7 @@
       justify-content: space-between;
       padding: 7px 10px;
       border-radius: 8px;
-      color: #cbd5e1;
+      color: #e2e8f0;
       font-size: 11.5px;
       font-weight: 600;
       background: transparent;
@@ -367,63 +587,19 @@
       font-family: inherit;
       cursor: pointer;
     }
-    .drawer-nested-toggle:hover { background: #182133; color: #fff; }
+    .drawer-nested-toggle:hover { background: #334155; color: #fff; }
     .drawer-nested-list {
       display: none;
       flex-direction: column;
       gap: 2px;
       padding-left: 12px;
-      border-left: 1px dashed #2e3c59;
+      border-left: 1px dashed #475569;
       margin-left: 8px;
       margin-top: 2px;
     }
     .drawer-nested-group.open > .drawer-nested-list { display: flex; }
     .drawer-nested-group.open > .drawer-nested-toggle .drawer-chevron { transform: rotate(180deg); }
-    .drawer-divider-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #64748b;
-      padding: 10px 12px 4px;
-      text-transform: uppercase;
-    }
 
-    /* Mobile-Only Restriction Overlay */
-    .mobile-lock-screen {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #13213d 0%, #070a12 75%);
-      z-index: 99999;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
-      text-align: center;
-      color: #f8fafc;
-    }
-    .mobile-lock-screen.blocked { display: flex; }
-    .lock-icon-box {
-      width: 72px;
-      height: 72px;
-      border-radius: 20px;
-      background: rgba(239, 68, 68, 0.14);
-      border: 1.5px solid rgba(239, 68, 68, 0.45);
-      color: #f87171;
-      display: grid;
-      place-items: center;
-      margin-bottom: 20px;
-      box-shadow: 0 12px 32px rgba(239, 68, 68, 0.22);
-    }
-    .lock-icon-box svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 2; }
-    .mobile-lock-card {
-      max-width: 420px;
-      background: rgba(17, 24, 39, 0.88);
-      border: 1px solid #26324a;
-      border-radius: 22px;
-      padding: 28px 24px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
-    }
     .drawer-logout {
       margin-top: auto;
       display: flex;
@@ -432,16 +608,16 @@
       gap: 8px;
       height: 40px;
       border-radius: 10px;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.32);
-      color: #ff7b7b;
+      background: #ffffff;
+      border: 1px solid #fecaca;
+      color: #dc2626;
       font-family: inherit;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: background 0.2s;
     }
-    .drawer-logout:hover { background: rgba(239, 68, 68, 0.2); }
+    .drawer-logout:hover { background: #fee2e2; }
     .drawer-logout svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
     /* Auto-Sliding Hero Banner */
@@ -465,7 +641,7 @@
       visibility: hidden;
       transform: scale(1.02);
       transition: opacity 0.65s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.65s;
-      background: radial-gradient(ellipse at 68% 55%, var(--glow-color, #152b58) 0, rgba(10, 20, 42, 0.55) 27%, transparent 60%);
+      background: radial-gradient(ellipse at 68% 55%, var(--glow-color, #1e3a8a) 0, rgba(15, 23, 42, 0.65) 27%, transparent 60%);
     }
     .hero-slide.active {
       opacity: 1;
@@ -477,7 +653,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(8, 11, 18, 0.92) 0%, rgba(8, 11, 18, 0.68) 46%, rgba(8, 11, 18, 0.15) 100%);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.72) 48%, rgba(15, 23, 42, 0.18) 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -485,7 +661,7 @@
     .eyebrow {
       font-size: 9px;
       letter-spacing: 2.5px;
-      color: #6c91ff;
+      color: #60a5fa;
       font-weight: 700;
       margin: 0 0 14px;
       text-transform: uppercase;
@@ -496,9 +672,10 @@
       letter-spacing: -1.8px;
       margin: 0 0 14px;
       font-weight: 800;
+      color: #ffffff;
     }
     .hero-desc {
-      color: #b8bdc9;
+      color: #cbd5e1;
       line-height: 1.55;
       font-size: 13px;
       margin: 0 0 22px;
@@ -508,8 +685,8 @@
       height: 38px;
       padding: 0 20px;
       border-radius: 30px;
-      background: #2862f5;
-      color: white;
+      background: #3b82f6;
+      color: #ffffff;
       text-decoration: none;
       border: 0;
       cursor: pointer;
@@ -519,13 +696,13 @@
       font-family: inherit;
       font-size: 11px;
       font-weight: 600;
-      box-shadow: 0 5px 20px #174bd655;
+      box-shadow: 0 5px 20px rgba(59, 130, 246, 0.38);
       transition: transform 0.2s, background 0.2s;
     }
-    .btn-primary:hover { background: #3b72ff; transform: translateY(-1px); }
+    .btn-primary:hover { background: #2563eb; transform: translateY(-1px); }
     .btn-primary span { font-size: 18px; line-height: 0; }
     .text-link {
-      color: #f4f5fa;
+      color: #f8fafc;
       text-decoration: none;
       font-size: 11px;
       font-weight: 500;
@@ -537,7 +714,7 @@
       padding: 0;
       font-family: inherit;
     }
-    .text-link:hover { color: #6c91ff; }
+    .text-link:hover { color: #60a5fa; }
     .text-link span { font-size: 18px; margin-left: 6px; }
     .hero-product {
       position: absolute;
@@ -550,9 +727,7 @@
       transition: transform 6s ease;
     }
     .hero-slide.active .hero-product { transform: scale(1.04); }
-    .platform {
-      display: none;
-    }
+    .platform { display: none; }
 
     /* Slider Controls & Dots */
     .hero-dots {
@@ -569,15 +744,15 @@
       height: 8px;
       border-radius: 20px;
       border: 0;
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.3);
       padding: 0;
       cursor: pointer;
       transition: width 0.3s ease, background 0.3s ease;
     }
     .hero-dot.active {
       width: 24px;
-      background: #4e80ff;
-      box-shadow: 0 0 10px rgba(78, 128, 255, 0.7);
+      background: #60a5fa;
+      box-shadow: 0 0 10px rgba(96, 165, 250, 0.7);
     }
     .hero-arrows {
       position: absolute;
@@ -591,52 +766,53 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(20, 26, 38, 0.75);
-      border: 1px solid #2b3447;
-      color: #e8ecf5;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #475569;
+      color: #f8fafc;
       display: grid;
       place-items: center;
       cursor: pointer;
       backdrop-filter: blur(4px);
       transition: 0.2s;
     }
-    .hero-arrow:hover { background: #2862f5; border-color: #2862f5; }
+    .hero-arrow:hover { background: #3b82f6; border-color: #3b82f6; }
     .hero-arrow svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* Benefits Bar */
+    /* Benefits Bar (โทนเทาขาวฟ้า) */
     .benefits {
       max-width: 1350px;
       margin: -1px auto 30px;
       width: 91%;
       min-height: 88px;
-      border: 1px solid #252a35;
+      border: 1px solid #334155;
       border-radius: 12px;
-      background: #141820eF;
+      background: rgba(30, 41, 59, 0.94);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       position: relative;
       z-index: 6;
       padding: 15px 0;
+      box-shadow: 0 12px 28px rgba(2, 6, 23, 0.35);
     }
     .benefit {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-right: 1px solid #303541;
+      border-right: 1px solid #334155;
       gap: 3px;
     }
     .benefit:last-child { border: 0; }
-    .line-icon { color: #5884ff; height: 26px; display: grid; place-items: center; }
+    .line-icon { color: #60a5fa; height: 26px; display: grid; place-items: center; }
     .line-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-    .benefit strong { font-size: 11px; font-weight: 600; }
-    .benefit small { font-size: 9px; color: #9ba2b0; }
+    .benefit strong { font-size: 11px; font-weight: 600; color: #f8fafc; }
+    .benefit small { font-size: 9px; color: #cbd5e1; }
 
     /* Sections & Cards */
     .section { max-width: 1350px; width: 91%; margin: 0 auto 34px; }
     .section-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
-    .section-heading h2 { font-size: 14px; margin: 0; font-weight: 600; }
-    .section-heading a { color: #e8eaf0; text-decoration: none; font-size: 10px; }
+    .section-heading h2 { font-size: 14px; margin: 0; font-weight: 700; color: #f8fafc; }
+    .section-heading a { color: #93c5fd; text-decoration: none; font-size: 10.5px; font-weight: 600; }
     .section-heading a span { font-size: 16px; margin-left: 8px; }
 
     .category-grid { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; scrollbar-width: none; }
@@ -645,11 +821,11 @@
       flex: 0 0 calc((100% - 40px) / 6);
       min-width: 0;
       height: 136px;
-      background: linear-gradient(145deg, #171c26, #11151d);
-      border: 1px solid #242a35;
+      background: linear-gradient(145deg, #1e293b, #151e2e);
+      border: 1px solid #334155;
       border-radius: 9px;
       text-decoration: none;
-      color: #f3f5fa;
+      color: #f8fafc;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -659,9 +835,9 @@
       scroll-snap-align: start;
       transition: border-color 0.2s, transform 0.2s;
     }
-    .category-card:hover { border-color: #4669c9; transform: translateY(-2px); }
+    .category-card:hover { border-color: #60a5fa; transform: translateY(-2px); }
     .category-card img { width: 100%; height: 91px; object-fit: contain; mix-blend-mode: screen; }
-    .category-card span { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .category-card span { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; font-weight: 500; }
 
     .product-grid { display: flex; gap: 9px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; scrollbar-width: none; }
     .product-grid::-webkit-scrollbar { display: none; }
@@ -670,9 +846,9 @@
       min-width: 0;
       position: relative;
       height: 205px;
-      border: 1px solid #252b36;
+      border: 1px solid #334155;
       border-radius: 10px;
-      background: linear-gradient(145deg, #1a1f29, #11151d);
+      background: linear-gradient(145deg, #1e293b, #141c2b);
       overflow: hidden;
       padding: 10px;
       display: flex;
@@ -682,17 +858,17 @@
       cursor: pointer;
       transition: border-color 0.2s, transform 0.2s;
     }
-    .product-card:hover { border-color: #4669c9; transform: translateY(-2px); }
+    .product-card:hover { border-color: #60a5fa; transform: translateY(-2px); }
     .product-card > img { position: absolute; inset: 9px 7px 48px; width: calc(100% - 14px); height: calc(100% - 57px); object-fit: contain; mix-blend-mode: screen; }
-    .badge { position: absolute; z-index: 2; top: 12px; left: 10px; padding: 3px 7px; border-radius: 12px; font-size: 8px; color: #fff; font-weight: 600; }
-    .blue { background: #2864ed; }
-    .orange { background: #ef754c; }
-    .green { background: #35b65b; }
+    .badge { position: absolute; z-index: 2; top: 12px; left: 10px; padding: 3px 8px; border-radius: 12px; font-size: 8px; color: #fff; font-weight: 700; }
+    .blue { background: #3b82f6; }
+    .orange { background: #ef4444; }
+    .green { background: #0284c7; }
     .product-info { position: relative; z-index: 2; }
-    .product-info h3 { font-size: 10px; font-weight: 500; margin: 0 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 28px; }
-    .product-info p { font-size: 10px; color: #bfc4cf; margin: 0; }
-    .product-info b { color: #fff; font-weight: 600; }
-    .product-info del { color: #858b98; margin-left: 7px; }
+    .product-info h3 { font-size: 10px; font-weight: 600; margin: 0 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 28px; color: #f8fafc; }
+    .product-info p { font-size: 10px; color: #cbd5e1; margin: 0; }
+    .product-info b { color: #ffffff; font-weight: 700; }
+    .product-info del { color: #94a3b8; margin-left: 7px; }
     .add-cart {
       position: absolute;
       right: 9px;
@@ -700,9 +876,9 @@
       z-index: 3;
       width: 27px;
       height: 27px;
-      border: 1px solid #3a414d;
+      border: 1px solid #475569;
       border-radius: 50%;
-      background: #242a34;
+      background: #273549;
       color: #fff;
       display: grid;
       place-items: center;
@@ -710,7 +886,7 @@
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s;
     }
-    .add-cart:hover { background: #2862f5; border-color: #2862f5; }
+    .add-cart:hover { background: #3b82f6; border-color: #60a5fa; }
     .add-cart svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
     /* Care Banner & Perks */
@@ -719,19 +895,19 @@
       width: 91%;
       margin: 0 auto 17px;
       min-height: 200px;
-      border: 1px solid #202a3e;
+      border: 1px solid #334155;
       border-radius: 12px;
       overflow: hidden;
       position: relative;
-      background: radial-gradient(ellipse at 70% 50%, #172e61, #101b34 45%, #0c111d 75%);
+      background: radial-gradient(ellipse at 70% 50%, #1d4ed8, #1e293b 48%, #0f172a 78%);
       display: flex;
       align-items: center;
       padding: 25px 3.5%;
     }
     .care-copy { position: relative; z-index: 2; }
-    .care-copy .eyebrow { margin-bottom: 11px; }
-    .care-copy h2 { font-size: 22px; line-height: 1.22; letter-spacing: -0.5px; margin: 0 0 8px; }
-    .care-copy > p:not(.eyebrow) { font-size: 10px; color: #b9c0cf; line-height: 1.5; margin: 0 0 13px; }
+    .care-copy .eyebrow { margin-bottom: 11px; color: #93c5fd; }
+    .care-copy h2 { font-size: 22px; line-height: 1.22; letter-spacing: -0.5px; margin: 0 0 8px; color: #ffffff; }
+    .care-copy > p:not(.eyebrow) { font-size: 10px; color: #e2e8f0; line-height: 1.5; margin: 0 0 13px; }
     .care-copy .btn-primary { height: 30px; font-size: 10px; }
     .care-art { position: absolute; right: 6%; top: 0; bottom: 0; width: 53%; display: flex; align-items: center; justify-content: center; }
     .care-art img { width: 66%; height: 90%; object-fit: contain; mix-blend-mode: screen; opacity: 0.9; }
@@ -743,14 +919,14 @@
       display: grid;
       place-items: center;
       clip-path: polygon(50% 0, 94% 18%, 88% 70%, 50% 100%, 12% 70%, 6% 18%);
-      background: linear-gradient(145deg, #83baff, #123f9f 55%, #071b4b);
-      border: 2px solid #9ac8ff;
-      color: #d8edff;
-      box-shadow: 0 0 30px #318aff;
+      background: linear-gradient(145deg, #93c5fd, #2563eb 55%, #1e3a8a);
+      border: 2px solid #dbeafe;
+      color: #eff6ff;
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
     }
-    .shield svg { width: 54px; height: 54px; fill: none; stroke: #d8edff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px #fff); }
+    .shield svg { width: 54px; height: 54px; fill: none; stroke: #ffffff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px #fff); }
 
-    /* Perks Section Fix (Prevent Overflow) */
+    /* Perks Section */
     .perks {
       max-width: 1350px;
       width: 91%;
@@ -762,8 +938,8 @@
     .perk {
       min-width: 0;
       min-height: 78px;
-      background: #141820;
-      border: 1px solid #242a35;
+      background: #1e293b;
+      border: 1px solid #334155;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -772,10 +948,10 @@
       overflow: hidden;
     }
     .perk > div { min-width: 0; flex: 1; }
-    .perk-icon { color: #5b83ff; min-width: 24px; display: grid; place-items: center; flex-shrink: 0; }
+    .perk-icon { color: #60a5fa; min-width: 24px; display: grid; place-items: center; flex-shrink: 0; }
     .perk-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-    .perk strong { font-size: 10px; font-weight: 600; display: block; margin-bottom: 4px; word-break: break-word; }
-    .perk small { font-size: 8.5px; color: #a5acb9; line-height: 1.35; display: block; word-break: break-word; }
+    .perk strong { font-size: 10px; font-weight: 600; display: block; margin-bottom: 4px; word-break: break-word; color: #f8fafc; }
+    .perk small { font-size: 8.5px; color: #cbd5e1; line-height: 1.35; display: block; word-break: break-word; }
 
     /* All Products Catalog Page (Filterable by Category) */
     .catalog-page-view {
@@ -803,8 +979,8 @@
     .catalog-cat-strip::-webkit-scrollbar { display: none; }
     .catalog-cat-card {
       flex: 0 0 88px;
-      background: linear-gradient(145deg, #171c26, #11151d);
-      border: 1.5px solid #242a35;
+      background: linear-gradient(145deg, #1e293b, #151e2e);
+      border: 1.5px solid #334155;
       border-radius: 10px;
       padding: 8px 6px 10px;
       display: flex;
@@ -831,14 +1007,12 @@
       max-width: 100%;
     }
     .catalog-cat-card.active {
-      border-color: #3b82f6;
-      background: linear-gradient(145deg, #1b2844, #121a2d);
+      border-color: #60a5fa;
+      background: linear-gradient(145deg, #1d4ed8, #1e293b);
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.25);
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.3);
     }
-    .service-group-block {
-      margin-bottom: 24px;
-    }
+    .service-group-block { margin-bottom: 24px; }
     .service-group-title {
       font-size: 15px;
       font-weight: 700;
@@ -851,7 +1025,7 @@
     .service-group-title small {
       font-size: 11px;
       font-weight: 500;
-      color: #7c89a3;
+      color: #94a3b8;
     }
     .catalog-items-grid {
       display: grid;
@@ -871,49 +1045,49 @@
     .catalog-items-grid .product-card {
       flex: none;
       width: 100%;
-      height: clamp(118px, 31vw, 152px);
-      padding: 6px;
-      border-radius: 8px;
+      height: clamp(118px, 31vw, 185px);
+      padding: 8px;
+      border-radius: 9px;
     }
     .catalog-items-grid .product-card > img {
-      inset: 6px 4px 34px;
-      width: calc(100% - 8px);
-      height: calc(100% - 40px);
+      inset: 8px 6px 40px;
+      width: calc(100% - 12px);
+      height: calc(100% - 48px);
     }
     .catalog-items-grid .badge {
-      top: 6px;
-      left: 6px;
-      padding: 1.5px 5px;
-      font-size: 6px;
+      top: 8px;
+      left: 8px;
+      padding: 2px 6px;
+      font-size: 7px;
     }
     .catalog-items-grid .product-info h3 {
-      font-size: clamp(7.5px, 2.3vw, 9.5px);
-      margin-bottom: 2px;
-      padding-right: 18px;
+      font-size: clamp(8px, 2.3vw, 11px);
+      margin-bottom: 3px;
+      padding-right: 22px;
     }
     .catalog-items-grid .product-info p {
-      font-size: clamp(7.5px, 2.2vw, 9.5px);
+      font-size: clamp(8px, 2.2vw, 10.5px);
     }
     .catalog-items-grid .product-info del {
-      font-size: 6.5px;
-      margin-left: 3px;
+      font-size: 7px;
+      margin-left: 4px;
     }
     .catalog-items-grid .add-cart {
-      right: 5px;
-      bottom: 5px;
-      width: 18px;
-      height: 18px;
+      right: 7px;
+      bottom: 7px;
+      width: 22px;
+      height: 22px;
     }
     .catalog-items-grid .add-cart svg {
-      width: 9.5px;
-      height: 9.5px;
+      width: 11px;
+      height: 11px;
     }
 
-    /* Clean White Single-Button Alert Popup (Image 3320 Style) */
+    /* Clean White Single-Button Alert Popup (ตามรูป 3320_2.jpg เอาแค่ปุ่ม "ตกลง" สีแดง) */
     .clean-alert-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.58);
+      background: rgba(15, 23, 42, 0.62);
       backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
@@ -922,17 +1096,17 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.22s ease;
-      z-index: 120;
+      z-index: 160;
     }
     .clean-alert-overlay.open { opacity: 1; pointer-events: auto; }
     .clean-alert-card {
       width: 100%;
-      max-width: 390px;
+      max-width: 400px;
       background: #ffffff;
       color: #0f172a;
       border-radius: 18px;
-      padding: 24px 24px 22px;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.24);
+      padding: 26px 26px 22px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
       position: relative;
       transform: scale(0.95);
       transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
@@ -982,11 +1156,12 @@
     }
     .clean-alert-ok-btn:hover { background: #dc2626; }
     .clean-alert-ok-btn:active { transform: scale(0.97); }
-    /* Beautiful Glassmorphism Popup System -> Full-Width Bottom-Anchored Sheet across all devices */
+
+    /* Beautiful Glassmorphism Popup System */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(4, 7, 15, 0.78);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: flex-end;
@@ -1001,12 +1176,12 @@
     .modal-box {
       width: 100%;
       max-width: 100%;
-      background: linear-gradient(165deg, #151c2c 0%, #0d121d 100%);
-      border: 1px solid #2a354d;
+      background: linear-gradient(165deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #334155;
       border-bottom: 0;
       border-radius: 24px 24px 0 0;
       padding: 24px max(20px, 5vw) 30px;
-      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.78), 0 0 0 1px rgba(108, 145, 255, 0.12);
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.78);
       transform: translateY(100%);
       transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
       position: relative;
@@ -1020,7 +1195,7 @@
       justify-content: space-between;
       margin-bottom: 16px;
       padding-bottom: 12px;
-      border-bottom: 1px solid #1e2638;
+      border-bottom: 1px solid #334155;
       max-width: 960px;
       margin-left: auto;
       margin-right: auto;
@@ -1034,9 +1209,9 @@
       width: 34px;
       height: 34px;
       border-radius: 10px;
-      background: rgba(40, 98, 245, 0.16);
-      border: 1px solid rgba(84, 123, 255, 0.35);
-      color: #6c91ff;
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      color: #60a5fa;
       display: grid;
       place-items: center;
     }
@@ -1046,28 +1221,22 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #1a2233;
-      border: 1px solid #2c364d;
-      color: #cbd5e1;
+      background: #334155;
+      border: 1px solid #475569;
+      color: #f8fafc;
       font-size: 18px;
       display: grid;
       place-items: center;
       cursor: pointer;
       transition: 0.2s;
     }
-    .modal-close:hover { background: #28344d; color: #fff; }
+    .modal-close:hover { background: #475569; color: #fff; }
 
     /* Modal Form & Interactive Elements */
-    .amount-presets {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin: 12px 0;
-    }
     .preset-btn {
-      background: #182032;
-      border: 1px solid #2a354d;
-      color: #e2e8f0;
+      background: #273549;
+      border: 1px solid #475569;
+      color: #f1f5f9;
       border-radius: 10px;
       padding: 8px 4px;
       font-family: inherit;
@@ -1077,37 +1246,22 @@
       transition: 0.18s;
     }
     .preset-btn:hover, .preset-btn.selected {
-      background: #2862f5;
-      border-color: #4f81ff;
+      background: #3b82f6;
+      border-color: #60a5fa;
       color: #fff;
     }
-    .modal-input-group { margin-bottom: 14px; }
-    .modal-input-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; }
-    .modal-input {
-      width: 100%;
-      background: #0b0f18;
-      border: 1px solid #2b354b;
-      border-radius: 12px;
-      padding: 12px 14px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .modal-input:focus { border-color: #4f81ff; }
     .modal-submit {
       width: 100%;
       height: 44px;
       border-radius: 12px;
       border: 0;
-      background: linear-gradient(135deg, #2862f5 0%, #1d4ed8 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
       color: #fff;
       font-family: inherit;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(40, 98, 245, 0.35);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
       transition: transform 0.18s, filter 0.18s;
     }
     .modal-submit:hover { filter: brightness(1.08); transform: translateY(-1px); }
@@ -1116,25 +1270,24 @@
       box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
     }
 
-    /* Cart Item List inside Modal */
-    .cart-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; max-height: 240px; overflow-y: auto; }
+    /* Cart Item List */
     .cart-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: #121826;
-      border: 1px solid #222b3f;
+      background: #1e293b;
+      border: 1px solid #334155;
       border-radius: 12px;
       padding: 10px;
     }
-    .cart-item img { width: 46px; height: 46px; object-fit: contain; background: #0b0f18; border-radius: 8px; padding: 4px; }
+    .cart-item img { width: 46px; height: 46px; object-fit: contain; background: #0f172a; border-radius: 8px; padding: 4px; }
     .cart-item-info { flex: 1; min-width: 0; }
     .cart-item-info h4 { margin: 0 0 3px; font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cart-item-info span { font-size: 12px; color: #6c91ff; font-weight: 600; }
+    .cart-item-info span { font-size: 12px; color: #60a5fa; font-weight: 600; }
     .cart-remove {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      color: #ff7b7b;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
       width: 28px;
       height: 28px;
       border-radius: 8px;
@@ -1142,22 +1295,12 @@
       display: grid;
       place-items: center;
     }
-    .cart-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-top: 1px solid #1e2638;
-      margin-bottom: 12px;
-      font-size: 14px;
-    }
-    .cart-summary strong { font-size: 18px; color: #fff; }
 
     /* Full-Height Right Cart Drawer */
     .cart-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 7, 14, 0.72);
+      background: rgba(15, 23, 42, 0.72);
       backdrop-filter: blur(5px);
       opacity: 0;
       pointer-events: none;
@@ -1171,8 +1314,8 @@
       right: 0;
       width: min(400px, 100vw);
       height: 100dvh;
-      background: linear-gradient(180deg, #101624 0%, #0b0f19 100%);
-      border-left: 1px solid #242b3a;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-left: 1px solid #334155;
       padding: 20px 20px 24px;
       display: flex;
       flex-direction: column;
@@ -1187,7 +1330,7 @@
       align-items: center;
       justify-content: space-between;
       padding-bottom: 14px;
-      border-bottom: 1px solid #1f2634;
+      border-bottom: 1px solid #334155;
     }
     .cart-drawer-title {
       display: flex;
@@ -1206,15 +1349,15 @@
       gap: 10px;
     }
     .cart-drawer-footer {
-      border-top: 1px solid #1f2634;
+      border-top: 1px solid #334155;
       padding-top: 14px;
     }
     .qty-controls {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #0b0f18;
-      border: 1px solid #252f44;
+      background: #0f172a;
+      border: 1px solid #334155;
       border-radius: 8px;
       padding: 2px 6px;
       margin-top: 6px;
@@ -1231,7 +1374,7 @@
       display: grid;
       place-items: center;
     }
-    .qty-btn:hover { color: #6c91ff; }
+    .qty-btn:hover { color: #60a5fa; }
     .qty-val { font-size: 12px; font-weight: 600; color: #fff; min-width: 14px; text-align: center; }
 
     /* Coupon & Summary Breakdown in Cart Drawer */
@@ -1242,8 +1385,8 @@
     }
     .coupon-box input {
       flex: 1;
-      background: #0b0f18;
-      border: 1px solid #2b354b;
+      background: #0f172a;
+      border: 1px solid #334155;
       border-radius: 10px;
       padding: 8px 12px;
       color: #fff;
@@ -1251,11 +1394,11 @@
       font-size: 12px;
       outline: none;
     }
-    .coupon-box input:focus { border-color: #4f81ff; }
+    .coupon-box input:focus { border-color: #60a5fa; }
     .coupon-apply-btn {
-      background: #1d2942;
-      border: 1px solid #354a75;
-      color: #82a6ff;
+      background: #27364f;
+      border: 1px solid #475569;
+      color: #93c5fd;
       border-radius: 10px;
       padding: 0 14px;
       font-family: inherit;
@@ -1264,14 +1407,14 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .coupon-apply-btn:hover { background: #2862f5; color: #fff; border-color: #2862f5; }
+    .coupon-apply-btn:hover { background: #3b82f6; color: #fff; border-color: #3b82f6; }
     .applied-coupon-tag {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(53, 182, 91, 0.12);
-      border: 1px solid rgba(53, 182, 91, 0.35);
-      color: #4ade80;
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      color: #93c5fd;
       border-radius: 8px;
       padding: 6px 10px;
       font-size: 11px;
@@ -1280,7 +1423,7 @@
     .applied-coupon-tag button {
       background: none;
       border: 0;
-      color: #ff7b7b;
+      color: #fca5a5;
       font-size: 14px;
       cursor: pointer;
       padding: 0 2px;
@@ -1290,18 +1433,18 @@
       flex-direction: column;
       gap: 6px;
       padding: 10px 0;
-      border-top: 1px solid #1f2634;
+      border-top: 1px solid #334155;
       font-size: 12px;
     }
     .breakdown-row {
       display: flex;
       justify-content: space-between;
-      color: #94a3b8;
+      color: #cbd5e1;
     }
-    .breakdown-row span:last-child { color: #e2e8f0; font-weight: 500; }
-    .breakdown-row.discount span:last-child { color: #4ade80; }
+    .breakdown-row span:last-child { color: #f8fafc; font-weight: 500; }
+    .breakdown-row.discount span:last-child { color: #60a5fa; }
     .breakdown-row.net-total {
-      border-top: 1px dashed #283247;
+      border-top: 1px dashed #475569;
       padding-top: 8px;
       margin-top: 2px;
       font-size: 14px;
@@ -1310,7 +1453,7 @@
     }
     .breakdown-row.net-total span:last-child {
       font-size: 18px;
-      color: #6c91ff;
+      color: #60a5fa;
     }
 
     /* Full-Height Product Detail Drawer */
@@ -1323,8 +1466,8 @@
       gap: 14px;
     }
     .product-spec-list {
-      background: #111724;
-      border: 1px solid #222b3f;
+      background: #1e293b;
+      border: 1px solid #334155;
       border-radius: 12px;
       padding: 12px 14px;
       display: flex;
@@ -1337,28 +1480,15 @@
       justify-content: space-between;
       color: #94a3b8;
     }
-    .spec-item strong { color: #e2e8f0; font-weight: 500; }
+    .spec-item strong { color: #f8fafc; font-weight: 500; }
 
-    /* Full-Page Product Detail View (Non-Popup) */
-    .product-page-view {
-      display: none;
-      max-width: 1350px;
-      width: 91%;
-      margin: 12px auto 44px;
-      animation: fadeSlideUp 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .product-page-view.active { display: block; }
-    @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
     .back-shop-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #141a26;
-      border: 1px solid #263045;
-      color: #e2e8f0;
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #f8fafc;
       padding: 8px 16px;
       border-radius: 30px;
       font-family: inherit;
@@ -1368,49 +1498,18 @@
       margin-bottom: 18px;
       transition: 0.2s;
     }
-    .back-shop-btn:hover { background: #1d2638; border-color: #4b6cb7; color: #fff; }
-    .product-page-card {
-      background: linear-gradient(155deg, #131926 0%, #0d111a 100%);
-      border: 1px solid #232c40;
-      border-radius: 18px;
-      padding: 26px;
-      display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      gap: 32px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
-    }
-    .product-page-gallery {
-      background: radial-gradient(circle at center, #1b2d56 0%, #0b0f18 75%);
-      border: 1px solid #222d45;
-      border-radius: 16px;
-      min-height: 340px;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      position: relative;
-    }
-    .product-page-gallery img {
-      max-height: 280px;
-      max-width: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.65));
-    }
-    .product-page-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    .back-shop-btn:hover { background: #334155; border-color: #60a5fa; color: #fff; }
     .product-tabs-nav {
       display: flex;
       gap: 8px;
-      border-bottom: 1px solid #1f2738;
+      border-bottom: 1px solid #334155;
       padding-bottom: 10px;
       margin: 18px 0 14px;
     }
     .p-tab-btn {
       background: transparent;
       border: 1px solid transparent;
-      color: #8b98b0;
+      color: #94a3b8;
       padding: 7px 14px;
       border-radius: 10px;
       font-family: inherit;
@@ -1419,47 +1518,25 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .p-tab-btn:hover { color: #fff; background: #182032; }
+    .p-tab-btn:hover { color: #fff; background: #273549; }
     .p-tab-btn.active {
-      background: rgba(40, 98, 245, 0.16);
-      border-color: rgba(84, 123, 255, 0.4);
-      color: #6c91ff;
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(96, 165, 250, 0.45);
+      color: #60a5fa;
     }
     .p-tab-panel { display: none; font-size: 13px; color: #cbd5e1; line-height: 1.65; }
     .p-tab-panel.active { display: block; }
-    .product-page-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid #1f2738;
-    }
-    @media(max-width: 768px) {
-      .product-page-card { grid-template-columns: 1fr; padding: 18px; gap: 20px; }
-      .product-page-gallery { min-height: 220px; padding: 16px; }
-      .product-page-gallery img { max-height: 185px; }
-      .product-page-actions { flex-wrap: wrap; }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Product Detail Preview inside Modal */
-    .detail-hero {
-      background: radial-gradient(circle at center, #1b2c52 0%, #0c101a 75%);
-      border: 1px solid #222d45;
-      border-radius: 14px;
-      height: 170px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 14px;
-      padding: 12px;
-    }
-    .detail-hero img { max-height: 145px; max-width: 100%; object-fit: contain; }
-
-    /* Bottom-Sliding Product Detail Sheet (Banner Header Style) - Full Edge-to-Edge Width */
+    /* Bottom-Sliding Product Detail Sheet */
     .pd-sheet-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(4, 7, 15, 0.78);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(5px);
       opacity: 0;
       pointer-events: none;
@@ -1475,9 +1552,9 @@
       max-width: 100%;
       height: 92dvh;
       max-height: 92dvh;
-      background: #0d121d;
-      color: #f5f7fb;
-      border: 1px solid #232d42;
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid #334155;
       border-bottom: 0;
       border-radius: 24px 24px 0 0;
       overflow: hidden;
@@ -1498,7 +1575,7 @@
       justify-content: space-between;
       overflow: hidden;
       flex-shrink: 0;
-      background: #10192b;
+      background: #1e293b;
     }
     .pd-banner-bg {
       position: absolute;
@@ -1507,7 +1584,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      filter: brightness(0.95) contrast(1.08) saturate(1.25);
+      filter: brightness(0.95) contrast(1.08) saturate(1.2);
       transform: scale(1.04);
       z-index: 0;
     }
@@ -1528,17 +1605,16 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       white-space: nowrap;
-      color: rgba(255, 255, 255, 0.28);
+      color: rgba(255, 255, 255, 0.25);
       -webkit-text-stroke: 2px rgba(96, 165, 250, 0.45);
-      text-shadow: 0 8px 28px rgba(37, 99, 235, 0.35);
       user-select: none;
     }
     .pd-banner-header::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(95deg, rgba(9, 13, 22, 0.85) 0%, rgba(9, 13, 22, 0.48) 52%, rgba(9, 13, 22, 0.08) 100%),
-                  linear-gradient(180deg, rgba(9, 13, 22, 0.12) 0%, rgba(13, 18, 29, 0.88) 100%);
+      background: linear-gradient(95deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 41, 59, 0.52) 52%, rgba(15, 23, 42, 0.12) 100%),
+                  linear-gradient(180deg, rgba(15, 23, 42, 0.15) 0%, rgba(15, 23, 42, 0.92) 100%);
       z-index: 1;
     }
     .pd-banner-top {
@@ -1554,7 +1630,7 @@
       align-items: center;
       gap: 7px;
       font-size: 11.5px;
-      color: #a3b1c6;
+      color: #cbd5e1;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1564,8 +1640,8 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: rgba(15, 22, 36, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #ffffff;
       font-size: 18px;
       display: grid;
@@ -1575,7 +1651,7 @@
       backdrop-filter: blur(6px);
       transition: 0.2s;
     }
-    .pd-sheet-close:hover { background: #2862f5; border-color: #2862f5; }
+    .pd-sheet-close:hover { background: #3b82f6; border-color: #3b82f6; }
     .pd-banner-main {
       position: relative;
       z-index: 2;
@@ -1583,9 +1659,9 @@
     }
     .pd-cat-pill {
       display: inline-block;
-      background: rgba(10, 14, 24, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #f8fafc;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      color: #93c5fd;
       font-size: 11px;
       font-weight: 600;
       padding: 4px 12px;
@@ -1601,8 +1677,8 @@
       width: 74px;
       height: 74px;
       border-radius: 16px;
-      border: 2px solid rgba(84, 123, 255, 0.55);
-      background: linear-gradient(145deg, #1a2438, #0f1522);
+      border: 2px solid rgba(96, 165, 250, 0.6);
+      background: linear-gradient(145deg, #1e293b, #0f172a);
       padding: 6px;
       display: grid;
       place-items: center;
@@ -1652,13 +1728,13 @@
       width: 17px;
       height: 17px;
       border-radius: 50%;
-      border: 1.5px solid #22c55e;
-      color: #22c55e;
+      border: 1.5px solid #60a5fa;
+      color: #60a5fa;
       display: grid;
       place-items: center;
       font-size: 10px;
       font-weight: 800;
-      background: rgba(34, 197, 94, 0.12);
+      background: rgba(59, 130, 246, 0.16);
     }
     .pd-sheet-body {
       flex: 1;
@@ -1666,8 +1742,8 @@
       padding: 18px max(20px, 5vw) 24px;
     }
     .pd-price-card {
-      background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
-      border: 1px solid #243049;
+      background: linear-gradient(135deg, #1e293b 0%, #162033 100%);
+      border: 1px solid #334155;
       border-radius: 14px;
       padding: 14px 16px;
       display: flex;
@@ -1677,18 +1753,18 @@
     }
     .pd-sheet-footer {
       padding: 14px max(20px, 5vw) 24px;
-      background: #0b0f18;
-      border-top: 1px solid #1e2638;
+      background: #0f172a;
+      border-top: 1px solid #334155;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit - Full Edge-to-Edge Width) */
+    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit) */
     .bottom-sheet-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(4, 7, 15, 0.72);
+      background: rgba(15, 23, 42, 0.72);
       backdrop-filter: blur(4px);
       opacity: 0;
       pointer-events: none;
@@ -1701,228 +1777,7 @@
     .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
     .bottom-sheet-panel {
       width: 100%;
-      max-width: 100%;
-      height: 92dvh;
-      max-height: 92dvh;
-      background: #ffffff;
-      color: #111827;
-      border-radius: 24px 24px 0 0;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transform: translateY(100%);
-      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.55);
-      position: relative;
-    }
-    .bottom-sheet-overlay.open .bottom-sheet-panel { transform: translateY(0); }
-
-    /* Withdraw Page Design (Image 3298) */
-    .wd-top-blue {
-      background: linear-gradient(180deg, #1045e8 0%, #1d5bf6 100%);
-      color: #ffffff;
-      padding: 18px max(18px, 5vw) 22px;
-      position: relative;
-    }
-    .wd-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .wd-header-bar button {
-      background: none;
-      border: 0;
-      color: #ffffff;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 4px;
-      display: grid;
-      place-items: center;
-    }
-    .wd-header-bar h3 { margin: 0; font-size: 16px; font-weight: 700; }
-    .wd-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: rgba(255, 255, 255, 0.16);
-      border-radius: 8px;
-      padding: 3px;
-      margin-bottom: 16px;
-    }
-    .wd-tab {
-      height: 36px;
-      border: 0;
-      border-radius: 6px;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.85);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .wd-tab.active {
-      background: #ffffff;
-      color: #111827;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    }
-    .wd-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-    .wd-amount-box {
-      width: 100%;
-      height: 48px;
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 0 14px;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      outline: none;
-    }
-    .wd-amount-box::placeholder { color: rgba(255, 255, 255, 0.45); font-weight: 400; }
-    .wd-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px max(18px, 5vw) 24px;
-      background: #ffffff;
-    }
-    .wd-footer {
-      padding: 14px max(18px, 5vw) 24px;
-      background: #ffffff;
-      border-top: 1px solid #f1f5f9;
-    }
-    .dp-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px max(18px, 5vw) 12px;
-      background: #ffffff;
-    }
-    .dp-amount-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding: 6px max(18px, 5vw) 16px;
-    }
-    .dp-cat-tabs {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      padding: 10px max(18px, 5vw) 0;
-      border-top: 6px solid #f5f6fa;
-      border-bottom: 1px solid #f1f5f9;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .dp-channel-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px max(18px, 5vw) 20px;
-    }
-    .sub-sheet-box {
-      width: 100%;
-      background: #ffffff;
-      border-radius: 24px 24px 0 0;
-      padding: 22px max(18px, 5vw) 28px;
-      transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-      max-height: 85dvh;
-      overflow-y: auto;
-    }
-    /* Phone Number Input Row (+66 Flag Style matching image 3313) */
-    .phone-input-card {
-      width: 100%;
-      height: 54px;
-      background: #f5f6fa;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .phone-input-card:focus-within {
-      background: #ffffff;
-      border-color: #111827;
-    }
-    .phone-prefix-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding-right: 12px;
-      border-right: 1px solid #d1d5db;
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-      flex-shrink: 0;
-      user-select: none;
-    }
-    .thai-flag-svg {
-      width: 24px;
-      height: 16px;
-      border-radius: 2px;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-      flex-shrink: 0;
-    }
-    .phone-input-card input {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      font-family: inherit;
-      font-size: 16px;
-      color: #111827;
-      outline: none;
-    }
-    .phone-input-card input::placeholder {
-      color: #9ca3af;
-      font-weight: 400;
-    }
-    .pd-price-card {
-      background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
-      border: 1px solid #243049;
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-    .pd-sheet-footer {
-      padding: 14px 20px 22px;
-      background: #0b0f18;
-      border-top: 1px solid #1e2638;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit matching reference images) */
-    .bottom-sheet-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 7, 15, 0.72);
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.28s ease;
-      z-index: 65;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-    .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
-    .bottom-sheet-panel {
-      width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       height: 92dvh;
       max-height: 820px;
       background: #ffffff;
@@ -1938,9 +1793,9 @@
     }
     .bottom-sheet-overlay.open .bottom-sheet-panel { transform: translateY(0); }
 
-    /* Withdraw Page Design (Image 3298) */
+    /* Withdraw Page Design */
     .wd-top-blue {
-      background: linear-gradient(180deg, #1045e8 0%, #1d5bf6 100%);
+      background: linear-gradient(180deg, #1e3a8a 0%, #2563eb 100%);
       color: #ffffff;
       padding: 16px 18px 20px;
       position: relative;
@@ -2015,7 +1870,7 @@
       background: #ffffff;
     }
     .bank-card-box {
-      background: linear-gradient(135deg, #1b1e2e 0%, #2a2438 100%);
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       border: 2px solid #ef4444;
       border-radius: 12px;
       padding: 16px;
@@ -2050,8 +1905,8 @@
     .add-account-dashed {
       width: 100%;
       height: 52px;
-      background: #f5f6fa;
-      border: 1px dashed #d1d5db;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -2065,7 +1920,7 @@
       margin-bottom: 20px;
       transition: 0.2s;
     }
-    .add-account-dashed:hover { background: #eef1f8; border-color: #9ca3af; }
+    .add-account-dashed:hover { background: #f1f5f9; border-color: #94a3b8; }
     .wd-rules {
       font-size: 12px;
       color: #6b7280;
@@ -2092,7 +1947,7 @@
       height: 48px;
       border: 0;
       border-radius: 8px;
-      background: #a5a8b0;
+      background: #94a3b8;
       color: #ffffff;
       font-family: inherit;
       font-size: 15px;
@@ -2101,14 +1956,14 @@
       transition: 0.2s;
     }
     .wd-submit-btn.ready {
-      background: #111827;
+      background: #0f172a;
     }
 
-    /* Sub-Sheet inside Bottom Sheet (Add Account & Select Bank - Images 3299 & 3304) */
+    /* Sub-Sheet inside Bottom Sheet */
     .sub-sheet-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(15, 23, 42, 0.55);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
@@ -2158,8 +2013,8 @@
     .light-input-box {
       width: 100%;
       height: 48px;
-      background: #f5f6fa;
-      border: 1px solid #e5e7eb;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       border-radius: 10px;
       padding: 0 14px;
       display: flex;
@@ -2178,18 +2033,63 @@
       color: #111827;
       outline: none;
     }
+    .phone-input-card {
+      width: 100%;
+      height: 54px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .phone-input-card:focus-within {
+      background: #ffffff;
+      border-color: #0f172a;
+    }
+    .phone-prefix-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding-right: 12px;
+      border-right: 1px solid #cbd5e1;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .thai-flag-svg {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .phone-input-card input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      font-family: inherit;
+      font-size: 16px;
+      color: #111827;
+      outline: none;
+    }
     .bank-select-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #f5f6fa;
+      background: #f8fafc;
       border-radius: 10px;
       padding: 12px 14px;
       margin-bottom: 10px;
       cursor: pointer;
       transition: 0.15s;
     }
-    .bank-select-row:hover { background: #eceff7; }
+    .bank-select-row:hover { background: #f1f5f9; }
     .bank-row-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: #111827; }
     .radio-circle {
       width: 20px;
@@ -2207,7 +2107,7 @@
     .black-action-btn {
       width: 100%;
       height: 48px;
-      background: #000000;
+      background: #0f172a;
       color: #ffffff;
       border: 0;
       border-radius: 10px;
@@ -2221,7 +2121,7 @@
       gap: 8px;
     }
 
-    /* Deposit Page Design (Image 3303) */
+    /* Deposit Page Design */
     .dp-header {
       display: flex;
       align-items: center;
@@ -2246,7 +2146,7 @@
     }
     .dp-amt-btn {
       height: 46px;
-      background: #f5f6fa;
+      background: #f8fafc;
       border: 1.5px solid transparent;
       border-radius: 8px;
       font-family: inherit;
@@ -2270,7 +2170,7 @@
       align-items: center;
       gap: 18px;
       padding: 10px 18px 0;
-      border-top: 6px solid #f5f6fa;
+      border-top: 6px solid #f1f5f9;
       border-bottom: 1px solid #f1f5f9;
       overflow-x: auto;
       scrollbar-width: none;
@@ -2322,11 +2222,11 @@
       flex-shrink: 0;
     }
 
-    /* Full-Screen In-Tab Payment Gateway Overlay (QR & Bank Payment) */
+    /* Full-Screen In-Tab Payment Gateway Overlay */
     .gateway-overlay {
       position: fixed;
       inset: 0;
-      background: #f2f3f5;
+      background: #f1f5f9;
       z-index: 90;
       display: none;
       justify-content: center;
@@ -2348,7 +2248,7 @@
       position: relative;
     }
     @media (min-width: 481px) {
-      .gateway-overlay { align-items: center; padding: 16px; background: rgba(4, 7, 15, 0.82); backdrop-filter: blur(6px); }
+      .gateway-overlay { align-items: center; padding: 16px; background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(6px); }
       .gateway-page {
         min-height: auto;
         border-radius: 20px;
@@ -2359,8 +2259,8 @@
     .gw-topbar {
       width: 100%;
       height: 48px;
-      background: #173966;
-      border-top: 3px solid #d7dce3;
+      background: #1e3a8a;
+      border-top: 3px solid #cbd5e1;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -2404,7 +2304,6 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    /* QR PromptPay Styles */
     .gw-qr-wrap {
       width: min(210px, 60vw);
       aspect-ratio: 1 / 1;
@@ -2427,13 +2326,12 @@
       aspect-ratio: 1;
       border: 2px solid #ffffff;
       border-radius: 5px;
-      background: #173966;
+      background: #1e3a8a;
       overflow: hidden;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     }
     .gw-qr-center img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Bank Transfer Card Styles (K PLUS & Thai Banks) */
     .gw-bank-card {
       background: var(--card-bg, linear-gradient(155deg, #008241 0%, #054728 50%, #021c10 100%));
       border-radius: 18px;
@@ -2540,7 +2438,7 @@
       margin-bottom: 14px;
       transition: 0.2s;
     }
-    .gw-upload-box:hover { border-color: #173966; background: #f1f5f9; }
+    .gw-upload-box:hover { border-color: #1e3a8a; background: #f1f5f9; }
     .gw-verifying {
       display: none;
       flex-direction: column;
@@ -2555,13 +2453,13 @@
       width: 30px;
       height: 30px;
       border: 3px solid #e2e8f0;
-      border-top-color: #173966;
+      border-top-color: #1e3a8a;
       border-radius: 50%;
       animation: gwSpin 0.8s linear infinite;
       margin-bottom: 10px;
     }
     @keyframes gwSpin { to { transform: rotate(360deg); } }
-    .gw-warning { color: #a85b5b; font-size: 12.5px; font-weight: 700; margin: 4px 0 16px; }
+    .gw-warning { color: #dc2626; font-size: 12.5px; font-weight: 700; margin: 4px 0 16px; }
     .gw-hr { border: 0; border-top: 1px solid #e6e6e6; margin: 0 0 16px; width: 100%; }
     .gw-instructions {
       margin: 0;
@@ -2572,7 +2470,6 @@
       color: #555555;
     }
     .gw-instructions li { margin-bottom: 8px; }
-    .gw-banks-foot { margin-top: 18px; font-size: 12.5px; color: #888888; }
     .gw-success-view {
       display: none;
       flex-direction: column;
@@ -2585,72 +2482,31 @@
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background: #ecfdf5;
-      border: 2px solid #a7f3d0;
-      color: #059669;
+      background: #eff6ff;
+      border: 2px solid #93c5fd;
+      color: #2563eb;
       display: grid;
       place-items: center;
       margin-bottom: 18px;
     }
-    .gw-copy-toast {
-      position: fixed;
-      top: 22px;
-      left: 50%;
-      transform: translate(-50%, -18px);
-      background: rgba(255, 255, 255, 0.97);
-      color: #18181b;
-      padding: 12px 18px;
-      border-radius: 14px;
-      border: 1px solid #e4e4e7;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 105;
-      transition: all 0.28s ease;
-    }
-    .gw-copy-toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      transform: translate(-50%, 20px);
-      background: #2862f5;
-      color: white;
-      padding: 11px 20px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.25s;
-      z-index: 80;
-      box-shadow: 0 8px 24px rgba(40, 98, 245, 0.45);
-    }
-    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
     @media(min-width:1100px) {
       .hero { height: 400px; }
       .hero-slide { padding-top: 58px; }
       .hero-product { height: 370px; }
-      .platform { bottom: 4px; }
       .benefits { margin-bottom: 36px; }
       .category-card { height: 150px; }
       .category-card img { height: 104px; }
       .product-card { height: 235px; }
     }
     @media(max-width:768px) {
-      .topbar { height: 42px; padding: 0 4%; }
+      .topbar { height: 46px; padding: 0 4%; }
       .head-left { gap: 8px; }
-      .brand { font-size: 9.5px; letter-spacing: 2.2px; gap: 4px; }
+      .brand { font-size: 10px; letter-spacing: 2.2px; gap: 4px; }
       .brand-mark { font-size: 17px; letter-spacing: -3px; margin-right: 2px; }
       .head-actions { gap: 10px; }
-      .icon-btn, .icon-btn svg { width: 14px; height: 14px; }
-      .cart-count { right: -5px; top: -4px; font-size: 7px; min-width: 11px; height: 11px; }
+      .icon-btn, .icon-btn svg { width: 15px; height: 15px; }
+      .cart-count { right: -5px; top: -4px; font-size: 7px; min-width: 12px; height: 12px; }
       .inline-search-box { height: 26px; }
       .search-bar-wrap.active .inline-search-box { width: min(175px, 40vw); }
 
@@ -2664,8 +2520,6 @@
       .btn-primary span { font-size: 12px; }
       .text-link { font-size: 7.5px; }
       .text-link span { font-size: 12px; margin-left: 4px; }
-      .hero-product { width: 100%; height: 100%; inset: 0; }
-      .platform { display: none; }
       .hero-dots { bottom: 10px; gap: 5px; }
       .hero-dot { width: 6px; height: 6px; }
       .hero-dot.active { width: 16px; }
@@ -2722,42 +2576,229 @@
   </style>
 </head>
 <body>
-  <!-- Header: Hamburger moved to Left Side -->
-  <header class="topbar">
-    <div class="head-left">
-      <button class="icon-btn menu-open" aria-label="Open menu">
-        <svg viewBox="0 0 24 24">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-      </button>
-      <a class="brand" href="#" aria-label="NOVATEK home">
-        <span class="brand-mark">N</span><span>NOVATEK</span>
-      </a>
+  <!-- Header: PC แถบเมนูด้านบน + ปุ่มฝากเงิน/ถอนเงินข้างเมนู | มือถือปุ่ม Hamburger ด้านซ้าย -->
+  <header class="site-header">
+    <div class="topbar">
+      <div class="head-left">
+        <button class="icon-btn menu-open" aria-label="Open menu">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <a class="brand" href="javascript:void(0)" onclick="goHomePage()" aria-label="NOVATEK home">
+          <span class="brand-mark">N</span><span>NOVATEK</span>
+        </a>
+
+        <!-- ปุ่มฝากเงิน / ถอนเงิน ข้างเมนูบน PC -->
+        <div class="pc-wallet-bar">
+          <span class="pc-wallet-bal">ยอดเงิน: <strong id="pcWalletBalanceDisplay">฿12,450.00</strong></span>
+          <button type="button" class="pc-w-btn deposit" data-modal="deposit">+ ฝากเงิน</button>
+          <button type="button" class="pc-w-btn withdraw" data-modal="withdraw">- ถอนเงิน</button>
+        </div>
+      </div>
+
+      <div class="head-actions">
+        <div class="search-bar-wrap" id="searchBarWrap">
+          <div class="inline-search-box">
+            <input type="search" id="inlineSearchInput" placeholder="ค้นหาสินค้า...">
+            <button type="button" class="inline-search-clear" id="inlineSearchClear" aria-label="ล้างคำค้นหา">×</button>
+          </div>
+          <button type="button" class="icon-btn" id="searchToggleBtn" aria-label="Search">
+            <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 5 5"/></svg>
+          </button>
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <button type="button" class="icon-btn account-open" aria-label="Account">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.7"/><path d="M4.5 21c.5-4.1 3.2-6.3 7.5-6.3s7 2.2 7.5 6.3"/></svg>
+        </button>
+        <button type="button" class="icon-btn cart-open" aria-label="Shopping bag">
+          <svg viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+          <i class="cart-count">0</i>
+        </button>
+      </div>
     </div>
 
-    <div class="head-actions">
-      <div class="search-bar-wrap" id="searchBarWrap">
-        <div class="inline-search-box">
-          <input type="search" id="inlineSearchInput" placeholder="ค้นหาสินค้า...">
-          <button type="button" class="inline-search-clear" id="inlineSearchClear" aria-label="ล้างคำค้นหา">×</button>
+    <!-- แถบเมนูด้านบนสำหรับ PC -->
+    <nav class="pc-navbar" aria-label="เมนูหลักคอมพิวเตอร์">
+      <div class="pc-navbar-inner">
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" onclick="goHomePage()">หน้าหลัก</button>
         </div>
-        <button type="button" class="icon-btn" id="searchToggleBtn" aria-label="Search">
-          <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 5 5"/></svg>
-        </button>
-        <div class="search-dropdown" id="searchDropdown"></div>
+
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link">
+            ร้านค้าออนไลน์
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <button type="button" class="pc-drop-btn" onclick="openCartDrawer()">ตะกร้ารถเข็น</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ร้านค้าออนไลน์ > สถานะคำสั่งซื้อ">สถานะคำสั่งซื้อ</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ร้านค้าออนไลน์ > สถานะการจัดส่ง">สถานะการจัดส่ง</button>
+          </div>
+        </div>
+
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" onclick="openAllProductsPage('เติมเกมส์')">เติมเกมส์</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" onclick="openAllProductsPage('แอพพรีเมี่ยม')">แอพพรีเมี่ยม</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" onclick="openAllProductsPage('แพ็กเกจเสริม')">แพ็กเกจเสริม</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" onclick="openAllProductsPage('บัตรเติมเงิน')">บัตรเติมเงิน</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" data-menu-action="เพิ่มยอดฟอล">เพิ่มยอดฟอล</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" data-menu-action="สุ่มรางวัล">สุ่มรางวัล</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" data-menu-action="เคลมสินค้า">เคลมสินค้า</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" data-menu-action="แจ้งปัญหาการใช้งาน">แจ้งปัญหาการใช้งาน</button>
+        </div>
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link" data-menu-action="ดูหนังซีรีย์">ดูหนังซีรีย์</button>
+        </div>
+
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link">
+            สำหรับธุรกิจ
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <button type="button" class="pc-drop-btn" data-menu-action="สำหรับธุรกิจ > สมัครตัวแทน">สมัครตัวแทน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="สำหรับธุรกิจ > Payment Gateway">Payment Gateway</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="สำหรับธุรกิจ > แพ็กเกจรายเดือน">แพ็กเกจรายเดือน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="สำหรับธุรกิจ > เอกสารการใช้งาน">เอกสารการใช้งาน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="สำหรับธุรกิจ > คู่มือการใช้งาน">คู่มือการใช้งาน</button>
+          </div>
+        </div>
+
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link">
+            กิจกรรมฟรี
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <button type="button" class="pc-drop-btn" data-menu-action="กิจกรรมฟรี > โค้ดส่วนลด">โค้ดส่วนลด</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="กิจกรรมฟรี > โค้ดเงินสด">โค้ดเงินสด</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="กิจกรรมฟรี > คูปอง">คูปอง</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="กิจกรรมฟรี > วงล้อหรรษา">วงล้อหรรษา</button>
+          </div>
+        </div>
+
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link">
+            ประวัติธุรกรรม
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการฝากเงิน">ประวัติการฝากเงิน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการถอนเงิน">ประวัติการถอนเงิน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการใช้งาน">ประวัติการใช้งาน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อ">ประวัติการสั่งซื้อ</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการเติมเกมส์">ประวัติการเติมเกมส์</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อแอพพรีเมี่ยม">ประวัติการสั่งซื้อแอพพรีเมี่ยม</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อบัตรเติมเงิน">ประวัติการสั่งซื้อบัตรเติมเงิน</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อแพ็กเกจ">ประวัติการสั่งซื้อแพ็กเกจ</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อแพ็กเกจไลก์">ประวัติการสั่งซื้อแพ็กเกจไลก์</button>
+          </div>
+        </div>
+
+        <div class="pc-nav-item align-right">
+          <button type="button" class="pc-nav-link">
+            ข้อตกลงและเงื่อนไขการใช้บริการ
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <div class="pc-sub-group">
+              <button type="button" class="pc-drop-btn"><span>ข้อตกลงระหว่างการใช้งาน</span><span>›</span></button>
+              <div class="pc-sub-dropdown">
+                <button type="button" class="pc-drop-btn" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการทำธุรกรรม">ข้อตกลงการทำธุรกรรม</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการสั่งซื้อ">ข้อตกลงการสั่งซื้อ</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการคืนเงิน">ข้อตกลงการคืนเงิน</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการคืนสินค้า">ข้อตกลงการคืนสินค้า</button>
+              </div>
+            </div>
+            <div class="pc-sub-group">
+              <button type="button" class="pc-drop-btn"><span>เงื่อนไขการใช้บริการ</span><span>›</span></button>
+              <div class="pc-sub-dropdown">
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการทำธุรกรรม">เงื่อนไขการทำธุรกรรม</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการใช้งาน">เงื่อนไขการใช้งาน</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการสมัคร">เงื่อนไขการสมัคร</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการสั่งซื้อ">เงื่อนไขการสั่งซื้อ</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการคืนเงิน">เงื่อนไขการคืนเงิน</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการคืนสินค้า">เงื่อนไขการคืนสินค้า</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc-nav-item align-right">
+          <button type="button" class="pc-nav-link">
+            นโยบายเงื่อนไขและความเป็นส่วนตัว
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <div class="pc-sub-group">
+              <button type="button" class="pc-drop-btn"><span>นโยบายความเป็นส่วนตัว</span><span>›</span></button>
+              <div class="pc-sub-dropdown">
+                <button type="button" class="pc-drop-btn" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายข้อมูลส่วนตัว">นโยบายข้อมูลส่วนตัว</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายข้อมูลธุรกรรม">นโยบายข้อมูลธุรกรรม</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายเปลี่ยนแปลงข้อมูล">นโยบายเปลี่ยนแปลงข้อมูล</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายการปิดบัญชี">นโยบายการปิดบัญชี</button>
+              </div>
+            </div>
+            <div class="pc-sub-group">
+              <button type="button" class="pc-drop-btn"><span>เงื่อนไขความเป็นส่วนตัว</span><span>›</span></button>
+              <div class="pc-sub-dropdown">
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขความเป็นส่วนตัว">เงื่อนไขความเป็นส่วนตัว</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขข้อมูลส่วนตัว">เงื่อนไขข้อมูลส่วนตัว</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขข้อมูลธุรกรรม">เงื่อนไขข้อมูลธุรกรรม</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขเปลี่ยนแปลงข้อมูล">เงื่อนไขเปลี่ยนแปลงข้อมูล</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขการปิดบัญชี">เงื่อนไขการปิดบัญชี</button>
+              </div>
+            </div>
+            <div class="pc-sub-group">
+              <button type="button" class="pc-drop-btn"><span>ขอบเขตเงื่อนไขการรับผิดชอบ</span><span>›</span></button>
+              <div class="pc-sub-dropdown">
+                <button type="button" class="pc-drop-btn" data-menu-action="ขอบเขตเงื่อนไขการรับผิดชอบ > การรับผิดชอบสำหรับร้าน">การรับผิดชอบสำหรับร้าน</button>
+                <button type="button" class="pc-drop-btn" data-menu-action="ขอบเขตเงื่อนไขการรับผิดชอบ > การรับผิดชอบสำหรับลูกค้า">การรับผิดชอบสำหรับลูกค้า</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc-nav-item align-right">
+          <button type="button" class="pc-nav-link">
+            ช่องทางติดต่อ
+            <svg class="caret" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="pc-dropdown">
+            <button type="button" class="pc-drop-btn" data-menu-action="ช่องทางติดต่อ > Line Official Account">Line Official Account</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ช่องทางติดต่อ > Facebook Page">Facebook Page</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ช่องทางติดต่อ > Telegram Bot">Telegram Bot</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ช่องทางติดต่อ > Discord Server">Discord Server</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ช่องทางติดต่อ > Gmail Center">Gmail Center</button>
+            <button type="button" class="pc-drop-btn" data-menu-action="ช่องทางติดต่อ > Telephone">Telephone</button>
+          </div>
+        </div>
+
+        <div class="pc-nav-item">
+          <button type="button" class="pc-nav-link logout-link" data-modal="logout">ออกจากระบบ</button>
+        </div>
       </div>
-      <button type="button" class="icon-btn account-open" aria-label="Account">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.7"/><path d="M4.5 21c.5-4.1 3.2-6.3 7.5-6.3s7 2.2 7.5 6.3"/></svg>
-      </button>
-      <button type="button" class="icon-btn cart-open" aria-label="Shopping bag">
-        <svg viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
-        <i class="cart-count">0</i>
-      </button>
-    </div>
+    </nav>
   </header>
 
+  <!-- เมนูด้านข้างสำหรับมือถือ (Mobile Side Drawer) -->
   <div class="menu-backdrop" id="menuBackdrop"></div>
   <aside class="side-drawer" id="sideDrawer" aria-label="เมนูหลัก">
     <div class="drawer-head">
@@ -2782,21 +2823,27 @@
     </div>
 
     <nav class="drawer-list" id="drawerMenuContainer">
-      <!-- 1. ร้านค้าออนไลน์ (มีเมนูย่อย) -->
+      <!-- หน้าหลัก -->
+      <button type="button" class="drawer-item" onclick="closeMenu();goHomePage()">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="label-txt">หน้าหลัก</span>
+      </button>
+
+      <!-- ร้านค้าออนไลน์ -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
-          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="label-txt">ร้านค้าออนไลน์</span>
           <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="drawer-submenu">
-          <button type="button" class="drawer-subitem" onclick="closeMenu();openAllProductsPage('สินค้าออนไลน์')">สินค้าทั้งหมด</button>
+          <button type="button" class="drawer-subitem" onclick="closeMenu();openCartDrawer()">ตะกร้ารถเข็น</button>
           <button type="button" class="drawer-subitem" data-menu-action="ร้านค้าออนไลน์ > สถานะคำสั่งซื้อ">สถานะคำสั่งซื้อ</button>
           <button type="button" class="drawer-subitem" data-menu-action="ร้านค้าออนไลน์ > สถานะการจัดส่ง">สถานะการจัดส่ง</button>
         </div>
       </div>
 
-      <!-- 2. บริการหลัก -->
+      <!-- บริการหลัก -->
       <button type="button" class="drawer-item" onclick="closeMenu();openAllProductsPage('เติมเกมส์')">
         <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4"/><path d="M8 10v4"/><circle cx="15" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg>
         <span class="label-txt">เติมเกมส์</span>
@@ -2842,7 +2889,7 @@
         <span class="label-txt">ดูหนังซีรีย์</span>
       </button>
 
-      <!-- 3. สำหรับธุรกิจ (มีเมนูย่อย) -->
+      <!-- สำหรับธุรกิจ -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
           <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
@@ -2858,7 +2905,7 @@
         </div>
       </div>
 
-      <!-- 4. กิจกรรมฟรี (มีเมนูย่อย) -->
+      <!-- กิจกรรมฟรี -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
           <svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>
@@ -2873,7 +2920,7 @@
         </div>
       </div>
 
-      <!-- 5. ประวัติธุรกรรม (มีเมนูย่อย) -->
+      <!-- ประวัติธุรกรรม -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -2893,38 +2940,7 @@
         </div>
       </div>
 
-      <!-- 6. แคชรีพอร์ต (มีเมนูย่อย) -->
-      <div class="drawer-group">
-        <button type="button" class="drawer-item drawer-toggle">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          <span class="label-txt">แคชรีพอร์ต</span>
-          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="drawer-submenu">
-          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > ใบกำกับภาษีลูกค้า">ใบกำกับภาษีลูกค้า</button>
-          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > ใบกำกับภาษีร้านค้า">ใบกำกับภาษีร้านค้า</button>
-          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > Statement ลูกค้า">Statement ลูกค้า</button>
-          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > Statement ร้านค้า">Statement ร้านค้า</button>
-          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > แบบฟอร์มที่มารายได้">แบบฟอร์มที่มารายได้</button>
-        </div>
-      </div>
-
-      <!-- 7. บัญชีผู้ใช้ อายัด / สถานะ & Control Log (มีเมนูย่อย) -->
-      <div class="drawer-group">
-        <button type="button" class="drawer-item drawer-toggle">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="label-txt">บัญชีผู้ใช้ อายัด</span>
-          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="drawer-submenu">
-          <button type="button" class="drawer-subitem" data-menu-action="สถานะบัญชี > รอพิจารณา">รอพิจารณา</button>
-          <button type="button" class="drawer-subitem" data-menu-action="สถานะบัญชี > ปลดระงับ">ปลดระงับ</button>
-          <button type="button" class="drawer-subitem" data-menu-action="สถานะบัญชี > แบนถาวร">แบนถาวร</button>
-          <button type="button" class="drawer-subitem" data-menu-action="คอลโทลล้อค (เก็บประวัติผิดปกติ)">คอลโทลล้อค (เก็บประวัติผิดปกติ)</button>
-        </div>
-      </div>
-
-      <!-- 8. ข้อตกลงและเงื่อนไขการใช้บริการ (มีกลุ่มย่อยซ้อน) -->
+      <!-- ข้อตกลงและเงื่อนไขการใช้บริการ -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
           <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -2932,7 +2948,6 @@
           <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="drawer-submenu">
-          <!-- ข้อตกลงระหว่างการใช้งาน -->
           <div class="drawer-nested-group">
             <button type="button" class="drawer-nested-toggle">
               <span>ข้อตกลงระหว่างการใช้งาน</span>
@@ -2946,7 +2961,6 @@
             </div>
           </div>
 
-          <!-- เงื่อนไขการใช้บริการ -->
           <div class="drawer-nested-group">
             <button type="button" class="drawer-nested-toggle">
               <span>เงื่อนไขการใช้บริการ</span>
@@ -2964,7 +2978,7 @@
         </div>
       </div>
 
-      <!-- 9. นโยบายเงื่อนไขและความเป็นส่วนตัว (มีกลุ่มย่อยซ้อน) -->
+      <!-- นโยบายเงื่อนไขและความเป็นส่วนตัว -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
           <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -2972,7 +2986,6 @@
           <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="drawer-submenu">
-          <!-- นโยบายความเป็นส่วนตัว -->
           <div class="drawer-nested-group">
             <button type="button" class="drawer-nested-toggle">
               <span>นโยบายความเป็นส่วนตัว</span>
@@ -2986,13 +2999,13 @@
             </div>
           </div>
 
-          <!-- เงื่อนไขความเป็นส่วนตัว -->
           <div class="drawer-nested-group">
             <button type="button" class="drawer-nested-toggle">
               <span>เงื่อนไขความเป็นส่วนตัว</span>
               <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="drawer-nested-list">
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขความเป็นส่วนตัว">เงื่อนไขความเป็นส่วนตัว</button>
               <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขข้อมูลส่วนตัว">เงื่อนไขข้อมูลส่วนตัว</button>
               <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขข้อมูลธุรกรรม">เงื่อนไขข้อมูลธุรกรรม</button>
               <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขเปลี่ยนแปลงข้อมูล">เงื่อนไขเปลี่ยนแปลงข้อมูล</button>
@@ -3000,7 +3013,6 @@
             </div>
           </div>
 
-          <!-- ขอบเขตเงื่อนไขการรับผิดชอบ -->
           <div class="drawer-nested-group">
             <button type="button" class="drawer-nested-toggle">
               <span>ขอบเขตเงื่อนไขการรับผิดชอบ</span>
@@ -3014,7 +3026,7 @@
         </div>
       </div>
 
-      <!-- 10. ช่องทางติดต่อ (มีเมนูย่อย) -->
+      <!-- ช่องทางติดต่อ -->
       <div class="drawer-group">
         <button type="button" class="drawer-item drawer-toggle">
           <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -3070,21 +3082,13 @@
     <div class="cart-drawer-footer" id="productDrawerFooter"></div>
   </aside>
 
-  <!-- Full-Page Product Detail View (Replaces Popup) -->
-  <section class="product-page-view" id="productPageView" aria-label="หน้ารายละเอียดสินค้า">
-    <button type="button" class="back-shop-btn" id="backToShopBtn">
-      <span>←</span> กลับสู่หน้าร้านค้า
-    </button>
-    <div class="product-page-card" id="productPageContent"></div>
-  </section>
-
   <!-- All Products Catalog Page (Separated by Category & Service) -->
   <section class="catalog-page-view" id="catalogPageView" aria-label="หน้าสินค้าทั้งหมด">
     <div class="catalog-topbar">
       <button type="button" class="back-shop-btn" style="margin-bottom:0;" onclick="closeAllProductsPage()">
         <span>←</span> กลับหน้าหลัก
       </button>
-      <span style="font-size:12px;color:#94a3b8;font-weight:600;">สินค้าทั้งหมดแยกตามหมวดหมู่</span>
+      <span style="font-size:12px;color:#cbd5e1;font-weight:600;">สินค้าทั้งหมดแยกตามหมวดหมู่</span>
     </div>
 
     <div class="section-heading">
@@ -3105,7 +3109,7 @@
     <section class="hero" id="heroSlider">
       <div class="hero-slides">
         <!-- Slide 1 -->
-        <div class="hero-slide active" style="--glow-color:#152b58; --ring-color:#2e82ff; --ring-shadow:#2378ff77;">
+        <div class="hero-slide active" style="--glow-color:#1e3a8a;">
           <div class="hero-copy">
             <p class="eyebrow">TECHNOLOGY FOR LIFE</p>
             <h1>Upgrade<br>Your World</h1>
@@ -3120,13 +3124,13 @@
         </div>
 
         <!-- Slide 2 -->
-        <div class="hero-slide" style="--glow-color:#2c1b54; --ring-color:#8b5cf6; --ring-shadow:#8b5cf677;">
+        <div class="hero-slide" style="--glow-color:#1d4ed8;">
           <div class="hero-copy">
-            <p class="eyebrow" style="color:#a78bfa;">NEXT-GEN FLAGSHIP</p>
+            <p class="eyebrow" style="color:#93c5fd;">NEXT-GEN FLAGSHIP</p>
             <h1>NovaPhone<br>15 Pro Max</h1>
             <p class="hero-desc">Titanium frame, A18 Neural chip, and pro-grade telephoto camera system.</p>
             <div class="hero-buttons">
-              <a class="btn-primary" style="background:#7c3aed;" href="#products">Pre-Order <span>→</span></a>
+              <a class="btn-primary" href="#products">Pre-Order <span>→</span></a>
               <button class="text-link" onclick="openProductDetail('NovaPhone 15 Pro', 999, 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', 'สมาร์ทโฟนเรือธงตัวเรือนไทเทเนียม ชิปประมวลผลความเร็วสูง กล้องระดับโปร')">View Specs <span>›</span></button>
             </div>
           </div>
@@ -3135,9 +3139,9 @@
         </div>
 
         <!-- Slide 3 -->
-        <div class="hero-slide" style="--glow-color:#0f3a4a; --ring-color:#06b6d4; --ring-shadow:#06b6d477;">
+        <div class="hero-slide" style="--glow-color:#0369a1;">
           <div class="hero-copy">
-            <p class="eyebrow" style="color:#38bdf8;">ULTRA PERFORMANCE</p>
+            <p class="eyebrow" style="color:#7dd3fc;">ULTRA PERFORMANCE</p>
             <h1>NovaBook<br>Air M2 Studio</h1>
             <p class="hero-desc">Featherlight design meets 18-hour battery life for creators on the move.</p>
             <div class="hero-buttons">
@@ -3291,37 +3295,7 @@
     <div class="gateway-page" id="paymentGatewayPage"></div>
   </div>
 
-  <!-- Minimal Black & White Copy Notification Toast -->
-  <div class="gw-copy-toast" id="gwCopyToast" role="status">
-    <span style="width:32px;height:32px;border-radius:9px;background:#18181b;color:#fff;display:grid;place-items:center;">✓</span>
-    <div style="text-align:left;line-height:1.35;">
-      <strong style="display:block;font-size:13px;color:#18181b;">คัดลอกเลขบัญชีสำเร็จ</strong>
-      <span id="gwCopyToastSub" style="font-size:11.5px;color:#71717a;">เลขที่บัญชีพร้อมวางแล้ว</span>
-    </div>
-  </div>
-
-  <!-- Mobile-Only Enforcement Gate -->
-  <div class="mobile-lock-screen" id="mobileLockScreen" role="alertdialog" aria-modal="true">
-    <div class="mobile-lock-card">
-      <div class="lock-icon-box" style="margin:0 auto 18px;">
-        <svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-      </div>
-      <h2 style="margin:0 0 10px;font-size:19px;font-weight:800;color:#ffffff;">รองรับเฉพาะการใช้งานบนมือถือเท่านั้น</h2>
-      <p style="margin:0 0 14px;font-size:13px;color:#94a3b8;line-height:1.65;">
-        ขออภัย ระบบไม่อนุญาตให้เข้าใช้งานผ่านคอมพิวเตอร์ PC, Mac, iPad, แท็บเล็ต หรือการเปิดโหมดเว็บไซต์เวอร์ชันเดสก์ท็อป (Desktop Site) บนเบราว์เซอร์มือถือ
-      </p>
-      <div style="background:#0c111d;border:1px solid #1e293b;border-radius:12px;padding:12px;font-size:11.5px;color:#cbd5e1;line-height:1.6;text-align:left;">
-        <strong style="color:#60a5fa;display:block;margin-bottom:4px;">วิธีแก้ไขหากคุณใช้งานบนมือถือ:</strong>
-        1. เปิดเมนูเบราว์เซอร์ (จุด 3 จุดมุมขวาบนใน Chrome/Google)<br>
-        2. นำเครื่องหมายถูกออกจากช่อง <b>"เว็บไซต์เวอร์ชันเดสก์ท็อป (Desktop site)"</b><br>
-        3. รีเฟรชหน้าเว็บใหม่อีกครั้ง
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toastMsg" role="status">ดำเนินการเรียบร้อย</div>
-
-  <!-- Clean White Single-Button Notification Popup (Image 3320 Style) -->
+  <!-- Clean White Single-Button Notification Popup (แบบในรูป 3320_2.jpg เอาแค่ปุ่ม "ตกลง" สีแดง) -->
   <div class="clean-alert-overlay" id="cleanAlertOverlay" role="alertdialog" aria-modal="true">
     <div class="clean-alert-card">
       <button type="button" class="clean-alert-close" id="cleanAlertCloseBtn" aria-label="ปิด">×</button>
@@ -3334,46 +3308,9 @@
   </div>
 
   <script>
-    // --- Strict Mobile-Only & Anti-Desktop-Mode Enforcement ---
-    (function enforceMobileOnly() {
-      const lockScreen = document.getElementById('mobileLockScreen');
-
-      function checkDeviceRestriction() {
-        const ua = navigator.userAgent || '';
-        const platform = navigator.platform || '';
-        const maxTouch = navigator.maxTouchPoints || 0;
-
-        // 1. Detect Desktop OS & Desktop Mode on Mobile Google/Chrome (Linux x86_64, Macintosh, Win32/64, CrOS)
-        const isDesktopUA = /(Windows NT|Macintosh|Mac OS X|X11|Linux x86_64|Linux i686|CrOS)/i.test(ua);
-        // 2. Detect iPad & Tablets (including iPadOS 13+ reporting Macintosh with touch points)
-        const isTabletUA = /(iPad|Tablet|PlayBook|Silk|Kindle|Nexus 7|Nexus 9|Nexus 10|SM-T|Tab)/i.test(ua);
-        const isIpadOS = (/Macintosh/i.test(ua) && maxTouch > 1) || platform === 'MacIntel' && maxTouch > 1;
-        // 3. Detect Mobile Phone UA
-        const isPhoneUA = /(Android.*Mobile|iPhone|iPod|Windows Phone|BlackBerry|BB10|Opera Mini|IEMobile|Mobile)/i.test(ua);
-        // 4. Screen width & touch capability check (blocks wide viewports & desktop mode 980px layout)
-        const screenW = Math.min(window.innerWidth, window.screen.width || window.innerWidth);
-        const isWideViewport = window.innerWidth > 540 || screenW > 540;
-        const hasTouch = ('ontouchstart' in window) || maxTouch > 0;
-
-        const isAllowedPhone = isPhoneUA && !isDesktopUA && !isTabletUA && !isIpadOS && !isWideViewport && hasTouch;
-
-        if (!isAllowedPhone) {
-          lockScreen.classList.add('blocked');
-          document.body.style.overflow = 'hidden';
-        } else {
-          lockScreen.classList.remove('blocked');
-          document.body.style.overflow = '';
-        }
-      }
-
-      checkDeviceRestriction();
-      window.addEventListener('resize', checkDeviceRestriction);
-      window.addEventListener('orientationchange', checkDeviceRestriction);
-    })();
-
     // --- State Management ---
     let walletBalance = 12450;
-    let savedBankAccount = null; // Starts empty so user adds bank account first, then shows card box
+    let savedBankAccount = null;
     let selectedBankCode = 'KBANK';
     let selectedDepositAmount = 200;
     let selectedDepositChannel = 'PromptPay';
@@ -3428,40 +3365,36 @@
       'SAVE50': { code: 'SAVE50', label: 'ส่วนลดพิเศษ $50', type: 'fixed', value: 50 },
       'FREESHIP': { code: 'FREESHIP', label: 'ฟรีค่าจัดส่งทุกออเดอร์', type: 'shipping', value: 0 }
     };
-    const toast = document.getElementById('toastMsg');
+
+    // --- Clean White Single-Button Popup (แบบในรูป 3320_2.jpg เอาแค่ปุ่ม "ตกลง" สีแดง) ---
     const cleanAlertOverlay = document.getElementById('cleanAlertOverlay');
     const cleanAlertTitle = document.getElementById('cleanAlertTitle');
     const cleanAlertDesc = document.getElementById('cleanAlertDesc');
-    let toastTimer;
 
     function closeCleanAlert() {
       if (cleanAlertOverlay) cleanAlertOverlay.classList.remove('open');
     }
 
-    if (document.getElementById('cleanAlertCloseBtn')) {
-      document.getElementById('cleanAlertCloseBtn').addEventListener('click', closeCleanAlert);
-    }
-    if (document.getElementById('cleanAlertOkBtn')) {
-      document.getElementById('cleanAlertOkBtn').addEventListener('click', closeCleanAlert);
-    }
-    if (cleanAlertOverlay) {
-      cleanAlertOverlay.addEventListener('click', e => {
-        if (e.target === cleanAlertOverlay) closeCleanAlert();
-      });
-    }
+    document.getElementById('cleanAlertCloseBtn').addEventListener('click', closeCleanAlert);
+    document.getElementById('cleanAlertOkBtn').addEventListener('click', closeCleanAlert);
+    cleanAlertOverlay.addEventListener('click', e => {
+      if (e.target === cleanAlertOverlay) closeCleanAlert();
+    });
 
     function showToast(msg, title = 'แจ้งเตือน') {
-      if (cleanAlertOverlay && cleanAlertTitle && cleanAlertDesc) {
-        cleanAlertTitle.textContent = title;
-        cleanAlertDesc.textContent = msg;
-        cleanAlertOverlay.classList.add('open');
-        return;
-      }
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+      cleanAlertTitle.textContent = title;
+      cleanAlertDesc.textContent = msg;
+      cleanAlertOverlay.classList.add('open');
     }
+
+    // --- Navigation Helpers ---
+    window.goHomePage = function() {
+      const storeEl = document.getElementById('storeMainContent');
+      const catalogEl = document.getElementById('catalogPageView');
+      if (catalogEl) catalogEl.classList.remove('active');
+      if (storeEl) storeEl.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     // --- All Products Catalog Page Data & Functions ---
     const CATALOG_CATEGORIES = [
@@ -3474,25 +3407,20 @@
     ];
 
     const CATALOG_PRODUCTS = [
-      // สินค้าออนไลน์
       { service: 'สินค้าออนไลน์', name: 'NovaPhone 15 Pro', price: 999, badge: 'New', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', desc: 'สมาร์ทโฟนเรือธงจอ OLED 120Hz ชิปประมวลผลรุ่นล่าสุด พร้อมระบบกล้อง ProRAW' },
       { service: 'สินค้าออนไลน์', name: 'NovaBuds Pro', price: 199, badge: 'Best Seller', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=600&q=90', desc: 'หูฟังไร้สายตัดเสียงรบกวน Active Noise Cancellation ระดับสตูดิโอ แบตอึด 30 ชม.' },
       { service: 'สินค้าออนไลน์', name: 'NovaBook Air M2', price: 1299, badge: '', badgeClass: '', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=90', desc: 'แล็ปท็อปดีไซน์บางเฉียบ น้ำหนักเบาเพียง 1.24 กก. แรงลื่นทุกงานตัดต่อและกราฟิก' },
       { service: 'สินค้าออนไลน์', name: 'NovaWatch X', price: 249, oldPrice: 299, badge: 'Sale', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=90', desc: 'สมาร์ทวอทช์ตรวจวัดสุขภาพครบวงจร กันน้ำ 50 เมตร หน้าปัดกระจกแซฟไฟร์' },
-      // เติมเกมส์
       { service: 'เติมเกมส์', name: 'ROV คูปอง UID 24 ชม.', price: 15, badge: 'ยอดนิยม', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=90', desc: 'เติมคูปอง ROV ใช้เพียง OpenID เข้าทันทีอัตโนมัติ 24 ชั่วโมง ราคาประหยัด' },
       { service: 'เติมเกมส์', name: 'Valorant Points (VP)', price: 29, badge: 'เข้าทันที', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=90', desc: 'เติมพอยต์ Valorant ด้วย Riot ID ปลอดภัย 100% ไม่ต้องใช้รหัสผ่าน' },
       { service: 'เติมเกมส์', name: 'Genshin Impact Genesis', price: 49, badge: 'โบนัส x2', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', desc: 'เติม Genesis Crystals ใช้แค่ UID เซิร์ฟเวอร์ Asia รับโบนัสครบถ้วน' },
       { service: 'เติมเกมส์', name: 'Free Fire เพชรราคาถูก', price: 10, badge: 'Sale', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=90', desc: 'เติมเพชร Free Fire ระบบอัตโนมัติรวดเร็วทันใจ ใช้เพียงเลข ID ผู้เล่น' },
-      // บัตรเติมเงิน
       { service: 'บัตรเติมเงิน', name: 'Garena Shell 500 บาท', price: 16, badge: 'พร้อมส่ง', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?auto=format&fit=crop&w=600&q=90', desc: 'รหัสบัตรเติมเงินการีนาเชลล์ รับโค้ดทันทีหลังชำระเงิน ใช้งานได้ทุกเกมในเครือ' },
       { service: 'บัตรเติมเงิน', name: 'Steam Wallet 1,000 THB', price: 32, badge: 'Best Seller', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=90', desc: 'บัตรเติมเงิน Steam Wallet โซนไทย รับรหัสอัตโนมัติทันทีตลอด 24 ชม.' },
       { service: 'บัตรเติมเงิน', name: 'Razer Gold PIN 500', price: 16, badge: 'คุ้มค่า', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=600&q=90', desc: 'บัตร Razer Gold PIN เติมเกมและรับแต้มสะสม Razer Silver ได้ทันที' },
       { service: 'บัตรเติมเงิน', name: 'TrueMoney Cash Card', price: 10, badge: 'Instant', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=90', desc: 'รหัสบัตรเงินสดทรูมันนี่ รับรหัสทันทีหลังยืนยันยอด' },
-      // แอพพรีเมี่ยม
       { service: 'แอพพรีเมี่ยม', name: 'YouTube Premium 1 เดือน', price: 5, badge: 'ขายดี', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=90', desc: 'ดูวิดีโอแบบไม่มีโฆษณาคั่น ฟังเพลงพื้นหลังได้ พร้อม YouTube Music' },
       { service: 'แอพพรีเมี่ยม', name: 'Netflix 4K Ultra HD', price: 9, badge: '4K HDR', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=90', desc: 'รับชมภาพยนตร์และซีรีส์ความคมชัดสูงสุด 4K จอส่วนตัว รับประกันตลอดอายุใช้งาน' },
-      // แพ็กเกจเสริม
       { service: 'แพ็กเกจเสริม', name: 'เน็ตไม่อั้น 30Mbps 30 วัน', price: 12, badge: 'ไม่ลดสปีด', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', desc: 'แพ็กเกจเสริมอินเทอร์เน็ตความเร็ว 30Mbps ไม่อั้นไม่ลดสปีด รองรับทุกเครือข่าย' },
       { service: 'แพ็กเกจเสริม', name: 'แพ็กเกจเกมมิ่ง Ping ต่ำ', price: 7, badge: 'Gaming', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=90', desc: 'อินเทอร์เน็ตเสริมความเร็วสูงพิเศษสำหรับเล่นเกมออนไลน์โดยเฉพาะ' }
     ];
@@ -3502,21 +3430,15 @@
     window.openAllProductsPage = function(category = 'ALL') {
       activeCatalogCategory = category;
       const storeEl = document.getElementById('storeMainContent');
-      const productPageEl = document.getElementById('productPageView');
       const catalogEl = document.getElementById('catalogPageView');
       if (storeEl) storeEl.style.display = 'none';
-      if (productPageEl) productPageEl.classList.remove('active');
       if (catalogEl) catalogEl.classList.add('active');
       renderCatalogPage();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     window.closeAllProductsPage = function() {
-      const storeEl = document.getElementById('storeMainContent');
-      const catalogEl = document.getElementById('catalogPageView');
-      if (catalogEl) catalogEl.classList.remove('active');
-      if (storeEl) storeEl.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      goHomePage();
     };
 
     window.filterCatalogCategory = function(catId) {
@@ -3558,7 +3480,7 @@
                     <h3>${item.name}</h3>
                     <p><b>$${item.price}</b>${item.oldPrice ? ` <del>$${item.oldPrice}</del>` : ''}</p>
                   </div>
-                  <button type="button" class="add-cart" aria-label="เพิ่มลงตะกร้า" onclick="event.stopPropagation();addItemToCart('${item.name}', ${item.price}, '${item.img}');showToast('เพิ่ม ${item.name} ลงในตะกร้าแล้ว')">
+                  <button type="button" class="add-cart" aria-label="เพิ่มลงตะกร้า" onclick="event.stopPropagation();addItemToCart('${item.name}', ${item.price}, '${item.img}');showToast('เพิ่ม ${item.name} ลงในตะกร้าเรียบร้อยแล้ว', 'เพิ่มลงตะกร้าสำเร็จ')">
                     <svg viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
                   </button>
                 </article>
@@ -3570,8 +3492,11 @@
     }
 
     function updateBalanceUI() {
-      document.getElementById('walletBalanceDisplay').textContent =
-        `฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}`;
+      const formatted = `฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}`;
+      const mobileBal = document.getElementById('walletBalanceDisplay');
+      const pcBal = document.getElementById('pcWalletBalanceDisplay');
+      if (mobileBal) mobileBal.textContent = formatted;
+      if (pcBal) pcBal.textContent = formatted;
     }
 
     function updateCartUI() {
@@ -3631,7 +3556,7 @@
     heroSlider.addEventListener('mouseleave', startAutoSlide);
     startAutoSlide();
 
-    // --- Left Side Drawer Logic ---
+    // --- Left Side Drawer Logic (Mobile) ---
     const sideDrawer = document.getElementById('sideDrawer');
     const menuBackdrop = document.getElementById('menuBackdrop');
     const openMenu = () => { sideDrawer.classList.add('open'); menuBackdrop.classList.add('open'); };
@@ -3641,7 +3566,6 @@
     document.getElementById('menuClose').addEventListener('click', closeMenu);
     menuBackdrop.addEventListener('click', closeMenu);
 
-    // Accordion Submenu & Nested Submenu Toggle
     document.querySelectorAll('.drawer-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
         const group = btn.closest('.drawer-group');
@@ -3703,10 +3627,10 @@
       }
     });
 
-    // --- Bottom-Sliding Sheet Controller (Deposit & Order Checkout) ---
+    // --- Bottom-Sliding Sheet Controller (Deposit & Withdraw) ---
     const walletSheetOverlay = document.getElementById('walletSheetOverlay');
     const walletSheetPanel = document.getElementById('walletSheetPanel');
-    let sheetMode = 'deposit'; // 'deposit' or 'checkout'
+    let sheetMode = 'deposit';
     let pendingOrderTotalTHB = 0;
 
     function openWalletSheet() {
@@ -3724,7 +3648,6 @@
       if (e.target === walletSheetOverlay) closeWalletSheet();
     });
 
-    // 1. Deposit & Order Payment Channel Selector Sheet
     function openDepositModal() {
       sheetMode = 'deposit';
       renderDepositSheet();
@@ -3847,26 +3770,16 @@
       return `${dd}/${mm}/${yyyy} ${hh}:${min} น.`;
     }
 
-    // --- In-Tab Payment Gateway (QR PromptPay & Thai Bank Transfer) ---
+    // --- In-Tab Payment Gateway ---
     const paymentGatewayOverlay = document.getElementById('paymentGatewayOverlay');
     const paymentGatewayPage = document.getElementById('paymentGatewayPage');
     let currentGatewayTx = null;
-    let gwCopyTimer;
 
     function closePaymentGateway() {
       paymentGatewayOverlay.classList.remove('open');
     }
 
-    function showGwCopyToast(text) {
-      const el = document.getElementById('gwCopyToast');
-      const sub = document.getElementById('gwCopyToastSub');
-      if (!el || !sub) return;
-      sub.textContent = text;
-      el.classList.add('show');
-      clearTimeout(gwCopyTimer);
-      gwCopyTimer = setTimeout(() => el.classList.remove('show'), 2500);
-    }
-
+    // ปรับการแจ้งเตือนคัดลอกเลขบัญชีสำเร็จให้เป็นแบบในรูป 3320_2.jpg (กล่องสีขาว + ปุ่ม "ตกลง" สีแดงปุ่มเดียว)
     window.copyGatewayAccount = function(accNum) {
       const rawNumber = String(accNum).replace(/-/g, '');
       const tempInput = document.createElement('textarea');
@@ -3879,7 +3792,7 @@
         document.execCommand('copy');
       } catch (err) {}
       document.body.removeChild(tempInput);
-      showGwCopyToast(`เลขที่บัญชี ${rawNumber} พร้อมวางแล้ว`);
+      showToast(`คัดลอกเลขที่บัญชี ${rawNumber} เรียบร้อยแล้ว พร้อมวางเพื่อทำรายการโอนเงิน`, 'คัดลอกเลขบัญชีสำเร็จ');
     };
 
     window.handleGatewaySlipUpload = function(event) {
@@ -3934,9 +3847,9 @@
 
       const qrTopVisual = `
         <div class="gw-qr-wrap" aria-label="พื้นที่แสดง QR Code">
-          <img src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png" alt="PromptPay QR Code" class="gw-qr-img" onerror="this.src='https://placehold.co/300x300/f8fafc/173966?text=QR+Code'">
+          <img src="https://i.postimg.cc/FRLs0MvD/Receive-Money-QR-2026-09-23-12-03-46.png" alt="PromptPay QR Code" class="gw-qr-img" onerror="this.src='https://placehold.co/300x300/f8fafc/1e3a8a?text=QR+Code'">
           <div class="gw-qr-center">
-            <img src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" onerror="this.src='https://placehold.co/100x100/173966/ffffff?text=PP'">
+            <img src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="PromptPay Logo" onerror="this.src='https://placehold.co/100x100/1e3a8a/ffffff?text=PP'">
           </div>
         </div>
       `;
@@ -4033,7 +3946,7 @@
             </p>
             <div style="width:100%;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:16px;margin-bottom:20px;">
               <div style="font-size:12px;color:#64748b;margin-bottom:4px;">เลขที่คำสั่งซื้อ</div>
-              <div style="font-size:16px;font-weight:700;color:#173966;word-break:break-all;">${orderId}</div>
+              <div style="font-size:16px;font-weight:700;color:#1e3a8a;word-break:break-all;">${orderId}</div>
             </div>
             <button type="button" class="modal-submit" onclick="closePaymentGateway()">กลับสู่หน้าร้านค้า</button>
           </div>
@@ -4052,7 +3965,7 @@
       openInTabPaymentGateway(selectedDepositAmount, selectedDepositChannel, sheetMode === 'checkout' ? 'checkout' : 'deposit');
     };
 
-    // 2. Withdraw Bottom Sheet (Matching Images 3298, 3299, 3304 & Wallet Phone Input 3313)
+    // --- Withdraw Bottom Sheet ---
     let wdTabMode = 'cash';
     let savedWalletPhone = '';
 
@@ -4146,7 +4059,6 @@
           </button>
         </div>
 
-        <!-- Sub-Sheet 1: เพิ่มบัญชี (Image 3299) -->
         <div class="sub-sheet-backdrop" id="addBankSubSheet">
           <div class="sub-sheet-box">
             <div class="sub-sheet-head">
@@ -4179,7 +4091,6 @@
           </div>
         </div>
 
-        <!-- Sub-Sheet 2: เลือกธนาคาร/วอลเล็ต (Image 3304) -->
         <div class="sub-sheet-backdrop" id="bankPickerSubSheet">
           <div class="sub-sheet-box">
             <div class="sub-sheet-head">
@@ -4279,7 +4190,7 @@
       };
       closeAddBankSubSheet();
       renderWithdrawSheet();
-      showToast('เพิ่มบัญชีธนาคารเรียบร้อยแล้ว');
+      showToast('เพิ่มบัญชีธนาคารเรียบร้อยแล้ว', 'ผูกบัญชีสำเร็จ');
     };
 
     window.updateWdSubmitState = function() {
@@ -4314,7 +4225,7 @@
         walletBalance -= val;
         updateBalanceUI();
         closeWalletSheet();
-        return showToast(`ส่งคำขอถอนเงินวอลเล็ต ฿${val.toLocaleString('th-TH')} ไปยังเบอร์ +66 ${phoneDigits} สำเร็จ!`);
+        return showToast(`ส่งคำขอถอนเงินวอลเล็ต ฿${val.toLocaleString('th-TH')} ไปยังเบอร์ +66 ${phoneDigits} สำเร็จ!`, 'ถอนเงินสำเร็จ');
       }
 
       if (!savedBankAccount) {
@@ -4330,10 +4241,10 @@
       walletBalance -= val;
       updateBalanceUI();
       closeWalletSheet();
-      showToast(`ส่งคำขอถอนเงิน ฿${val.toLocaleString('th-TH')} เข้าบัญชี ${savedBankAccount.accountNumber} สำเร็จ!`);
+      showToast(`ส่งคำขอถอนเงิน ฿${val.toLocaleString('th-TH')} เข้าบัญชี ${savedBankAccount.accountNumber} สำเร็จ!`, 'ถอนเงินสำเร็จ');
     };
 
-    // 3. Logout Confirmation Modal
+    // --- Logout Confirmation Modal ---
     function openLogoutModal() {
       closeMenu();
       openModal(
@@ -4343,13 +4254,13 @@
           <p style="font-size:13px;color:#cbd5e1;line-height:1.6;margin:0 0 18px;">คุณต้องการออกจากระบบบัญชีสมาชิก NOVATEK ใช่หรือไม่? ข้อมูลตะกร้าสินค้าของคุณจะถูกบันทึกไว้ชั่วคราว</p>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <button type="button" class="preset-btn" style="height:42px;" onclick="closeModal()">ยกเลิก</button>
-            <button type="button" class="modal-submit danger" style="height:42px;" onclick="closeModal();showToast('ออกจากระบบเรียบร้อยแล้ว')">ออกจากระบบ</button>
+            <button type="button" class="modal-submit danger" style="height:42px;" onclick="closeModal();showToast('ออกจากระบบเรียบร้อยแล้ว', 'ออกจากระบบสำเร็จ')">ออกจากระบบ</button>
           </div>
         `
       );
     }
 
-    // 4. Full-Height Shopping Cart Drawer
+    // --- Full-Height Shopping Cart Drawer ---
     const cartDrawer = document.getElementById('cartDrawer');
     const cartBackdrop = document.getElementById('cartBackdrop');
 
@@ -4378,7 +4289,7 @@
       if (AVAILABLE_COUPONS[code]) {
         appliedCoupon = AVAILABLE_COUPONS[code];
         renderCartDrawer();
-        showToast(`ใช้คูปอง ${code} สำเร็จ!`);
+        showToast(`ใช้คูปอง ${code} สำเร็จ!`, 'ใช้คูปองสำเร็จ');
       } else {
         showToast('รหัสส่วนลดไม่ถูกต้อง (แนะนำ: NOVA10, SAVE50)');
       }
@@ -4398,9 +4309,9 @@
       if (!cartItems.length) {
         appliedCoupon = null;
         bodyEl.innerHTML = `
-          <div style="margin:auto;text-align:center;padding:30px 16px;color:#8592a6;">
-            <svg viewBox="0 0 24 24" style="width:44px;height:44px;stroke:#3b4761;fill:none;stroke-width:1.5;margin-bottom:10px;"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
-            <div style="font-size:14px;color:#cbd5e1;font-weight:600;margin-bottom:4px;">ตะกร้าสินค้าของคุณยังว่างอยู่</div>
+          <div style="margin:auto;text-align:center;padding:30px 16px;color:#94a3b8;">
+            <svg viewBox="0 0 24 24" style="width:44px;height:44px;stroke:#475569;fill:none;stroke-width:1.5;margin-bottom:10px;"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+            <div style="font-size:14px;color:#f8fafc;font-weight:600;margin-bottom:4px;">ตะกร้าสินค้าของคุณยังว่างอยู่</div>
             <div style="font-size:12px;">เลือกชมสินค้าเทคโนโลยีสุดล้ำและเพิ่มลงตะกร้าได้เลย</div>
           </div>
         `;
@@ -4408,9 +4319,8 @@
         return;
       }
 
-      // 1. สินค้าที่เพิ่ม (Added Items)
       bodyEl.innerHTML = `
-        <div style="font-size:11px;font-weight:600;color:#8fa3cc;letter-spacing:0.5px;">รายการสินค้าที่เพิ่ม</div>
+        <div style="font-size:11px;font-weight:600;color:#93c5fd;letter-spacing:0.5px;">รายการสินค้าที่เพิ่ม</div>
         ${cartItems.map((item, index) => `
           <div class="cart-item">
             <img src="${item.img}" alt="${item.name}">
@@ -4430,7 +4340,6 @@
         `).join('')}
       `;
 
-      // Calculate Discount, Shipping, VAT 7%, Net Total
       let discountAmount = 0;
       if (appliedCoupon) {
         if (appliedCoupon.type === 'percent') {
@@ -4445,7 +4354,6 @@
       const vatAmount = afterDiscount * 0.07;
       const netTotal = afterDiscount + shippingFee + vatAmount;
 
-      // 2. คูปองที่ใช้ & รหัสส่วนลด -> 3. ค่าจัดส่ง & ภาษีมูลค่าเพิ่ม -> 4. ยอดสุทธิ
       footerEl.innerHTML = `
         <div class="coupon-box">
           <input type="text" id="couponCodeInput" placeholder="กรอกรหัสส่วนลด (เช่น NOVA10, SAVE50)" value="${appliedCoupon ? appliedCoupon.code : ''}">
@@ -4470,7 +4378,7 @@
           ` : ''}
           <div class="breakdown-row">
             <span>ค่าจัดส่ง</span>
-            <span>${shippingFee === 0 ? '<span style="color:#4ade80;">ฟรี</span>' : `$${shippingFee.toFixed(2)}`}</span>
+            <span>${shippingFee === 0 ? '<span style="color:#60a5fa;">ฟรี</span>' : `$${shippingFee.toFixed(2)}`}</span>
           </div>
           <div class="breakdown-row">
             <span>ภาษีมูลค่าเพิ่ม (VAT 7%)</span>
@@ -4505,236 +4413,184 @@
       openCheckoutChannelSheet(Number(netTotal));
     };
 
-    // 6. Bottom-Sliding Product Detail Sheet with Banner Header
+    // --- Bottom-Sliding Product Detail Sheet ---
     const productDrawer = document.getElementById('productDrawer');
     const productBackdrop = document.getElementById('productBackdrop');
-    const productPageView = document.getElementById('productPageView');
-    const storeMainContent = document.getElementById('storeMainContent');
     const productSheetOverlay = document.getElementById('productSheetOverlay');
     const productSheetPanel = document.getElementById('productSheetPanel');
     let currentDetailQty = 1;
 
-    function closeProductDrawer() {
-      productDrawer.classList.remove('open');
-      productBackdrop.classList.remove('open');
-    }
-
-    function closeProductPage() {
-      productPageView.classList.remove('active');
-      storeMainContent.style.display = 'block';
-    }
-
     function closeProductSheet() {
-      productSheetOverlay.classList.remove('open');
+      if (productSheetOverlay) productSheetOverlay.classList.remove('open');
     }
 
-    productSheetOverlay.addEventListener('click', e => {
-      if (e.target === productSheetOverlay) closeProductSheet();
-    });
+    function closeProductDrawer() {
+      if (productDrawer) productDrawer.classList.remove('open');
+      if (productBackdrop) productBackdrop.classList.remove('open');
+      closeProductSheet();
+    }
 
-    document.getElementById('backToShopBtn').addEventListener('click', closeProductPage);
-    document.getElementById('productCloseBtn').addEventListener('click', closeProductDrawer);
-    productBackdrop.addEventListener('click', closeProductDrawer);
+    if (document.getElementById('productCloseBtn')) {
+      document.getElementById('productCloseBtn').addEventListener('click', closeProductDrawer);
+    }
+    if (productBackdrop) {
+      productBackdrop.addEventListener('click', closeProductDrawer);
+    }
+    if (productSheetOverlay) {
+      productSheetOverlay.addEventListener('click', e => {
+        if (e.target === productSheetOverlay) closeProductSheet();
+      });
+    }
+
+    window.switchProductTab = function(tabName, btnEl) {
+      if (!productSheetPanel) return;
+      productSheetPanel.querySelectorAll('.p-tab-btn').forEach(b => b.classList.remove('active'));
+      productSheetPanel.querySelectorAll('.p-tab-panel').forEach(p => p.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      const targetPanel = productSheetPanel.querySelector(`#tab-${tabName}`);
+      if (targetPanel) targetPanel.classList.add('active');
+    };
+
+    window.changeDetailQty = function(delta) {
+      currentDetailQty = Math.max(1, currentDetailQty + delta);
+      const valEl = document.getElementById('detailQtyVal');
+      if (valEl) valEl.textContent = currentDetailQty;
+    };
 
     window.openProductDetail = function(name, price, img, desc) {
       closeMenu();
       closeCartDrawer();
       closeModal();
-      closeInlineSearch();
       currentDetailQty = 1;
+
+      const matched = CATALOG_PRODUCTS.find(p => p.name === name);
+      const serviceCategory = matched ? matched.service : 'สินค้าออนไลน์';
+      const watermarkText = name.split(' ')[0].toUpperCase();
 
       productSheetPanel.innerHTML = `
         <div class="pd-banner-header">
           <img src="${img}" alt="${name}" class="pd-banner-bg">
           <div class="pd-graphic-overlay" aria-hidden="true">
-            <svg viewBox="0 0 680 240" width="100%" height="100%" preserveAspectRatio="none">
-              <defs>
-                <radialGradient id="pdGlowA" cx="75%" cy="30%" r="55%">
-                  <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.38"/>
-                  <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
-                </radialGradient>
-                <pattern id="pdGridPattern" width="28" height="28" patternUnits="userSpaceOnUse">
-                  <path d="M 28 0 L 0 0 0 28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-                </pattern>
-              </defs>
-              <rect width="680" height="240" fill="url(#pdGridPattern)"/>
-              <rect width="680" height="240" fill="url(#pdGlowA)"/>
-              <circle cx="570" cy="45" r="85" fill="none" stroke="rgba(147,197,253,0.18)" stroke-width="1.5"/>
-              <circle cx="570" cy="45" r="54" fill="none" stroke="rgba(96,165,250,0.22)" stroke-width="1.5" stroke-dasharray="6 6"/>
-              <path d="M410 240 L510 0 L545 0 L445 240 Z" fill="rgba(59,130,246,0.12)"/>
-              <path d="M475 240 L575 0 L592 0 L492 240 Z" fill="rgba(147,197,253,0.14)"/>
-            </svg>
-            <div class="pd-graphic-watermark">${name}</div>
+            <span class="pd-graphic-watermark">${watermarkText}</span>
           </div>
+
           <div class="pd-banner-top">
-            <nav class="pd-breadcrumb" aria-label="Breadcrumb">
-              <span>หน้าหลัก</span>
-              <span>›</span>
-              <span>สินค้า</span>
-              <span>›</span>
+            <div class="pd-breadcrumb">
+              <span>รายการสินค้าทั้งหมด</span>
+              <span>/</span>
               <span class="current">${name}</span>
-            </nav>
-            <button type="button" class="pd-sheet-close" onclick="closeProductSheet()" aria-label="ปิดหน้าต่าง">×</button>
+            </div>
+            <button type="button" class="pd-sheet-close" onclick="closeProductSheet()" aria-label="ปิดรายละเอียดสินค้า">×</button>
           </div>
 
           <div class="pd-banner-main">
-            <span class="pd-cat-pill">สินค้าแนะนำ • พร้อมจัดส่ง</span>
+            <span class="pd-cat-pill">${serviceCategory}</span>
             <div class="pd-identity-row">
               <div class="pd-thumb-card">
                 <img src="${img}" alt="${name}">
               </div>
               <div class="pd-identity-text">
                 <h2>${name}</h2>
-                <p>${desc} รับประกันของแท้ 100% เชื่อมต่อระบบจัดส่งอัตโนมัติรวดเร็วทันใจ</p>
+                <p>${desc}</p>
               </div>
             </div>
           </div>
 
           <div class="pd-trust-badges">
-            <div class="pd-trust-item"><span class="pd-trust-check">✓</span><span>ออนไลน์ 24/7</span></div>
-            <div class="pd-trust-item"><span class="pd-trust-check">✓</span><span>จ่ายได้หลายช่องทาง</span></div>
-            <div class="pd-trust-item"><span class="pd-trust-check">✓</span><span>มีทีมงานคอยช่วย</span></div>
+            <span class="pd-trust-item"><span class="pd-trust-check">✓</span>ปลอดภัย 100%</span>
+            <span class="pd-trust-item"><span class="pd-trust-check">✓</span>ส่งไวอัตโนมัติ</span>
+            <span class="pd-trust-item"><span class="pd-trust-check">✓</span>รับประกันตลอดการใช้งาน</span>
           </div>
         </div>
 
         <div class="pd-sheet-body">
           <div class="pd-price-card">
             <div>
-              <div style="font-size:11px;color:#8fa3cc;margin-bottom:2px;">ราคาจำหน่ายพิเศษ</div>
-              <div style="display:flex;align-items:baseline;gap:8px;">
-                <strong style="font-size:24px;color:#4ade80;font-weight:800;">$${price.toLocaleString()}</strong>
-                <span style="font-size:11px;color:#94a3b8;">(≈ ฿${(price * 34).toLocaleString()})</span>
-              </div>
+              <div style="font-size:11px;color:#94a3b8;margin-bottom:2px;">ราคาจำหน่าย</div>
+              <div style="font-size:24px;font-weight:800;color:#60a5fa;">$${price.toLocaleString()}</div>
             </div>
-            <div class="qty-controls" style="height:38px;padding:0 10px;margin-top:0;border-radius:10px;">
-              <button type="button" class="qty-btn" onclick="updateDetailPageQty(-1)" aria-label="ลดจำนวน">−</button>
-              <span class="qty-val" id="detailPageQtyVal" style="min-width:20px;font-size:13px;">1</span>
-              <button type="button" class="qty-btn" onclick="updateDetailPageQty(1)" aria-label="เพิ่มจำนวน">+</button>
+            <div style="text-align:right;">
+              <span style="display:inline-block;padding:4px 10px;border-radius:20px;background:rgba(59,130,246,0.18);border:1px solid rgba(96,165,250,0.4);color:#93c5fd;font-size:11px;font-weight:600;">พร้อมส่งทันที</span>
+              <div style="font-size:10.5px;color:#94a3b8;margin-top:4px;">จัดส่งฟรีทั่วประเทศ</div>
             </div>
           </div>
 
-          <div class="product-tabs-nav" style="margin-top:4px;">
-            <button type="button" class="p-tab-btn active" onclick="switchProductTab(this, 'tab-overview')">รายละเอียดสินค้า</button>
-            <button type="button" class="p-tab-btn" onclick="switchProductTab(this, 'tab-specs')">สเปกทางเทคนิค</button>
-            <button type="button" class="p-tab-btn" onclick="switchProductTab(this, 'tab-warranty')">การรับประกัน</button>
+          <div class="product-tabs-nav" style="margin-top:0;">
+            <button type="button" class="p-tab-btn active" onclick="switchProductTab('overview', this)">ภาพรวมสินค้า</button>
+            <button type="button" class="p-tab-btn" onclick="switchProductTab('specs', this)">สเปกและข้อมูล</button>
+            <button type="button" class="p-tab-btn" onclick="switchProductTab('warranty', this)">การรับประกัน</button>
           </div>
 
-          <div class="p-tab-panel active" id="tab-overview">
-            <p style="margin:0 0 10px;font-size:12.5px;">${desc}</p>
-            <ul style="margin:0;padding-left:18px;color:#9fb0cc;font-size:12px;line-height:1.8;">
-              <li>วัสดุเกรดพรีเมียม ออกแบบตามหลักสรีรศาสตร์ ใช้งานได้ยาวนาน</li>
-              <li>รองรับการเชื่อมต่อไร้สายความเร็วสูงและระบบชาร์จไวอัจฉริยะ</li>
-              <li>สินค้าของแท้ 100% พร้อมซีเรียลนัมเบอร์ตรวจสอบได้</li>
-            </ul>
-          </div>
-
-          <div class="p-tab-panel" id="tab-specs">
+          <div id="tab-overview" class="p-tab-panel active">
+            <p style="margin:0 0 12px;">${desc}</p>
             <div class="product-spec-list">
-              <div class="spec-item"><span>แบรนด์ / รุ่น</span><strong>NOVATEK — ${name}</strong></div>
-              <div class="spec-item"><span>การเชื่อมต่อ</span><strong>Bluetooth 5.4 / Wi-Fi 6E / USB-C</strong></div>
-              <div class="spec-item"><span>มาตรฐานกันน้ำกันฝุ่น</span><strong>IP68 Certified</strong></div>
-              <div class="spec-item"><span>อุปกรณ์ภายในกล่อง</span><strong>ตัวเครื่อง, สายชาร์จ USB-C, คู่มือการใช้งาน</strong></div>
+              <div class="spec-item"><span>สภาพสินค้า</span><strong>ของแท้ 100% (Official Store)</strong></div>
+              <div class="spec-item"><span>การจัดส่ง</span><strong>ส่งด่วนภายใน 24 ชม. / อัตโนมัติ</strong></div>
+              <div class="spec-item"><span>ชำระเงิน</span><strong>รองรับ Wallet / บัตรเครดิต / ผ่อน 0%</strong></div>
             </div>
           </div>
 
-          <div class="p-tab-panel" id="tab-warranty">
+          <div id="tab-specs" class="p-tab-panel">
             <div class="product-spec-list">
-              <div class="spec-item"><span>การรับประกันศูนย์</span><strong style="color:#4ade80;">รับประกันศูนย์ NOVATEK 1 ปีเต็ม</strong></div>
-              <div class="spec-item"><span>นโยบายเปลี่ยนคืน</span><strong>เปลี่ยนเครื่องใหม่ภายใน 7 วันหากพบปัญหา</strong></div>
-              <div class="spec-item"><span>การจัดส่ง</span><strong>จัดส่งด่วนพิเศษ 1-2 วันทำการ (ฟรีเมื่อช้อปครบ $500)</strong></div>
+              <div class="spec-item"><span>แบรนด์ผู้ผลิต</span><strong>NOVATEK Official</strong></div>
+              <div class="spec-item"><span>หมวดหมู่บริการ</span><strong>${serviceCategory}</strong></div>
+              <div class="spec-item"><span>ระบบประมวลผล</span><strong>Next-Gen Neural Engine</strong></div>
+              <div class="spec-item"><span>อุปกรณ์ภายในกล่อง</span><strong>ตัวเครื่อง / รหัสเปิดใช้งาน, คู่มือ</strong></div>
+            </div>
+          </div>
+
+          <div id="tab-warranty" class="p-tab-panel">
+            <div class="product-spec-list">
+              <div class="spec-item"><span>ระยะเวลารับประกัน</span><strong>รับประกันศูนย์ไทย 1 ปีเต็ม</strong></div>
+              <div class="spec-item"><span>บริการหลังการขาย</span><strong>ดูแลตลอด 24 ชม. โดยทีมผู้เชี่ยวชาญ</strong></div>
+              <div class="spec-item"><span>นโยบายคืนสินค้า</span><strong>เปลี่ยนใหม่ภายใน 7 วันหากพบปัญหา</strong></div>
             </div>
           </div>
         </div>
 
         <div class="pd-sheet-footer">
-          <button type="button" class="preset-btn" style="height:44px;padding:0 16px;flex:1;font-size:13px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', false)">+ เพิ่มลงตะกร้า</button>
-          <button type="button" class="modal-submit" style="flex:1.25;font-size:13.5px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', true)">ชำระเงินเลย</button>
+          <div class="qty-controls" style="margin-top:0;height:44px;padding:0 12px;">
+            <button type="button" class="qty-btn" onclick="changeDetailQty(-1)" aria-label="ลดจำนวน">−</button>
+            <span class="qty-val" id="detailQtyVal" style="font-size:14px;min-width:22px;">1</span>
+            <button type="button" class="qty-btn" onclick="changeDetailQty(1)" aria-label="เพิ่มจำนวน">+</button>
+          </div>
+          <button type="button" class="modal-submit" style="flex:1;" onclick="confirmAddDetailToCart('${name}', ${price}, '${img}')">เพิ่มลงตะกร้า</button>
         </div>
       `;
 
       productSheetOverlay.classList.add('open');
     };
 
-    window.switchProductTab = function(btn, panelId) {
-      document.querySelectorAll('.p-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.p-tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      const panel = document.getElementById(panelId);
-      if (panel) panel.classList.add('active');
-    };
-
-    window.updateDetailPageQty = function(delta) {
-      currentDetailQty = Math.max(1, currentDetailQty + delta);
-      const valEl = document.getElementById('detailPageQtyVal');
-      if (valEl) valEl.textContent = currentDetailQty;
-    };
-
-    window.confirmDetailAddCart = function(name, price, img, goCheckout) {
+    window.confirmAddDetailToCart = function(name, price, img) {
       for (let i = 0; i < currentDetailQty; i++) {
         addItemToCart(name, price, img);
       }
       closeProductSheet();
-      if (goCheckout) {
-        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        const shippingFee = subtotal >= 500 ? 0 : 15;
-        const vatAmount = subtotal * 0.07;
-        const netTotal = subtotal + shippingFee + vatAmount;
-        openCheckoutChannelSheet(Number(netTotal.toFixed(2)));
-      } else {
-        showToast(`เพิ่ม ${name} (${currentDetailQty} ชิ้น) ลงตะกร้าแล้ว`);
-      }
+      showToast(`เพิ่ม ${name} (${currentDetailQty} ชิ้น) ลงในตะกร้าแล้ว`, 'เพิ่มลงตะกร้าสำเร็จ');
     };
 
-    // 7. Account & Care+ Modals
-    function openAccountModal() {
-      openModal(
-        'บัญชีสมาชิก NOVATEK',
-        '<svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.7"/><path d="M4.5 21c.5-4.1 3.2-6.3 7.5-6.3s7 2.2 7.5 6.3"/></svg>',
-        `
-          <div style="background:#111724;border:1px solid #232d42;border-radius:14px;padding:14px;margin-bottom:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <strong style="font-size:15px;color:#fff;">คุณธนกร วัฒนากูล</strong>
-              <span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,.12);padding:3px 9px;border-radius:20px;font-weight:600;">VIP Member</span>
-            </div>
-            <div style="font-size:12px;color:#94a3b8;">อีเมล: thanakorn.w@novatek.co.th</div>
-            <div style="font-size:12px;color:#94a3b8;margin-top:4px;">ยอดเงินคงเหลือ: <strong style="color:#6c91ff;">฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</strong></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <button type="button" class="modal-submit" onclick="openDepositModal()">ฝากเงิน</button>
-            <button type="button" class="preset-btn" style="height:44px;" onclick="openWithdrawModal()">ถอนเงิน</button>
-          </div>
-        `
-      );
-    }
-
-    // Expandable Left-Sliding Search Bar Logic
+    // --- Left-Sliding Inline Search Bar ---
     const searchBarWrap = document.getElementById('searchBarWrap');
     const inlineSearchInput = document.getElementById('inlineSearchInput');
     const searchDropdown = document.getElementById('searchDropdown');
 
-    function closeInlineSearch() {
-      searchBarWrap.classList.remove('active');
-      searchDropdown.classList.remove('show');
-    }
-
-    function renderSearchResults(keyword) {
-      const cards = Array.from(document.querySelectorAll('.product-card'));
-      const q = keyword.trim().toLowerCase();
-      const matches = cards.filter(card => {
-        const name = (card.dataset.name || '').toLowerCase();
-        const desc = (card.dataset.desc || '').toLowerCase();
-        return !q || name.includes(q) || desc.includes(q);
-      });
-
+    function renderSearchResults(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        searchDropdown.classList.remove('show');
+        searchDropdown.innerHTML = '';
+        return;
+      }
+      const matches = CATALOG_PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || p.service.toLowerCase().includes(q));
       if (!matches.length) {
-        searchDropdown.innerHTML = `<div style="padding:12px;text-align:center;font-size:12px;color:#8592a6;">ไม่พบสินค้าที่ตรงกับ "${keyword}"</div>`;
+        searchDropdown.innerHTML = `<div style="padding:10px;text-align:center;font-size:12px;color:#94a3b8;">ไม่พบสินค้าที่ค้นหา</div>`;
       } else {
-        searchDropdown.innerHTML = matches.map(card => `
-          <div class="search-result-item" onclick="selectSearchProduct('${card.dataset.name}', ${card.dataset.price}, '${card.dataset.img}', '${card.dataset.desc}')">
-            <img src="${card.dataset.img}" alt="${card.dataset.name}">
+        searchDropdown.innerHTML = matches.map(item => `
+          <div class="search-result-item" onclick="searchDropdown.classList.remove('show');openProductDetail('${item.name}', ${item.price}, '${item.img}', '${item.desc}')">
+            <img src="${item.img}" alt="${item.name}">
             <div class="search-result-meta">
-              <strong>${card.dataset.name}</strong>
-              <span>$${parseFloat(card.dataset.price).toLocaleString()}</span>
+              <strong>${item.name}</strong>
+              <span>$${item.price} • ${item.service}</span>
             </div>
           </div>
         `).join('');
@@ -4742,93 +4598,95 @@
       searchDropdown.classList.add('show');
     }
 
-    window.selectSearchProduct = function(name, price, img, desc) {
-      closeInlineSearch();
-      openProductDetail(name, price, img, desc);
-    };
-
     document.getElementById('searchToggleBtn').addEventListener('click', () => {
-      const isActive = searchBarWrap.classList.toggle('active');
-      if (isActive) {
+      const isOpen = searchBarWrap.classList.toggle('active');
+      if (isOpen) {
         inlineSearchInput.focus();
-        renderSearchResults(inlineSearchInput.value);
+        if (inlineSearchInput.value.trim()) renderSearchResults(inlineSearchInput.value);
       } else {
         searchDropdown.classList.remove('show');
       }
     });
 
-    inlineSearchInput.addEventListener('input', e => {
-      renderSearchResults(e.target.value);
-    });
-
-    inlineSearchInput.addEventListener('focus', () => {
-      if (searchBarWrap.classList.contains('active')) {
-        renderSearchResults(inlineSearchInput.value);
-      }
-    });
+    inlineSearchInput.addEventListener('input', e => renderSearchResults(e.target.value));
 
     document.getElementById('inlineSearchClear').addEventListener('click', () => {
       inlineSearchInput.value = '';
-      inlineSearchInput.focus();
-      renderSearchResults('');
+      searchDropdown.classList.remove('show');
+      searchBarWrap.classList.remove('active');
     });
 
     document.addEventListener('click', e => {
-      if (!e.target.closest('#searchBarWrap')) {
-        closeInlineSearch();
+      if (!searchBarWrap.contains(e.target)) {
+        searchDropdown.classList.remove('show');
+        if (!inlineSearchInput.value.trim()) {
+          searchBarWrap.classList.remove('active');
+        }
       }
     });
 
-    function openCareModal() {
+    // --- Account Modal ---
+    document.querySelector('.account-open').addEventListener('click', () => {
+      openModal(
+        'บัญชีสมาชิก NOVATEK',
+        '<svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.7"/><path d="M4.5 21c.5-4.1 3.2-6.3 7.5-6.3s7 2.2 7.5 6.3"/></svg>',
+        `
+          <div style="display:flex;align-items:center;gap:12px;background:#1e293b;border:1px solid #334155;border-radius:14px;padding:12px;margin-bottom:14px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);display:grid;place-items:center;font-weight:700;font-size:16px;color:#fff;">NV</div>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#fff;">สมาชิก VIP NOVATEK</div>
+              <div style="font-size:11px;color:#60a5fa;">ยอดเงินคงเหลือ: ฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+            <button type="button" class="preset-btn" onclick="openDepositModal()">+ ฝากเงิน</button>
+            <button type="button" class="preset-btn" onclick="openWithdrawModal()">- ถอนเงิน</button>
+          </div>
+          <button type="button" class="modal-submit danger" onclick="openLogoutModal()">ออกจากระบบ</button>
+        `
+      );
+    });
+
+    // --- Care+ Modal ---
+    document.querySelector('[data-modal="care"]').addEventListener('click', () => {
       openModal(
         'NOVATEK Care+ Protection',
         '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
         `
-          <p style="font-size:13px;color:#cbd5e1;line-height:1.6;margin:0 0 14px;">คุ้มครองอุปกรณ์ของคุณนานสูงสุด 2 ปีเต็ม ครอบคลุมอุบัติเหตุ หน้าจอแตก น้ำเข้า และเปลี่ยนแบตเตอรี่ฟรีเมื่อเสื่อมสภาพ</p>
-          <ul style="font-size:12px;color:#94a3b8;padding-left:18px;margin:0 0 18px;line-height:1.8;">
-            <li>เปลี่ยนเครื่องใหม่ทันทีภายใน 24 ชม.</li>
-            <li>บริการรับ-ส่งเครื่องซ่อมถึงหน้าบ้านฟรี</li>
-            <li>ทีมผู้เชี่ยวชาญดูแลตลอด 24 ชั่วโมง</li>
-          </ul>
-          <button type="button" class="modal-submit" onclick="closeModal();showToast('สมัครรับสิทธิ์ NOVATEK Care+ สำเร็จ!')">สมัครแพ็กเกจ Care+ ($49/ปี)</button>
+          <p style="font-size:13px;color:#cbd5e1;line-height:1.6;margin:0 0 14px;">ขยายการรับประกันความเสียหายจากอุบัติเหตุสูงสุด 2 ปีเต็ม พร้อมบริการเปลี่ยนเครื่องด่วนภายใน 24 ชั่วโมงและทีมดูแลพิเศษตลอดเวลา</p>
+          <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:12px;font-size:12px;color:#e2e8f0;margin-bottom:16px;">
+            ✓ คุ้มครองหน้าจอแตกและน้ำเข้า 100%<br>
+            ✓ ฟรีค่าแรงและอะไหล่แท้จากศูนย์ NOVATEK<br>
+            ✓ บริการรับ-ส่งเครื่องซ่อมถึงหน้าบ้านฟรี
+          </div>
+          <button type="button" class="modal-submit" onclick="closeModal();showToast('สมัครแพ็กเกจ NOVATEK Care+ เรียบร้อยแล้ว', 'สมัครสำเร็จ')">สมัครคุ้มครอง Care+ ทันที</button>
         `
       );
-    }
+    });
 
-    // --- Event Listeners Binding ---
-    document.querySelector('.account-open').addEventListener('click', openAccountModal);
+    // --- Event Bindings ---
+    document.querySelectorAll('[data-modal="deposit"]').forEach(btn => btn.addEventListener('click', openDepositModal));
+    document.querySelectorAll('[data-modal="withdraw"]').forEach(btn => btn.addEventListener('click', openWithdrawModal));
+    document.querySelectorAll('[data-modal="logout"]').forEach(btn => btn.addEventListener('click', openLogoutModal));
     document.querySelector('.cart-open').addEventListener('click', openCartDrawer);
 
-    document.querySelectorAll('[data-modal]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const type = btn.dataset.modal;
-        if (type === 'deposit') openDepositModal();
-        if (type === 'withdraw') openWithdrawModal();
-        if (type === 'logout') openLogoutModal();
-        if (type === 'care') openCareModal();
-      });
-    });
-
-    // Product Card Click & Add-to-Cart Button
     document.querySelectorAll('.product-card').forEach(card => {
-      const name = card.dataset.name;
-      const price = parseFloat(card.dataset.price);
-      const img = card.dataset.img;
-      const desc = card.dataset.desc;
-
-      card.addEventListener('click', e => {
-        if (e.target.closest('.add-cart')) return;
-        openProductDetail(name, price, img, desc);
-      });
-
-      card.querySelector('.add-cart').addEventListener('click', e => {
-        e.stopPropagation();
-        addItemToCart(name, price, img);
-        showToast(`เพิ่ม ${name} ลงในตะกร้าแล้ว`);
+      card.addEventListener('click', () => {
+        openProductDetail(card.dataset.name, Number(card.dataset.price), card.dataset.img, card.dataset.desc);
       });
     });
 
+    document.querySelectorAll('.add-cart').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const card = btn.closest('.product-card');
+        addItemToCart(card.dataset.name, Number(card.dataset.price), card.dataset.img);
+        showToast(`เพิ่ม ${card.dataset.name} ลงในตะกร้าเรียบร้อยแล้ว`, 'เพิ่มลงตะกร้าสำเร็จ');
+      });
+    });
+
+    updateBalanceUI();
     updateCartUI();
   </script>
 </body>
-  </html>
+</html>
