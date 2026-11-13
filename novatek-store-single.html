@@ -176,19 +176,18 @@
     }
     .cart-count {
       position: absolute;
-      right: -6px;
-      top: -5px;
+      right: -7px;
+      top: -6px;
       background: #3266ff;
-      color: white;
-      font-size: 8px;
+      color: #fff;
+      font-size: 8.5px;
       font-style: normal;
-      font-weight: 700;
       border-radius: 20px;
-      min-width: 13px;
-      height: 13px;
+      min-width: 14px;
+      height: 14px;
       display: grid;
       place-items: center;
-      box-shadow: 0 2px 6px rgba(50, 102, 255, 0.5);
+      font-weight: 700;
     }
 
     /* Left Side Drawer */
@@ -196,10 +195,10 @@
       position: fixed;
       inset: 0;
       background: rgba(4, 7, 14, 0.72);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(4px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.28s ease;
+      transition: opacity 0.25s ease;
       z-index: 40;
     }
     .menu-backdrop.open { opacity: 1; pointer-events: auto; }
@@ -207,16 +206,16 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: min(310px, 84vw);
+      width: min(310px, 85vw);
       height: 100dvh;
-      background: linear-gradient(180deg, #101624 0%, #0b0f19 100%);
+      background: #0f1420;
       border-right: 1px solid #242b3a;
-      padding: 20px 18px 24px;
+      padding: 16px 16px 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       transform: translateX(-100%);
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 45;
       box-shadow: 16px 0 40px rgba(0, 0, 0, 0.65);
     }
@@ -225,55 +224,41 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 14px;
+      padding-bottom: 10px;
       border-bottom: 1px solid #1f2634;
     }
-    .drawer-title {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: #f5f7fb;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .drawer-title { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #f5f7fb; }
     .drawer-close {
       background: #181f2e;
       border: 1px solid #2a3346;
       color: #f5f7fb;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: grid;
       place-items: center;
       cursor: pointer;
       font-size: 16px;
       line-height: 1;
-      transition: background 0.2s;
     }
-    .drawer-close:hover { background: #263046; }
-
-    /* Balance Card in Drawer */
-    .drawer-balance {
-      background: linear-gradient(135deg, #17233b 0%, #101726 100%);
-      border: 1px solid #273759;
+    .wallet-card {
+      background: linear-gradient(135deg, #162238 0%, #101726 100%);
+      border: 1px solid #25334d;
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 12px;
+    }
+    .wallet-balance-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
-    .drawer-balance small { display: block; font-size: 10px; color: #8fa3cc; margin-bottom: 2px; }
-    .drawer-balance strong { font-size: 16px; color: #fff; font-weight: 700; }
-
-    .wallet-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
+    .wallet-balance-row span { font-size: 11px; color: #94a3b8; }
+    .wallet-balance-row strong { font-size: 15px; color: #4ade80; font-weight: 700; }
+    .wallet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .wallet-btn {
-      height: 38px;
-      border-radius: 10px;
+      height: 36px;
+      border-radius: 9px;
       border: 1px solid transparent;
       font-family: inherit;
       font-size: 12px;
@@ -283,44 +268,161 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: 0.2s;
     }
-    .wallet-btn:hover { transform: translateY(-1px); }
-    .wallet-btn svg {
-      width: 15px;
-      height: 15px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .btn-deposit { background: #2862f5; color: #fff; box-shadow: 0 4px 14px rgba(40, 98, 245, 0.35); }
+    .wallet-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+    .btn-deposit { background: #2862f5; color: #fff; }
     .btn-withdraw { background: #182030; color: #e8ecf5; border-color: #2c364b; }
-
-    .drawer-list { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
+    .drawer-list { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; padding-right: 2px; }
+    .drawer-list::-webkit-scrollbar { width: 4px; }
+    .drawer-list::-webkit-scrollbar-thumb { background: #263147; border-radius: 4px; }
     .drawer-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 11px 12px;
+      gap: 11px;
+      padding: 10px 12px;
       border-radius: 10px;
       color: #e8eaf0;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
       transition: background 0.18s, transform 0.18s;
     }
-    .drawer-item:hover { background: #171e2d; transform: translateX(3px); }
+    .drawer-item:hover { background: #171e2d; }
     .drawer-item svg {
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       fill: none;
       stroke: #6c91ff;
       stroke-width: 1.7;
       stroke-linecap: round;
       stroke-linejoin: round;
       flex-shrink: 0;
+    }
+    .drawer-item span.label-txt { flex: 1; line-height: 1.35; }
+    .drawer-chevron {
+      width: 14px !important;
+      height: 14px !important;
+      stroke: #7c89a3 !important;
+      transition: transform 0.25s ease;
+    }
+    .drawer-group.open > .drawer-item .drawer-chevron { transform: rotate(180deg); stroke: #6c91ff !important; }
+    .drawer-group.open > .drawer-item { background: #151c2b; color: #ffffff; font-weight: 600; }
+    .drawer-submenu {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      padding: 4px 0 6px 26px;
+      border-left: 1.5px solid #243049;
+      margin-left: 19px;
+      margin-top: 2px;
+    }
+    .drawer-group.open > .drawer-submenu { display: flex; }
+    .drawer-subitem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: #b4bfd4;
+      text-decoration: none;
+      font-size: 11.5px;
+      line-height: 1.35;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      transition: background 0.16s, color 0.16s;
+    }
+    .drawer-subitem:hover { background: #182133; color: #ffffff; }
+    .drawer-subitem::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #4b6cb7;
+      flex-shrink: 0;
+    }
+    .drawer-nested-group { display: flex; flex-direction: column; }
+    .drawer-nested-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: transparent;
+      border: 0;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .drawer-nested-toggle:hover { background: #182133; color: #fff; }
+    .drawer-nested-list {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      padding-left: 12px;
+      border-left: 1px dashed #2e3c59;
+      margin-left: 8px;
+      margin-top: 2px;
+    }
+    .drawer-nested-group.open > .drawer-nested-list { display: flex; }
+    .drawer-nested-group.open > .drawer-nested-toggle .drawer-chevron { transform: rotate(180deg); }
+    .drawer-divider-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #64748b;
+      padding: 10px 12px 4px;
+      text-transform: uppercase;
+    }
+
+    /* Mobile-Only Restriction Overlay */
+    .mobile-lock-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #13213d 0%, #070a12 75%);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      text-align: center;
+      color: #f8fafc;
+    }
+    .mobile-lock-screen.blocked { display: flex; }
+    .lock-icon-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1.5px solid rgba(239, 68, 68, 0.45);
+      color: #f87171;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 32px rgba(239, 68, 68, 0.22);
+    }
+    .lock-icon-box svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .mobile-lock-card {
+      max-width: 420px;
+      background: rgba(17, 24, 39, 0.88);
+      border: 1px solid #26324a;
+      border-radius: 22px;
+      padding: 28px 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
     }
     .drawer-logout {
       margin-top: auto;
@@ -648,41 +750,247 @@
     }
     .shield svg { width: 54px; height: 54px; fill: none; stroke: #d8edff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px #fff); }
 
+    /* Perks Section Fix (Prevent Overflow) */
     .perks {
       max-width: 1350px;
       width: 91%;
-      margin: 0 auto 38px;
+      margin: 0 auto 30px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 9px;
     }
     .perk {
-      border: 1px solid #262c37;
-      border-radius: 10px;
+      min-width: 0;
+      min-height: 78px;
       background: #141820;
-      min-height: 75px;
-      padding: 13px 12px;
+      border: 1px solid #242a35;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       gap: 11px;
+      padding: 12px;
+      overflow: hidden;
     }
-    .perk-icon { color: #5884ff; min-width: 24px; display: grid; place-items: center; }
+    .perk > div { min-width: 0; flex: 1; }
+    .perk-icon { color: #5b83ff; min-width: 24px; display: grid; place-items: center; flex-shrink: 0; }
     .perk-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-    .perk strong { display: block; font-size: 11px; margin-bottom: 3px; }
-    .perk small { font-size: 9px; color: #9ea5b3; line-height: 1.35; display: block; }
+    .perk strong { font-size: 10px; font-weight: 600; display: block; margin-bottom: 4px; word-break: break-word; }
+    .perk small { font-size: 8.5px; color: #a5acb9; line-height: 1.35; display: block; word-break: break-word; }
 
-    /* =========================================================================
-       FULLSCREEN EDGE-TO-EDGE POPUP & SHEET SYSTEM (ALL DEVICES)
-       ========================================================================= */
+    /* All Products Catalog Page (Filterable by Category) */
+    .catalog-page-view {
+      display: none;
+      max-width: 1350px;
+      width: 92%;
+      margin: 12px auto 44px;
+      animation: fadeSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .catalog-page-view.active { display: block; }
+    .catalog-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .catalog-cat-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      scrollbar-width: none;
+    }
+    .catalog-cat-strip::-webkit-scrollbar { display: none; }
+    .catalog-cat-card {
+      flex: 0 0 88px;
+      background: linear-gradient(145deg, #171c26, #11151d);
+      border: 1.5px solid #242a35;
+      border-radius: 10px;
+      padding: 8px 6px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .catalog-cat-card img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      mix-blend-mode: screen;
+    }
+    .catalog-cat-card span {
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .catalog-cat-card.active {
+      border-color: #3b82f6;
+      background: linear-gradient(145deg, #1b2844, #121a2d);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.25);
+    }
+    .service-group-block {
+      margin-bottom: 24px;
+    }
+    .service-group-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .service-group-title small {
+      font-size: 11px;
+      font-weight: 500;
+      color: #7c89a3;
+    }
+    .catalog-items-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+    @media(min-width: 410px) {
+      .catalog-items-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 7px;
+      }
+    }
+    @media(min-width: 769px) {
+      .catalog-items-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+      .catalog-cat-card { flex: 0 0 120px; }
+    }
+    .catalog-items-grid .product-card {
+      flex: none;
+      width: 100%;
+      height: clamp(118px, 31vw, 152px);
+      padding: 6px;
+      border-radius: 8px;
+    }
+    .catalog-items-grid .product-card > img {
+      inset: 6px 4px 34px;
+      width: calc(100% - 8px);
+      height: calc(100% - 40px);
+    }
+    .catalog-items-grid .badge {
+      top: 6px;
+      left: 6px;
+      padding: 1.5px 5px;
+      font-size: 6px;
+    }
+    .catalog-items-grid .product-info h3 {
+      font-size: clamp(7.5px, 2.3vw, 9.5px);
+      margin-bottom: 2px;
+      padding-right: 18px;
+    }
+    .catalog-items-grid .product-info p {
+      font-size: clamp(7.5px, 2.2vw, 9.5px);
+    }
+    .catalog-items-grid .product-info del {
+      font-size: 6.5px;
+      margin-left: 3px;
+    }
+    .catalog-items-grid .add-cart {
+      right: 5px;
+      bottom: 5px;
+      width: 18px;
+      height: 18px;
+    }
+    .catalog-items-grid .add-cart svg {
+      width: 9.5px;
+      height: 9.5px;
+    }
+
+    /* Clean White Single-Button Alert Popup (Image 3320 Style) */
+    .clean-alert-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+      z-index: 120;
+    }
+    .clean-alert-overlay.open { opacity: 1; pointer-events: auto; }
+    .clean-alert-card {
+      width: 100%;
+      max-width: 390px;
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 18px;
+      padding: 24px 24px 22px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.24);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .clean-alert-overlay.open .clean-alert-card { transform: scale(1); }
+    .clean-alert-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: 0;
+      color: #64748b;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .clean-alert-close:hover { color: #0f172a; }
+    .clean-alert-title {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      padding-right: 24px;
+    }
+    .clean-alert-desc {
+      margin: 0 0 22px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #64748b;
+    }
+    .clean-alert-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .clean-alert-ok-btn {
+      background: #ef4444;
+      color: #ffffff;
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 26px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
+    }
+    .clean-alert-ok-btn:hover { background: #dc2626; }
+    .clean-alert-ok-btn:active { transform: scale(0.97); }
+    /* Beautiful Glassmorphism Popup System -> Full-Width Bottom-Anchored Sheet across all devices */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      background: #0d121d;
+      background: rgba(4, 7, 15, 0.78);
+      backdrop-filter: blur(8px);
       display: flex;
-      align-items: stretch;
-      justify-content: stretch;
+      align-items: flex-end;
+      justify-content: center;
       padding: 0;
       opacity: 0;
       pointer-events: none;
@@ -692,18 +1000,17 @@
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal-box {
       width: 100%;
-      height: 100%;
       max-width: 100%;
-      max-height: 100dvh;
       background: linear-gradient(165deg, #151c2c 0%, #0d121d 100%);
-      border: 0;
-      border-radius: 0;
-      padding: 20px max(18px, 4vw) 30px;
+      border: 1px solid #2a354d;
+      border-bottom: 0;
+      border-radius: 24px 24px 0 0;
+      padding: 24px max(20px, 5vw) 30px;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.78), 0 0 0 1px rgba(108, 145, 255, 0.12);
       transform: translateY(100%);
       transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
       position: relative;
-      display: flex;
-      flex-direction: column;
+      max-height: 90dvh;
       overflow-y: auto;
     }
     .modal-overlay.open .modal-box { transform: translateY(0); }
@@ -711,21 +1018,16 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
-      padding-bottom: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
       border-bottom: 1px solid #1e2638;
-      width: 100%;
       max-width: 960px;
       margin-left: auto;
       margin-right: auto;
     }
     #modalBody {
-      width: 100%;
       max-width: 960px;
       margin: 0 auto;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
     }
     .modal-title-wrap { display: flex; align-items: center; gap: 10px; }
     .modal-badge-icon {
@@ -741,13 +1043,13 @@
     .modal-badge-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .modal-header h3 { margin: 0; font-size: 16px; font-weight: 700; color: #fff; }
     .modal-close {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: #1a2233;
       border: 1px solid #2c364d;
       color: #cbd5e1;
-      font-size: 20px;
+      font-size: 18px;
       display: grid;
       place-items: center;
       cursor: pointer;
@@ -796,7 +1098,7 @@
     .modal-input:focus { border-color: #4f81ff; }
     .modal-submit {
       width: 100%;
-      height: 46px;
+      height: 44px;
       border-radius: 12px;
       border: 0;
       background: linear-gradient(135deg, #2862f5 0%, #1d4ed8 100%);
@@ -814,7 +1116,7 @@
       box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
     }
 
-    /* Cart Item List */
+    /* Cart Item List inside Modal */
     .cart-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; max-height: 240px; overflow-y: auto; }
     .cart-item {
       display: flex;
@@ -851,7 +1153,7 @@
     }
     .cart-summary strong { font-size: 18px; color: #fff; }
 
-    /* Fullscreen Edge-to-Edge Cart Drawer */
+    /* Full-Height Right Cart Drawer */
     .cart-backdrop {
       position: fixed;
       inset: 0;
@@ -865,17 +1167,19 @@
     .cart-backdrop.open { opacity: 1; pointer-events: auto; }
     .cart-drawer {
       position: fixed;
-      inset: 0;
-      width: 100vw;
+      top: 0;
+      right: 0;
+      width: min(400px, 100vw);
       height: 100dvh;
       background: linear-gradient(180deg, #101624 0%, #0b0f19 100%);
-      border: 0;
-      padding: 20px max(18px, 4vw) 26px;
+      border-left: 1px solid #242b3a;
+      padding: 20px 20px 24px;
       display: flex;
       flex-direction: column;
       transform: translateX(100%);
       transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 50;
+      box-shadow: -16px 0 40px rgba(0, 0, 0, 0.65);
     }
     .cart-drawer.open { transform: translateX(0); }
     .cart-drawer-head {
@@ -884,9 +1188,6 @@
       justify-content: space-between;
       padding-bottom: 14px;
       border-bottom: 1px solid #1f2634;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
     }
     .cart-drawer-title {
       display: flex;
@@ -903,16 +1204,10 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
     }
     .cart-drawer-footer {
       border-top: 1px solid #1f2634;
       padding-top: 14px;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
     }
     .qty-controls {
       display: inline-flex;
@@ -950,7 +1245,7 @@
       background: #0b0f18;
       border: 1px solid #2b354b;
       border-radius: 10px;
-      padding: 10px 12px;
+      padding: 8px 12px;
       color: #fff;
       font-family: inherit;
       font-size: 12px;
@@ -962,7 +1257,7 @@
       border: 1px solid #354a75;
       color: #82a6ff;
       border-radius: 10px;
-      padding: 0 16px;
+      padding: 0 14px;
       font-family: inherit;
       font-size: 12px;
       font-weight: 600;
@@ -1018,6 +1313,7 @@
       color: #6c91ff;
     }
 
+    /* Full-Height Product Detail Drawer */
     .product-drawer-body {
       flex: 1;
       overflow-y: auto;
@@ -1043,6 +1339,67 @@
     }
     .spec-item strong { color: #e2e8f0; font-weight: 500; }
 
+    /* Full-Page Product Detail View (Non-Popup) */
+    .product-page-view {
+      display: none;
+      max-width: 1350px;
+      width: 91%;
+      margin: 12px auto 44px;
+      animation: fadeSlideUp 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .product-page-view.active { display: block; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .back-shop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #141a26;
+      border: 1px solid #263045;
+      color: #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: 0.2s;
+    }
+    .back-shop-btn:hover { background: #1d2638; border-color: #4b6cb7; color: #fff; }
+    .product-page-card {
+      background: linear-gradient(155deg, #131926 0%, #0d111a 100%);
+      border: 1px solid #232c40;
+      border-radius: 18px;
+      padding: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+    .product-page-gallery {
+      background: radial-gradient(circle at center, #1b2d56 0%, #0b0f18 75%);
+      border: 1px solid #222d45;
+      border-radius: 16px;
+      min-height: 340px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      position: relative;
+    }
+    .product-page-gallery img {
+      max-height: 280px;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.65));
+    }
+    .product-page-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
     .product-tabs-nav {
       display: flex;
       gap: 8px;
@@ -1070,46 +1427,72 @@
     }
     .p-tab-panel { display: none; font-size: 13px; color: #cbd5e1; line-height: 1.65; }
     .p-tab-panel.active { display: block; }
+    .product-page-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #1f2738;
+    }
+    @media(max-width: 768px) {
+      .product-page-card { grid-template-columns: 1fr; padding: 18px; gap: 20px; }
+      .product-page-gallery { min-height: 220px; padding: 16px; }
+      .product-page-gallery img { max-height: 185px; }
+      .product-page-actions { flex-wrap: wrap; }
+    }
 
-    /* =========================================================================
-       FULLSCREEN PRODUCT DETAIL SHEET (EDGE-TO-EDGE ALL DEVICES)
-       ========================================================================= */
+    /* Product Detail Preview inside Modal */
+    .detail-hero {
+      background: radial-gradient(circle at center, #1b2c52 0%, #0c101a 75%);
+      border: 1px solid #222d45;
+      border-radius: 14px;
+      height: 170px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      padding: 12px;
+    }
+    .detail-hero img { max-height: 145px; max-width: 100%; object-fit: contain; }
+
+    /* Bottom-Sliding Product Detail Sheet (Banner Header Style) - Full Edge-to-Edge Width */
     .pd-sheet-overlay {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      background: #0d121d;
+      background: rgba(4, 7, 15, 0.78);
+      backdrop-filter: blur(5px);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.28s ease;
       z-index: 62;
       display: flex;
-      align-items: stretch;
-      justify-content: stretch;
+      align-items: flex-end;
+      justify-content: center;
     }
     .pd-sheet-overlay.open { opacity: 1; pointer-events: auto; }
     .pd-sheet-panel {
       width: 100%;
-      height: 100%;
       max-width: 100%;
-      max-height: 100dvh;
+      height: 92dvh;
+      max-height: 92dvh;
       background: #0d121d;
       color: #f5f7fb;
-      border: 0;
-      border-radius: 0;
+      border: 1px solid #232d42;
+      border-bottom: 0;
+      border-radius: 24px 24px 0 0;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       transform: translateY(100%);
       transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.75);
       position: relative;
     }
     .pd-sheet-overlay.open .pd-sheet-panel { transform: translateY(0); }
     .pd-banner-header {
       position: relative;
-      min-height: 225px;
-      padding: 20px max(18px, 4vw) 20px;
+      min-height: 220px;
+      padding: 20px max(20px, 5vw) 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1158,12 +1541,6 @@
                   linear-gradient(180deg, rgba(9, 13, 22, 0.12) 0%, rgba(13, 18, 29, 0.88) 100%);
       z-index: 1;
     }
-    .pd-banner-top, .pd-banner-main, .pd-trust-badges {
-      width: 100%;
-      max-width: 960px;
-      margin-left: auto;
-      margin-right: auto;
-    }
     .pd-banner-top {
       position: relative;
       z-index: 2;
@@ -1184,13 +1561,13 @@
     }
     .pd-breadcrumb span.current { color: #ffffff; font-weight: 700; }
     .pd-sheet-close {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: rgba(15, 22, 36, 0.78);
       border: 1px solid rgba(255, 255, 255, 0.18);
       color: #ffffff;
-      font-size: 20px;
+      font-size: 18px;
       display: grid;
       place-items: center;
       cursor: pointer;
@@ -1202,7 +1579,7 @@
     .pd-banner-main {
       position: relative;
       z-index: 2;
-      margin: 10px auto 12px;
+      margin: 10px 0 12px;
     }
     .pd-cat-pill {
       display: inline-block;
@@ -1286,10 +1663,7 @@
     .pd-sheet-body {
       flex: 1;
       overflow-y: auto;
-      padding: 18px max(18px, 4vw) 24px;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
+      padding: 18px max(20px, 5vw) 24px;
     }
     .pd-price-card {
       background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
@@ -1302,67 +1676,53 @@
       margin-bottom: 14px;
     }
     .pd-sheet-footer {
-      padding: 14px max(18px, 4vw) 24px;
+      padding: 14px max(20px, 5vw) 24px;
       background: #0b0f18;
       border-top: 1px solid #1e2638;
-      width: 100%;
-    }
-    .pd-sheet-footer-inner {
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    /* =========================================================================
-       FULLSCREEN WALLET SHEETS (DEPOSIT, WITHDRAW & CHECKOUT - ALL DEVICES)
-       ========================================================================= */
+    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit - Full Edge-to-Edge Width) */
     .bottom-sheet-overlay {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      background: #ffffff;
+      background: rgba(4, 7, 15, 0.72);
+      backdrop-filter: blur(4px);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.28s ease;
       z-index: 65;
       display: flex;
-      align-items: stretch;
-      justify-content: stretch;
+      align-items: flex-end;
+      justify-content: center;
     }
     .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
     .bottom-sheet-panel {
       width: 100%;
-      height: 100%;
       max-width: 100%;
-      max-height: 100dvh;
+      height: 92dvh;
+      max-height: 92dvh;
       background: #ffffff;
       color: #111827;
-      border-radius: 0;
+      border-radius: 24px 24px 0 0;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       transform: translateY(100%);
       transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.55);
       position: relative;
     }
     .bottom-sheet-overlay.open .bottom-sheet-panel { transform: translateY(0); }
 
-    /* Withdraw Page Design */
+    /* Withdraw Page Design (Image 3298) */
     .wd-top-blue {
       background: linear-gradient(180deg, #1045e8 0%, #1d5bf6 100%);
       color: #ffffff;
-      padding: 18px max(18px, 4vw) 22px;
+      padding: 18px max(18px, 5vw) 22px;
       position: relative;
-      width: 100%;
-    }
-    .wd-top-inner, .wd-body-inner, .wd-footer-inner {
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
     }
     .wd-header-bar {
       display: flex;
@@ -1374,7 +1734,7 @@
       background: none;
       border: 0;
       color: #ffffff;
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
       padding: 4px;
       display: grid;
@@ -1430,9 +1790,229 @@
     .wd-body {
       flex: 1;
       overflow-y: auto;
-      padding: 18px max(18px, 4vw) 24px;
+      padding: 18px max(18px, 5vw) 24px;
       background: #ffffff;
+    }
+    .wd-footer {
+      padding: 14px max(18px, 5vw) 24px;
+      background: #ffffff;
+      border-top: 1px solid #f1f5f9;
+    }
+    .dp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px max(18px, 5vw) 12px;
+      background: #ffffff;
+    }
+    .dp-amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 6px max(18px, 5vw) 16px;
+    }
+    .dp-cat-tabs {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 10px max(18px, 5vw) 0;
+      border-top: 6px solid #f5f6fa;
+      border-bottom: 1px solid #f1f5f9;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .dp-channel-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px max(18px, 5vw) 20px;
+    }
+    .sub-sheet-box {
       width: 100%;
+      background: #ffffff;
+      border-radius: 24px 24px 0 0;
+      padding: 22px max(18px, 5vw) 28px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      max-height: 85dvh;
+      overflow-y: auto;
+    }
+    /* Phone Number Input Row (+66 Flag Style matching image 3313) */
+    .phone-input-card {
+      width: 100%;
+      height: 54px;
+      background: #f5f6fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .phone-input-card:focus-within {
+      background: #ffffff;
+      border-color: #111827;
+    }
+    .phone-prefix-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding-right: 12px;
+      border-right: 1px solid #d1d5db;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .thai-flag-svg {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .phone-input-card input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      font-family: inherit;
+      font-size: 16px;
+      color: #111827;
+      outline: none;
+    }
+    .phone-input-card input::placeholder {
+      color: #9ca3af;
+      font-weight: 400;
+    }
+    .pd-price-card {
+      background: linear-gradient(135deg, #141c2e 0%, #101624 100%);
+      border: 1px solid #243049;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .pd-sheet-footer {
+      padding: 14px 20px 22px;
+      background: #0b0f18;
+      border-top: 1px solid #1e2638;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Bottom-Sliding Wallet Sheets (Withdraw & Deposit matching reference images) */
+    .bottom-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 15, 0.72);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      z-index: 65;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 480px;
+      height: 92dvh;
+      max-height: 820px;
+      background: #ffffff;
+      color: #111827;
+      border-radius: 22px 22px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.55);
+      position: relative;
+    }
+    .bottom-sheet-overlay.open .bottom-sheet-panel { transform: translateY(0); }
+
+    /* Withdraw Page Design (Image 3298) */
+    .wd-top-blue {
+      background: linear-gradient(180deg, #1045e8 0%, #1d5bf6 100%);
+      color: #ffffff;
+      padding: 16px 18px 20px;
+      position: relative;
+    }
+    .wd-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .wd-header-bar button {
+      background: none;
+      border: 0;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      display: grid;
+      place-items: center;
+    }
+    .wd-header-bar h3 { margin: 0; font-size: 16px; font-weight: 700; }
+    .wd-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 16px;
+    }
+    .wd-tab {
+      height: 36px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.85);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .wd-tab.active {
+      background: #ffffff;
+      color: #111827;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+    .wd-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .wd-amount-box {
+      width: 100%;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0 14px;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      outline: none;
+    }
+    .wd-amount-box::placeholder { color: rgba(255, 255, 255, 0.45); font-weight: 400; }
+    .wd-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px 24px;
+      background: #ffffff;
     }
     .bank-card-box {
       background: linear-gradient(135deg, #1b1e2e 0%, #2a2438 100%);
@@ -1503,16 +2083,15 @@
     .wd-rules b { color: #111827; }
     .wd-rules .red-num { color: #ef4444; font-weight: 700; }
     .wd-footer {
-      padding: 14px max(18px, 4vw) 24px;
+      padding: 12px 18px 20px;
       background: #ffffff;
       border-top: 1px solid #f1f5f9;
-      width: 100%;
     }
     .wd-submit-btn {
       width: 100%;
       height: 48px;
       border: 0;
-      border-radius: 10px;
+      border-radius: 8px;
       background: #a5a8b0;
       color: #ffffff;
       font-family: inherit;
@@ -1525,42 +2104,28 @@
       background: #111827;
     }
 
-    /* Fullscreen Sub-Sheet inside Bottom Sheet (Add Account & Select Bank) */
+    /* Sub-Sheet inside Bottom Sheet (Add Account & Select Bank - Images 3299 & 3304) */
     .sub-sheet-backdrop {
-      position: fixed;
+      position: absolute;
       inset: 0;
-      width: 100vw;
-      height: 100dvh;
       background: rgba(0, 0, 0, 0.55);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
-      z-index: 20;
+      z-index: 10;
       display: flex;
-      align-items: stretch;
-      justify-content: stretch;
+      align-items: flex-end;
     }
     .sub-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
     .sub-sheet-box {
       width: 100%;
-      height: 100%;
-      max-height: 100dvh;
       background: #ffffff;
-      border-radius: 0;
-      padding: 20px max(18px, 4vw) 28px;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 18px 24px;
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      max-height: 82dvh;
       overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .sub-sheet-inner {
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
     }
     .sub-sheet-backdrop.open .sub-sheet-box { transform: translateY(0); }
     .sub-sheet-head {
@@ -1568,18 +2133,16 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #f1f5f9;
     }
     .sub-sheet-head h4 { margin: 0; font-size: 16px; font-weight: 700; color: #111827; }
     .sub-sheet-close {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: #f1f5f9;
       border: 0;
       color: #334155;
-      font-size: 18px;
+      font-size: 16px;
       display: grid;
       place-items: center;
       cursor: pointer;
@@ -1621,7 +2184,7 @@
       justify-content: space-between;
       background: #f5f6fa;
       border-radius: 10px;
-      padding: 13px 14px;
+      padding: 12px 14px;
       margin-bottom: 10px;
       cursor: pointer;
       transition: 0.15s;
@@ -1658,72 +2221,18 @@
       gap: 8px;
     }
 
-    /* Phone Number Input Row (+66 Flag Style) */
-    .phone-input-card {
-      width: 100%;
-      height: 54px;
-      background: #f5f6fa;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .phone-input-card:focus-within {
-      background: #ffffff;
-      border-color: #111827;
-    }
-    .phone-prefix-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding-right: 12px;
-      border-right: 1px solid #d1d5db;
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-      flex-shrink: 0;
-      user-select: none;
-    }
-    .thai-flag-svg {
-      width: 24px;
-      height: 16px;
-      border-radius: 2px;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
-      flex-shrink: 0;
-    }
-    .phone-input-card input {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      font-family: inherit;
-      font-size: 16px;
-      color: #111827;
-      outline: none;
-    }
-    .phone-input-card input::placeholder {
-      color: #9ca3af;
-      font-weight: 400;
-    }
-
-    /* Deposit Page Design */
+    /* Deposit Page Design (Image 3303) */
     .dp-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px max(18px, 4vw) 12px;
+      padding: 16px 18px 12px;
       background: #ffffff;
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
     }
     .dp-header button {
       background: none;
       border: 0;
-      font-size: 22px;
+      font-size: 20px;
       color: #111827;
       cursor: pointer;
       padding: 2px 6px;
@@ -1733,13 +2242,10 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      padding: 6px max(18px, 4vw) 16px;
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
+      padding: 6px 18px 16px;
     }
     .dp-amt-btn {
-      height: 48px;
+      height: 46px;
       background: #f5f6fa;
       border: 1.5px solid transparent;
       border-radius: 8px;
@@ -1759,21 +2265,15 @@
       font-size: 12px;
       color: #6b7280;
     }
-    .dp-cat-tabs-wrap {
-      width: 100%;
-      border-top: 6px solid #f5f6fa;
-      border-bottom: 1px solid #f1f5f9;
-    }
     .dp-cat-tabs {
       display: flex;
       align-items: center;
-      gap: 20px;
-      padding: 10px max(18px, 4vw) 0;
+      gap: 18px;
+      padding: 10px 18px 0;
+      border-top: 6px solid #f5f6fa;
+      border-bottom: 1px solid #f1f5f9;
       overflow-x: auto;
       scrollbar-width: none;
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
     }
     .dp-cat-tabs::-webkit-scrollbar { display: none; }
     .dp-cat-tab {
@@ -1808,10 +2308,7 @@
     .dp-channel-list {
       flex: 1;
       overflow-y: auto;
-      padding: 14px max(18px, 4vw) 24px;
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
+      padding: 12px 18px 20px;
     }
     .bank-icon-badge {
       width: 28px;
@@ -1825,53 +2322,57 @@
       flex-shrink: 0;
     }
 
-    /* =========================================================================
-       FULLSCREEN EDGE-TO-EDGE PAYMENT GATEWAY OVERLAY (ALL DEVICES)
-       ========================================================================= */
+    /* Full-Screen In-Tab Payment Gateway Overlay (QR & Bank Payment) */
     .gateway-overlay {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      background: #ffffff;
+      background: #f2f3f5;
       z-index: 90;
       display: none;
-      justify-content: stretch;
+      justify-content: center;
       align-items: stretch;
       overflow-y: auto;
-      padding: 0;
     }
     .gateway-overlay.open { display: flex; }
     .gateway-page {
       width: 100%;
-      max-width: 100%;
+      max-width: 440px;
       min-height: 100dvh;
-      margin: 0;
+      margin: 0 auto;
       background: #ffffff;
       color: #666666;
       font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       position: relative;
-      border-radius: 0;
+    }
+    @media (min-width: 481px) {
+      .gateway-overlay { align-items: center; padding: 16px; background: rgba(4, 7, 15, 0.82); backdrop-filter: blur(6px); }
+      .gateway-page {
+        min-height: auto;
+        border-radius: 20px;
+        max-height: 94dvh;
+        overflow-y: auto;
+      }
     }
     .gw-topbar {
       width: 100%;
-      height: 52px;
+      height: 48px;
       background: #173966;
       border-top: 3px solid #d7dce3;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 max(16px, 4vw);
+      padding: 0 14px;
       flex-shrink: 0;
     }
     .gw-back-btn {
       background: rgba(255, 255, 255, 0.14);
       border: 0;
       color: #ffffff;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       font-size: 18px;
       display: grid;
@@ -1896,10 +2397,8 @@
     }
     .gw-content {
       width: 100%;
-      max-width: 560px;
-      margin: 0 auto;
       flex: 1;
-      padding: 24px max(20px, 4vw) 30px;
+      padding: 20px 20px 28px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -1907,7 +2406,7 @@
     }
     /* QR PromptPay Styles */
     .gw-qr-wrap {
-      width: min(220px, 60vw);
+      width: min(210px, 60vw);
       aspect-ratio: 1 / 1;
       margin: 0 auto 14px;
       position: relative;
@@ -1934,7 +2433,7 @@
     }
     .gw-qr-center img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Bank Transfer Card Styles */
+    /* Bank Transfer Card Styles (K PLUS & Thai Banks) */
     .gw-bank-card {
       background: var(--card-bg, linear-gradient(155deg, #008241 0%, #054728 50%, #021c10 100%));
       border-radius: 18px;
@@ -2073,6 +2572,7 @@
       color: #555555;
     }
     .gw-instructions li { margin-bottom: 8px; }
+    .gw-banks-foot { margin-top: 18px; font-size: 12.5px; color: #888888; }
     .gw-success-view {
       display: none;
       flex-direction: column;
@@ -2212,12 +2712,12 @@
       .shield { width: 64px; height: 74px; }
       .shield svg { width: 30px; height: 30px; }
 
-      .perks { width: 92%; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 20px; }
-      .perk { min-height: 48px; padding: 6px 5px; gap: 5px; border-radius: 7px; }
-      .perk-icon { min-width: 15px; }
-      .perk-icon svg { width: 14px; height: 14px; }
-      .perk strong { font-size: 6.8px; margin-bottom: 2px; line-height: 1.15; }
-      .perk small { font-size: 5.5px; line-height: 1.2; }
+      .perks { width: 92%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-bottom: 22px; }
+      .perk { min-height: 54px; padding: 9px 10px; gap: 8px; border-radius: 9px; }
+      .perk-icon { min-width: 18px; }
+      .perk-icon svg { width: 17px; height: 17px; }
+      .perk strong { font-size: 9px; margin-bottom: 2px; line-height: 1.2; }
+      .perk small { font-size: 7.5px; line-height: 1.25; }
     }
   </style>
 </head>
@@ -2240,72 +2740,296 @@
     <div class="head-actions">
       <div class="search-bar-wrap" id="searchBarWrap">
         <div class="inline-search-box">
-          <input type="text" id="inlineSearchInput" placeholder="ค้นหาสินค้า NOVATEK..." autocomplete="off">
+          <input type="search" id="inlineSearchInput" placeholder="ค้นหาสินค้า...">
           <button type="button" class="inline-search-clear" id="inlineSearchClear" aria-label="ล้างคำค้นหา">×</button>
         </div>
-        <button class="icon-btn search-open" id="searchToggleBtn" aria-label="Search">
+        <button type="button" class="icon-btn" id="searchToggleBtn" aria-label="Search">
           <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 5 5"/></svg>
         </button>
         <div class="search-dropdown" id="searchDropdown"></div>
       </div>
-      <button class="icon-btn account-open" aria-label="Account">
+      <button type="button" class="icon-btn account-open" aria-label="Account">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.7"/><path d="M4.5 21c.5-4.1 3.2-6.3 7.5-6.3s7 2.2 7.5 6.3"/></svg>
       </button>
-      <button class="icon-btn cart-open" aria-label="Shopping bag">
+      <button type="button" class="icon-btn cart-open" aria-label="Shopping bag">
         <svg viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
         <i class="cart-count">0</i>
       </button>
     </div>
   </header>
 
-  <!-- Left Side Navigation Drawer -->
   <div class="menu-backdrop" id="menuBackdrop"></div>
   <aside class="side-drawer" id="sideDrawer" aria-label="เมนูหลัก">
     <div class="drawer-head">
-      <span class="drawer-title"><span class="brand-mark" style="font-size:18px;margin-right:2px;">N</span> NOVATEK MENU</span>
-      <button class="drawer-close" id="menuClose" aria-label="ปิดเมนู">×</button>
+      <span class="drawer-title">NOVATEK MENU</span>
+      <button type="button" class="drawer-close" id="menuClose" aria-label="ปิดเมนู">×</button>
     </div>
-
-    <div class="drawer-balance">
-      <div>
-        <small>ยอดเงินคงเหลือในกระเป๋า</small>
+    <div class="wallet-card">
+      <div class="wallet-balance-row">
+        <span>ยอดเงินคงเหลือ</span>
         <strong id="walletBalanceDisplay">฿12,450.00</strong>
       </div>
-      <span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,.12);padding:4px 9px;border-radius:20px;font-weight:600;">VIP Member</span>
+      <div class="wallet-actions">
+        <button type="button" class="wallet-btn btn-deposit" data-modal="deposit">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></svg>
+          ฝากเงิน
+        </button>
+        <button type="button" class="wallet-btn btn-withdraw" data-modal="withdraw">
+          <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+          ถอนเงิน
+        </button>
+      </div>
     </div>
 
-    <div class="wallet-actions">
-      <button class="wallet-btn btn-deposit" data-modal="deposit">
-        <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></svg>
-        ฝากเงิน
-      </button>
-      <button class="wallet-btn btn-withdraw" data-modal="withdraw">
-        <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-        ถอนเงิน
-      </button>
-    </div>
+    <nav class="drawer-list" id="drawerMenuContainer">
+      <!-- 1. ร้านค้าออนไลน์ (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span class="label-txt">ร้านค้าออนไลน์</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" onclick="closeMenu();openAllProductsPage('สินค้าออนไลน์')">สินค้าทั้งหมด</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ร้านค้าออนไลน์ > สถานะคำสั่งซื้อ">สถานะคำสั่งซื้อ</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ร้านค้าออนไลน์ > สถานะการจัดส่ง">สถานะการจัดส่ง</button>
+        </div>
+      </div>
 
-    <nav class="drawer-list">
-      <a class="drawer-item" href="#products">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span>ร้านค้า</span>
-      </a>
-      <a class="drawer-item" href="#categories">
+      <!-- 2. บริการหลัก -->
+      <button type="button" class="drawer-item" onclick="closeMenu();openAllProductsPage('เติมเกมส์')">
         <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4"/><path d="M8 10v4"/><circle cx="15" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg>
-        <span>เติมเกมส์</span>
-      </a>
-      <a class="drawer-item" href="#products">
+        <span class="label-txt">เติมเกมส์</span>
+      </button>
+
+      <button type="button" class="drawer-item" onclick="closeMenu();openAllProductsPage('แอพพรีเมี่ยม')">
         <svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <span>แอพพรีเมี่ยม</span>
-      </a>
-      <a class="drawer-item" href="#deals">
-        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-        <span>แพ็กเกจเสริม</span>
-      </a>
-      <a class="drawer-item" href="#support">
-        <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-        <span>ปั๊มไลก์</span>
-      </a>
+        <span class="label-txt">แอพพรีเมี่ยม</span>
+      </button>
+
+      <button type="button" class="drawer-item" onclick="closeMenu();openAllProductsPage('แพ็กเกจเสริม')">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        <span class="label-txt">แพ็กเกจเสริม</span>
+      </button>
+
+      <button type="button" class="drawer-item" onclick="closeMenu();openAllProductsPage('บัตรเติมเงิน')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span class="label-txt">บัตรเติมเงิน</span>
+      </button>
+
+      <button type="button" class="drawer-item" data-menu-action="เพิ่มยอดฟอล">
+        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        <span class="label-txt">เพิ่มยอดฟอล</span>
+      </button>
+
+      <button type="button" class="drawer-item" data-menu-action="สุ่มรางวัล">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span class="label-txt">สุ่มรางวัล</span>
+      </button>
+
+      <button type="button" class="drawer-item" data-menu-action="เคลมสินค้า">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="label-txt">เคลมสินค้า</span>
+      </button>
+
+      <button type="button" class="drawer-item" data-menu-action="แจ้งปัญหาการใช้งาน">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="label-txt">แจ้งปัญหาการใช้งาน</span>
+      </button>
+
+      <button type="button" class="drawer-item" data-menu-action="ดูหนังซีรีย์">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        <span class="label-txt">ดูหนังซีรีย์</span>
+      </button>
+
+      <!-- 3. สำหรับธุรกิจ (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span class="label-txt">สำหรับธุรกิจ</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" data-menu-action="สำหรับธุรกิจ > สมัครตัวแทน">สมัครตัวแทน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="สำหรับธุรกิจ > Payment Gateway">Payment Gateway</button>
+          <button type="button" class="drawer-subitem" data-menu-action="สำหรับธุรกิจ > แพ็กเกจรายเดือน">แพ็กเกจรายเดือน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="สำหรับธุรกิจ > เอกสารการใช้งาน">เอกสารการใช้งาน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="สำหรับธุรกิจ > คู่มือการใช้งาน">คู่มือการใช้งาน</button>
+        </div>
+      </div>
+
+      <!-- 4. กิจกรรมฟรี (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>
+          <span class="label-txt">กิจกรรมฟรี</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" data-menu-action="กิจกรรมฟรี > โค้ดส่วนลด">โค้ดส่วนลด</button>
+          <button type="button" class="drawer-subitem" data-menu-action="กิจกรรมฟรี > โค้ดเงินสด">โค้ดเงินสด</button>
+          <button type="button" class="drawer-subitem" data-menu-action="กิจกรรมฟรี > คูปอง">คูปอง</button>
+          <button type="button" class="drawer-subitem" data-menu-action="กิจกรรมฟรี > วงล้อหรรษา">วงล้อหรรษา</button>
+        </div>
+      </div>
+
+      <!-- 5. ประวัติธุรกรรม (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="label-txt">ประวัติธุรกรรม</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการฝากเงิน">ประวัติการฝากเงิน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการถอนเงิน">ประวัติการถอนเงิน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการใช้งาน">ประวัติการใช้งาน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อ">ประวัติการสั่งซื้อ</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการเติมเกมส์">ประวัติการเติมเกมส์</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อแอพพรีเมี่ยม">ประวัติการสั่งซื้อแอพพรีเมี่ยม</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อบัตรเติมเงิน">ประวัติการสั่งซื้อบัตรเติมเงิน</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อแพ็กเกจ">ประวัติการสั่งซื้อแพ็กเกจ</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ประวัติธุรกรรม > ประวัติการสั่งซื้อแพ็กเกจไลก์">ประวัติการสั่งซื้อแพ็กเกจไลก์</button>
+        </div>
+      </div>
+
+      <!-- 6. แคชรีพอร์ต (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span class="label-txt">แคชรีพอร์ต</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > ใบกำกับภาษีลูกค้า">ใบกำกับภาษีลูกค้า</button>
+          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > ใบกำกับภาษีร้านค้า">ใบกำกับภาษีร้านค้า</button>
+          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > Statement ลูกค้า">Statement ลูกค้า</button>
+          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > Statement ร้านค้า">Statement ร้านค้า</button>
+          <button type="button" class="drawer-subitem" data-menu-action="แคชรีพอร์ต > แบบฟอร์มที่มารายได้">แบบฟอร์มที่มารายได้</button>
+        </div>
+      </div>
+
+      <!-- 7. บัญชีผู้ใช้ อายัด / สถานะ & Control Log (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="label-txt">บัญชีผู้ใช้ อายัด</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" data-menu-action="สถานะบัญชี > รอพิจารณา">รอพิจารณา</button>
+          <button type="button" class="drawer-subitem" data-menu-action="สถานะบัญชี > ปลดระงับ">ปลดระงับ</button>
+          <button type="button" class="drawer-subitem" data-menu-action="สถานะบัญชี > แบนถาวร">แบนถาวร</button>
+          <button type="button" class="drawer-subitem" data-menu-action="คอลโทลล้อค (เก็บประวัติผิดปกติ)">คอลโทลล้อค (เก็บประวัติผิดปกติ)</button>
+        </div>
+      </div>
+
+      <!-- 8. ข้อตกลงและเงื่อนไขการใช้บริการ (มีกลุ่มย่อยซ้อน) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span class="label-txt">ข้อตกลงและเงื่อนไขการใช้บริการ</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <!-- ข้อตกลงระหว่างการใช้งาน -->
+          <div class="drawer-nested-group">
+            <button type="button" class="drawer-nested-toggle">
+              <span>ข้อตกลงระหว่างการใช้งาน</span>
+              <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="drawer-nested-list">
+              <button type="button" class="drawer-subitem" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการทำธุรกรรม">ข้อตกลงการทำธุรกรรม</button>
+              <button type="button" class="drawer-subitem" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการสั่งซื้อ">ข้อตกลงการสั่งซื้อ</button>
+              <button type="button" class="drawer-subitem" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการคืนเงิน">ข้อตกลงการคืนเงิน</button>
+              <button type="button" class="drawer-subitem" data-menu-action="ข้อตกลงระหว่างการใช้งาน > ข้อตกลงการคืนสินค้า">ข้อตกลงการคืนสินค้า</button>
+            </div>
+          </div>
+
+          <!-- เงื่อนไขการใช้บริการ -->
+          <div class="drawer-nested-group">
+            <button type="button" class="drawer-nested-toggle">
+              <span>เงื่อนไขการใช้บริการ</span>
+              <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="drawer-nested-list">
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการทำธุรกรรม">เงื่อนไขการทำธุรกรรม</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการใช้งาน">เงื่อนไขการใช้งาน</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการสมัคร">เงื่อนไขการสมัคร</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการสั่งซื้อ">เงื่อนไขการสั่งซื้อ</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการคืนเงิน">เงื่อนไขการคืนเงิน</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขการใช้บริการ > เงื่อนไขการคืนสินค้า">เงื่อนไขการคืนสินค้า</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. นโยบายเงื่อนไขและความเป็นส่วนตัว (มีกลุ่มย่อยซ้อน) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="label-txt">นโยบายเงื่อนไขและความเป็นส่วนตัว</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <!-- นโยบายความเป็นส่วนตัว -->
+          <div class="drawer-nested-group">
+            <button type="button" class="drawer-nested-toggle">
+              <span>นโยบายความเป็นส่วนตัว</span>
+              <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="drawer-nested-list">
+              <button type="button" class="drawer-subitem" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายข้อมูลส่วนตัว">นโยบายข้อมูลส่วนตัว</button>
+              <button type="button" class="drawer-subitem" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายข้อมูลธุรกรรม">นโยบายข้อมูลธุรกรรม</button>
+              <button type="button" class="drawer-subitem" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายเปลี่ยนแปลงข้อมูล">นโยบายเปลี่ยนแปลงข้อมูล</button>
+              <button type="button" class="drawer-subitem" data-menu-action="นโยบายความเป็นส่วนตัว > นโยบายการปิดบัญชี">นโยบายการปิดบัญชี</button>
+            </div>
+          </div>
+
+          <!-- เงื่อนไขความเป็นส่วนตัว -->
+          <div class="drawer-nested-group">
+            <button type="button" class="drawer-nested-toggle">
+              <span>เงื่อนไขความเป็นส่วนตัว</span>
+              <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="drawer-nested-list">
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขข้อมูลส่วนตัว">เงื่อนไขข้อมูลส่วนตัว</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขข้อมูลธุรกรรม">เงื่อนไขข้อมูลธุรกรรม</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขเปลี่ยนแปลงข้อมูล">เงื่อนไขเปลี่ยนแปลงข้อมูล</button>
+              <button type="button" class="drawer-subitem" data-menu-action="เงื่อนไขความเป็นส่วนตัว > เงื่อนไขการปิดบัญชี">เงื่อนไขการปิดบัญชี</button>
+            </div>
+          </div>
+
+          <!-- ขอบเขตเงื่อนไขการรับผิดชอบ -->
+          <div class="drawer-nested-group">
+            <button type="button" class="drawer-nested-toggle">
+              <span>ขอบเขตเงื่อนไขการรับผิดชอบ</span>
+              <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="drawer-nested-list">
+              <button type="button" class="drawer-subitem" data-menu-action="ขอบเขตเงื่อนไขการรับผิดชอบ > การรับผิดชอบสำหรับร้าน">การรับผิดชอบสำหรับร้าน</button>
+              <button type="button" class="drawer-subitem" data-menu-action="ขอบเขตเงื่อนไขการรับผิดชอบ > การรับผิดชอบสำหรับลูกค้า">การรับผิดชอบสำหรับลูกค้า</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. ช่องทางติดต่อ (มีเมนูย่อย) -->
+      <div class="drawer-group">
+        <button type="button" class="drawer-item drawer-toggle">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label-txt">ช่องทางติดต่อ</span>
+          <svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="drawer-submenu">
+          <button type="button" class="drawer-subitem" data-menu-action="ช่องทางติดต่อ > Line Official Account">Line Official Account</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ช่องทางติดต่อ > Facebook Page">Facebook Page</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ช่องทางติดต่อ > Telegram Bot">Telegram Bot</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ช่องทางติดต่อ > Discord Server">Discord Server</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ช่องทางติดต่อ > Gmail Center">Gmail Center</button>
+          <button type="button" class="drawer-subitem" data-menu-action="ช่องทางติดต่อ > Telephone">Telephone</button>
+        </div>
+      </div>
     </nav>
 
     <button class="drawer-logout" data-modal="logout">
@@ -2314,7 +3038,7 @@
     </button>
   </aside>
 
-  <!-- Fullscreen Edge-to-Edge Shopping Cart Drawer -->
+  <!-- Full-Height Right Shopping Cart Drawer -->
   <div class="cart-backdrop" id="cartBackdrop"></div>
   <aside class="cart-drawer" id="cartDrawer" aria-label="ตะกร้าสินค้า">
     <div class="cart-drawer-head">
@@ -2330,7 +3054,48 @@
     <div class="cart-drawer-footer" id="cartDrawerFooter"></div>
   </aside>
 
-  <!-- Fullscreen Edge-to-Edge Product Detail Sheet with Banner Header -->
+  <!-- Full-Height Right Product Detail Drawer -->
+  <div class="cart-backdrop" id="productBackdrop"></div>
+  <aside class="cart-drawer" id="productDrawer" aria-label="รายละเอียดสินค้า">
+    <div class="cart-drawer-head">
+      <div class="cart-drawer-title">
+        <div class="modal-badge-icon" style="width:30px;height:30px;">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span>รายละเอียดสินค้า</span>
+      </div>
+      <button class="drawer-close" id="productCloseBtn" aria-label="ปิดรายละเอียดสินค้า">×</button>
+    </div>
+    <div class="product-drawer-body" id="productDrawerBody"></div>
+    <div class="cart-drawer-footer" id="productDrawerFooter"></div>
+  </aside>
+
+  <!-- Full-Page Product Detail View (Replaces Popup) -->
+  <section class="product-page-view" id="productPageView" aria-label="หน้ารายละเอียดสินค้า">
+    <button type="button" class="back-shop-btn" id="backToShopBtn">
+      <span>←</span> กลับสู่หน้าร้านค้า
+    </button>
+    <div class="product-page-card" id="productPageContent"></div>
+  </section>
+
+  <!-- All Products Catalog Page (Separated by Category & Service) -->
+  <section class="catalog-page-view" id="catalogPageView" aria-label="หน้าสินค้าทั้งหมด">
+    <div class="catalog-topbar">
+      <button type="button" class="back-shop-btn" style="margin-bottom:0;" onclick="closeAllProductsPage()">
+        <span>←</span> กลับหน้าหลัก
+      </button>
+      <span style="font-size:12px;color:#94a3b8;font-weight:600;">สินค้าทั้งหมดแยกตามหมวดหมู่</span>
+    </div>
+
+    <div class="section-heading">
+      <h2>หมวดหมู่สินค้า</h2>
+      <a href="javascript:void(0)" onclick="filterCatalogCategory('ALL')">ดูทั้งหมด <span>→</span></a>
+    </div>
+    <div class="catalog-cat-strip" id="catalogCategoryStrip"></div>
+    <div id="catalogServicesContainer"></div>
+  </section>
+
+  <!-- Bottom-Sliding Product Detail Sheet with Banner Header -->
   <div class="pd-sheet-overlay" id="productSheetOverlay" role="dialog" aria-modal="true" aria-label="รายละเอียดสินค้า">
     <div class="pd-sheet-panel" id="productSheetPanel"></div>
   </div>
@@ -2423,20 +3188,20 @@
 
     <!-- Categories -->
     <section class="section" id="categories">
-      <div class="section-heading"><h2>Shop By Category</h2><a href="#categories">View All <span>→</span></a></div>
+      <div class="section-heading"><h2>Shop By Category</h2><a href="javascript:void(0)" onclick="openAllProductsPage('ALL')">View All <span>→</span></a></div>
       <div class="category-grid">
-        <a class="category-card" href="#products"><img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=400&q=85" alt=""><span>Smartphones</span></a>
-        <a class="category-card" href="#products"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=85" alt=""><span>Laptops</span></a>
-        <a class="category-card" href="#products"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=85" alt=""><span>Audio</span></a>
-        <a class="category-card" href="#products"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=85" alt=""><span>Wearables</span></a>
-        <a class="category-card" href="#products"><img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=400&q=85" alt=""><span>Accessories</span></a>
-        <a class="category-card" href="#products"><img src="https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?auto=format&fit=crop&w=400&q=85" alt=""><span>Smart Home</span></a>
+        <a class="category-card" href="javascript:void(0)" onclick="openAllProductsPage('สินค้าออนไลน์')"><img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=400&q=85" alt=""><span>Smartphones</span></a>
+        <a class="category-card" href="javascript:void(0)" onclick="openAllProductsPage('สินค้าออนไลน์')"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=85" alt=""><span>Laptops</span></a>
+        <a class="category-card" href="javascript:void(0)" onclick="openAllProductsPage('สินค้าออนไลน์')"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=85" alt=""><span>Audio</span></a>
+        <a class="category-card" href="javascript:void(0)" onclick="openAllProductsPage('สินค้าออนไลน์')"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=85" alt=""><span>Wearables</span></a>
+        <a class="category-card" href="javascript:void(0)" onclick="openAllProductsPage('เติมเกมส์')"><img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=400&q=85" alt=""><span>เติมเกมส์</span></a>
+        <a class="category-card" href="javascript:void(0)" onclick="openAllProductsPage('บัตรเติมเงิน')"><img src="https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?auto=format&fit=crop&w=400&q=85" alt=""><span>บัตรเติมเงิน</span></a>
       </div>
     </section>
 
     <!-- Featured Products -->
     <section class="section" id="products">
-      <div class="section-heading"><h2>Featured Products</h2><a href="#products">View All <span>→</span></a></div>
+      <div class="section-heading"><h2>Featured Products</h2><a href="javascript:void(0)" onclick="openAllProductsPage('ALL')">View All <span>→</span></a></div>
       <div class="product-grid">
         <article class="product-card" data-name="NovaPhone 15 Pro" data-price="999" data-img="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90" data-desc="สมาร์ทโฟนเรือธงจอ OLED 120Hz ชิปประมวลผลรุ่นล่าสุด พร้อมระบบกล้อง ProRAW">
           <span class="badge blue">New</span>
@@ -2502,7 +3267,7 @@
     </section>
   </main>
 
-  <!-- Unified Fullscreen Modal System (Account, Care+, Logout) -->
+  <!-- Unified Complete Modal System -->
   <div class="modal-overlay" id="universalModal" role="dialog" aria-modal="true">
     <div class="modal-box">
       <div class="modal-header">
@@ -2516,12 +3281,12 @@
     </div>
   </div>
 
-  <!-- Fullscreen Wallet Sheet (Withdraw, Deposit & Checkout Channel Selector) -->
+  <!-- Bottom-Sliding Wallet Sheet (Withdraw & Deposit) -->
   <div class="bottom-sheet-overlay" id="walletSheetOverlay" role="dialog" aria-modal="true">
     <div class="bottom-sheet-panel" id="walletSheetPanel"></div>
   </div>
 
-  <!-- Fullscreen In-Tab Payment Gateway Overlay (QR PromptPay & Thai Bank Transfer) -->
+  <!-- In-Tab Full Payment Gateway Overlay (QR PromptPay & Thai Bank Transfer) -->
   <div class="gateway-overlay" id="paymentGatewayOverlay" role="dialog" aria-modal="true">
     <div class="gateway-page" id="paymentGatewayPage"></div>
   </div>
@@ -2535,12 +3300,80 @@
     </div>
   </div>
 
+  <!-- Mobile-Only Enforcement Gate -->
+  <div class="mobile-lock-screen" id="mobileLockScreen" role="alertdialog" aria-modal="true">
+    <div class="mobile-lock-card">
+      <div class="lock-icon-box" style="margin:0 auto 18px;">
+        <svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <h2 style="margin:0 0 10px;font-size:19px;font-weight:800;color:#ffffff;">รองรับเฉพาะการใช้งานบนมือถือเท่านั้น</h2>
+      <p style="margin:0 0 14px;font-size:13px;color:#94a3b8;line-height:1.65;">
+        ขออภัย ระบบไม่อนุญาตให้เข้าใช้งานผ่านคอมพิวเตอร์ PC, Mac, iPad, แท็บเล็ต หรือการเปิดโหมดเว็บไซต์เวอร์ชันเดสก์ท็อป (Desktop Site) บนเบราว์เซอร์มือถือ
+      </p>
+      <div style="background:#0c111d;border:1px solid #1e293b;border-radius:12px;padding:12px;font-size:11.5px;color:#cbd5e1;line-height:1.6;text-align:left;">
+        <strong style="color:#60a5fa;display:block;margin-bottom:4px;">วิธีแก้ไขหากคุณใช้งานบนมือถือ:</strong>
+        1. เปิดเมนูเบราว์เซอร์ (จุด 3 จุดมุมขวาบนใน Chrome/Google)<br>
+        2. นำเครื่องหมายถูกออกจากช่อง <b>"เว็บไซต์เวอร์ชันเดสก์ท็อป (Desktop site)"</b><br>
+        3. รีเฟรชหน้าเว็บใหม่อีกครั้ง
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toastMsg" role="status">ดำเนินการเรียบร้อย</div>
 
+  <!-- Clean White Single-Button Notification Popup (Image 3320 Style) -->
+  <div class="clean-alert-overlay" id="cleanAlertOverlay" role="alertdialog" aria-modal="true">
+    <div class="clean-alert-card">
+      <button type="button" class="clean-alert-close" id="cleanAlertCloseBtn" aria-label="ปิด">×</button>
+      <h3 class="clean-alert-title" id="cleanAlertTitle">แจ้งเตือน</h3>
+      <p class="clean-alert-desc" id="cleanAlertDesc">ดำเนินการเรียบร้อยแล้ว</p>
+      <div class="clean-alert-actions">
+        <button type="button" class="clean-alert-ok-btn" id="cleanAlertOkBtn">ตกลง</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // --- Strict Mobile-Only & Anti-Desktop-Mode Enforcement ---
+    (function enforceMobileOnly() {
+      const lockScreen = document.getElementById('mobileLockScreen');
+
+      function checkDeviceRestriction() {
+        const ua = navigator.userAgent || '';
+        const platform = navigator.platform || '';
+        const maxTouch = navigator.maxTouchPoints || 0;
+
+        // 1. Detect Desktop OS & Desktop Mode on Mobile Google/Chrome (Linux x86_64, Macintosh, Win32/64, CrOS)
+        const isDesktopUA = /(Windows NT|Macintosh|Mac OS X|X11|Linux x86_64|Linux i686|CrOS)/i.test(ua);
+        // 2. Detect iPad & Tablets (including iPadOS 13+ reporting Macintosh with touch points)
+        const isTabletUA = /(iPad|Tablet|PlayBook|Silk|Kindle|Nexus 7|Nexus 9|Nexus 10|SM-T|Tab)/i.test(ua);
+        const isIpadOS = (/Macintosh/i.test(ua) && maxTouch > 1) || platform === 'MacIntel' && maxTouch > 1;
+        // 3. Detect Mobile Phone UA
+        const isPhoneUA = /(Android.*Mobile|iPhone|iPod|Windows Phone|BlackBerry|BB10|Opera Mini|IEMobile|Mobile)/i.test(ua);
+        // 4. Screen width & touch capability check (blocks wide viewports & desktop mode 980px layout)
+        const screenW = Math.min(window.innerWidth, window.screen.width || window.innerWidth);
+        const isWideViewport = window.innerWidth > 540 || screenW > 540;
+        const hasTouch = ('ontouchstart' in window) || maxTouch > 0;
+
+        const isAllowedPhone = isPhoneUA && !isDesktopUA && !isTabletUA && !isIpadOS && !isWideViewport && hasTouch;
+
+        if (!isAllowedPhone) {
+          lockScreen.classList.add('blocked');
+          document.body.style.overflow = 'hidden';
+        } else {
+          lockScreen.classList.remove('blocked');
+          document.body.style.overflow = '';
+        }
+      }
+
+      checkDeviceRestriction();
+      window.addEventListener('resize', checkDeviceRestriction);
+      window.addEventListener('orientationchange', checkDeviceRestriction);
+    })();
+
     // --- State Management ---
     let walletBalance = 12450;
-    let savedBankAccount = null;
+    let savedBankAccount = null; // Starts empty so user adds bank account first, then shows card box
     let selectedBankCode = 'KBANK';
     let selectedDepositAmount = 200;
     let selectedDepositChannel = 'PromptPay';
@@ -2596,13 +3429,144 @@
       'FREESHIP': { code: 'FREESHIP', label: 'ฟรีค่าจัดส่งทุกออเดอร์', type: 'shipping', value: 0 }
     };
     const toast = document.getElementById('toastMsg');
+    const cleanAlertOverlay = document.getElementById('cleanAlertOverlay');
+    const cleanAlertTitle = document.getElementById('cleanAlertTitle');
+    const cleanAlertDesc = document.getElementById('cleanAlertDesc');
     let toastTimer;
 
-    function showToast(msg) {
+    function closeCleanAlert() {
+      if (cleanAlertOverlay) cleanAlertOverlay.classList.remove('open');
+    }
+
+    if (document.getElementById('cleanAlertCloseBtn')) {
+      document.getElementById('cleanAlertCloseBtn').addEventListener('click', closeCleanAlert);
+    }
+    if (document.getElementById('cleanAlertOkBtn')) {
+      document.getElementById('cleanAlertOkBtn').addEventListener('click', closeCleanAlert);
+    }
+    if (cleanAlertOverlay) {
+      cleanAlertOverlay.addEventListener('click', e => {
+        if (e.target === cleanAlertOverlay) closeCleanAlert();
+      });
+    }
+
+    function showToast(msg, title = 'แจ้งเตือน') {
+      if (cleanAlertOverlay && cleanAlertTitle && cleanAlertDesc) {
+        cleanAlertTitle.textContent = title;
+        cleanAlertDesc.textContent = msg;
+        cleanAlertOverlay.classList.add('open');
+        return;
+      }
       toast.textContent = msg;
       toast.classList.add('show');
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    // --- All Products Catalog Page Data & Functions ---
+    const CATALOG_CATEGORIES = [
+      { id: 'ALL', label: 'ทั้งหมด', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=85' },
+      { id: 'สินค้าออนไลน์', label: 'สินค้าออนไลน์', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=300&q=85' },
+      { id: 'เติมเกมส์', label: 'เติมเกมส์', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=300&q=85' },
+      { id: 'บัตรเติมเงิน', label: 'บัตรเติมเงิน', img: 'https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?auto=format&fit=crop&w=300&q=85' },
+      { id: 'แอพพรีเมี่ยม', label: 'แอพพรีเมี่ยม', img: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=300&q=85' },
+      { id: 'แพ็กเกจเสริม', label: 'แพ็กเกจเสริม', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=85' }
+    ];
+
+    const CATALOG_PRODUCTS = [
+      // สินค้าออนไลน์
+      { service: 'สินค้าออนไลน์', name: 'NovaPhone 15 Pro', price: 999, badge: 'New', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', desc: 'สมาร์ทโฟนเรือธงจอ OLED 120Hz ชิปประมวลผลรุ่นล่าสุด พร้อมระบบกล้อง ProRAW' },
+      { service: 'สินค้าออนไลน์', name: 'NovaBuds Pro', price: 199, badge: 'Best Seller', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=600&q=90', desc: 'หูฟังไร้สายตัดเสียงรบกวน Active Noise Cancellation ระดับสตูดิโอ แบตอึด 30 ชม.' },
+      { service: 'สินค้าออนไลน์', name: 'NovaBook Air M2', price: 1299, badge: '', badgeClass: '', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=90', desc: 'แล็ปท็อปดีไซน์บางเฉียบ น้ำหนักเบาเพียง 1.24 กก. แรงลื่นทุกงานตัดต่อและกราฟิก' },
+      { service: 'สินค้าออนไลน์', name: 'NovaWatch X', price: 249, oldPrice: 299, badge: 'Sale', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=90', desc: 'สมาร์ทวอทช์ตรวจวัดสุขภาพครบวงจร กันน้ำ 50 เมตร หน้าปัดกระจกแซฟไฟร์' },
+      // เติมเกมส์
+      { service: 'เติมเกมส์', name: 'ROV คูปอง UID 24 ชม.', price: 15, badge: 'ยอดนิยม', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=90', desc: 'เติมคูปอง ROV ใช้เพียง OpenID เข้าทันทีอัตโนมัติ 24 ชั่วโมง ราคาประหยัด' },
+      { service: 'เติมเกมส์', name: 'Valorant Points (VP)', price: 29, badge: 'เข้าทันที', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=90', desc: 'เติมพอยต์ Valorant ด้วย Riot ID ปลอดภัย 100% ไม่ต้องใช้รหัสผ่าน' },
+      { service: 'เติมเกมส์', name: 'Genshin Impact Genesis', price: 49, badge: 'โบนัส x2', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', desc: 'เติม Genesis Crystals ใช้แค่ UID เซิร์ฟเวอร์ Asia รับโบนัสครบถ้วน' },
+      { service: 'เติมเกมส์', name: 'Free Fire เพชรราคาถูก', price: 10, badge: 'Sale', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=90', desc: 'เติมเพชร Free Fire ระบบอัตโนมัติรวดเร็วทันใจ ใช้เพียงเลข ID ผู้เล่น' },
+      // บัตรเติมเงิน
+      { service: 'บัตรเติมเงิน', name: 'Garena Shell 500 บาท', price: 16, badge: 'พร้อมส่ง', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?auto=format&fit=crop&w=600&q=90', desc: 'รหัสบัตรเติมเงินการีนาเชลล์ รับโค้ดทันทีหลังชำระเงิน ใช้งานได้ทุกเกมในเครือ' },
+      { service: 'บัตรเติมเงิน', name: 'Steam Wallet 1,000 THB', price: 32, badge: 'Best Seller', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=90', desc: 'บัตรเติมเงิน Steam Wallet โซนไทย รับรหัสอัตโนมัติทันทีตลอด 24 ชม.' },
+      { service: 'บัตรเติมเงิน', name: 'Razer Gold PIN 500', price: 16, badge: 'คุ้มค่า', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=600&q=90', desc: 'บัตร Razer Gold PIN เติมเกมและรับแต้มสะสม Razer Silver ได้ทันที' },
+      { service: 'บัตรเติมเงิน', name: 'TrueMoney Cash Card', price: 10, badge: 'Instant', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=90', desc: 'รหัสบัตรเงินสดทรูมันนี่ รับรหัสทันทีหลังยืนยันยอด' },
+      // แอพพรีเมี่ยม
+      { service: 'แอพพรีเมี่ยม', name: 'YouTube Premium 1 เดือน', price: 5, badge: 'ขายดี', badgeClass: 'orange', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=90', desc: 'ดูวิดีโอแบบไม่มีโฆษณาคั่น ฟังเพลงพื้นหลังได้ พร้อม YouTube Music' },
+      { service: 'แอพพรีเมี่ยม', name: 'Netflix 4K Ultra HD', price: 9, badge: '4K HDR', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=90', desc: 'รับชมภาพยนตร์และซีรีส์ความคมชัดสูงสุด 4K จอส่วนตัว รับประกันตลอดอายุใช้งาน' },
+      // แพ็กเกจเสริม
+      { service: 'แพ็กเกจเสริม', name: 'เน็ตไม่อั้น 30Mbps 30 วัน', price: 12, badge: 'ไม่ลดสปีด', badgeClass: 'green', img: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=90', desc: 'แพ็กเกจเสริมอินเทอร์เน็ตความเร็ว 30Mbps ไม่อั้นไม่ลดสปีด รองรับทุกเครือข่าย' },
+      { service: 'แพ็กเกจเสริม', name: 'แพ็กเกจเกมมิ่ง Ping ต่ำ', price: 7, badge: 'Gaming', badgeClass: 'blue', img: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=90', desc: 'อินเทอร์เน็ตเสริมความเร็วสูงพิเศษสำหรับเล่นเกมออนไลน์โดยเฉพาะ' }
+    ];
+
+    let activeCatalogCategory = 'ALL';
+
+    window.openAllProductsPage = function(category = 'ALL') {
+      activeCatalogCategory = category;
+      const storeEl = document.getElementById('storeMainContent');
+      const productPageEl = document.getElementById('productPageView');
+      const catalogEl = document.getElementById('catalogPageView');
+      if (storeEl) storeEl.style.display = 'none';
+      if (productPageEl) productPageEl.classList.remove('active');
+      if (catalogEl) catalogEl.classList.add('active');
+      renderCatalogPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.closeAllProductsPage = function() {
+      const storeEl = document.getElementById('storeMainContent');
+      const catalogEl = document.getElementById('catalogPageView');
+      if (catalogEl) catalogEl.classList.remove('active');
+      if (storeEl) storeEl.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.filterCatalogCategory = function(catId) {
+      activeCatalogCategory = catId;
+      renderCatalogPage();
+    };
+
+    function renderCatalogPage() {
+      const stripEl = document.getElementById('catalogCategoryStrip');
+      const containerEl = document.getElementById('catalogServicesContainer');
+      if (!stripEl || !containerEl) return;
+
+      stripEl.innerHTML = CATALOG_CATEGORIES.map(cat => `
+        <button type="button" class="catalog-cat-card ${activeCatalogCategory === cat.id ? 'active' : ''}" onclick="filterCatalogCategory('${cat.id}')">
+          <img src="${cat.img}" alt="${cat.label}">
+          <span>${cat.label}</span>
+        </button>
+      `).join('');
+
+      const servicesToShow = activeCatalogCategory === 'ALL'
+        ? ['สินค้าออนไลน์', 'เติมเกมส์', 'บัตรเติมเงิน', 'แอพพรีเมี่ยม', 'แพ็กเกจเสริม']
+        : [activeCatalogCategory];
+
+      containerEl.innerHTML = servicesToShow.map(serviceName => {
+        const items = CATALOG_PRODUCTS.filter(p => p.service === serviceName);
+        if (!items.length) return '';
+        return `
+          <div class="service-group-block">
+            <h3 class="service-group-title">
+              <span>${serviceName}</span>
+              <small>${items.length} รายการ</small>
+            </h3>
+            <div class="catalog-items-grid">
+              ${items.map(item => `
+                <article class="product-card" onclick="openProductDetail('${item.name}', ${item.price}, '${item.img}', '${item.desc}')">
+                  ${item.badge ? `<span class="badge ${item.badgeClass}">${item.badge}</span>` : ''}
+                  <img src="${item.img}" alt="${item.name}">
+                  <div class="product-info">
+                    <h3>${item.name}</h3>
+                    <p><b>$${item.price}</b>${item.oldPrice ? ` <del>$${item.oldPrice}</del>` : ''}</p>
+                  </div>
+                  <button type="button" class="add-cart" aria-label="เพิ่มลงตะกร้า" onclick="event.stopPropagation();addItemToCart('${item.name}', ${item.price}, '${item.img}');showToast('เพิ่ม ${item.name} ลงในตะกร้าแล้ว')">
+                    <svg viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+                  </button>
+                </article>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function updateBalanceUI() {
@@ -2676,9 +3640,36 @@
     document.querySelector('.menu-open').addEventListener('click', openMenu);
     document.getElementById('menuClose').addEventListener('click', closeMenu);
     menuBackdrop.addEventListener('click', closeMenu);
-    sideDrawer.querySelectorAll('.drawer-item').forEach(link => link.addEventListener('click', closeMenu));
 
-    // --- Fullscreen Modal System ---
+    // Accordion Submenu & Nested Submenu Toggle
+    document.querySelectorAll('.drawer-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.closest('.drawer-group');
+        const wasOpen = group.classList.contains('open');
+        document.querySelectorAll('.drawer-group.open').forEach(g => {
+          if (g !== group) g.classList.remove('open');
+        });
+        group.classList.toggle('open', !wasOpen);
+      });
+    });
+
+    document.querySelectorAll('.drawer-nested-toggle').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const nested = btn.closest('.drawer-nested-group');
+        nested.classList.toggle('open');
+      });
+    });
+
+    document.querySelectorAll('[data-menu-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const label = btn.dataset.menuAction;
+        closeMenu();
+        showToast(`ระบบพร้อมให้บริการในส่วน "${label}" สามารถตรวจสอบข้อมูลและทำรายการได้ตลอด 24 ชั่วโมง`, label);
+      });
+    });
+
+    // --- Complete Popup (Modal) System ---
     const modalOverlay = document.getElementById('universalModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalIcon = document.getElementById('modalIcon');
@@ -2696,21 +3687,26 @@
     }
 
     document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', e => {
+      if (e.target === modalOverlay) closeModal();
+    });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeMenu();
         closeCartDrawer();
+        closeProductDrawer();
         closeProductSheet();
         closeModal();
         closeWalletSheet();
         closePaymentGateway();
+        closeCleanAlert();
       }
     });
 
-    // --- Fullscreen Wallet Sheet Controller (Deposit, Withdraw & Order Checkout) ---
+    // --- Bottom-Sliding Sheet Controller (Deposit & Order Checkout) ---
     const walletSheetOverlay = document.getElementById('walletSheetOverlay');
     const walletSheetPanel = document.getElementById('walletSheetPanel');
-    let sheetMode = 'deposit';
+    let sheetMode = 'deposit'; // 'deposit' or 'checkout'
     let pendingOrderTotalTHB = 0;
 
     function openWalletSheet() {
@@ -2723,6 +3719,10 @@
     function closeWalletSheet() {
       walletSheetOverlay.classList.remove('open');
     }
+
+    walletSheetOverlay.addEventListener('click', e => {
+      if (e.target === walletSheetOverlay) closeWalletSheet();
+    });
 
     // 1. Deposit & Order Payment Channel Selector Sheet
     function openDepositModal() {
@@ -2753,7 +3753,7 @@
         </div>
 
         ${isCheckout ? `
-          <div style="padding:10px max(18px, 4vw) 16px;text-align:center;width:100%;max-width:720px;margin:0 auto;">
+          <div style="padding:10px 18px 16px;text-align:center;">
             <div style="font-size:12px;color:#6b7280;margin-bottom:4px;">ยอดชำระสุทธิสำหรับสินค้าในตะกร้า</div>
             <div style="font-size:28px;font-weight:800;color:#ef4444;">฿${pendingOrderTotalTHB.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</div>
           </div>
@@ -2769,7 +3769,7 @@
             </button>
           </div>
 
-          <div id="customDepositWrap" style="display:${isCustom ? 'block' : 'none'};padding:0 max(18px, 4vw) 14px;width:100%;max-width:720px;margin:0 auto;">
+          <div id="customDepositWrap" style="display:${isCustom ? 'block' : 'none'};padding:0 18px 14px;">
             <div class="light-input-box" style="margin-bottom:0;height:44px;">
               <input type="number" id="customDepositField" placeholder="กรอกจำนวนเงินที่ต้องการเติม (บาท)" value="${isCustom ? selectedDepositAmount : ''}" oninput="onCustomDepositInput(this.value)">
               <span style="font-size:12px;color:#6b7280;font-weight:600;">THB</span>
@@ -2777,13 +3777,11 @@
           </div>
         `}
 
-        <div class="dp-cat-tabs-wrap">
-          <div class="dp-cat-tabs">
-            <button type="button" class="dp-cat-tab ${depositCatTab === 'recommend' ? 'active' : ''}" onclick="switchDepositCat('recommend')">แนะนำ</button>
-            <button type="button" class="dp-cat-tab ${depositCatTab === 'wallet' ? 'active' : ''}" onclick="switchDepositCat('wallet')">💳 วอลเล็ต</button>
-            <button type="button" class="dp-cat-tab ${depositCatTab === 'mobile' ? 'active' : ''}" onclick="switchDepositCat('mobile')">📱 โมบายแบงก์กิ้ง</button>
-            <button type="button" class="dp-cat-tab ${depositCatTab === 'cards' ? 'active' : ''}" onclick="switchDepositCat('cards')">🪪 Cards</button>
-          </div>
+        <div class="dp-cat-tabs">
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'recommend' ? 'active' : ''}" onclick="switchDepositCat('recommend')">แนะนำ</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'wallet' ? 'active' : ''}" onclick="switchDepositCat('wallet')">💳 วอลเล็ต</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'mobile' ? 'active' : ''}" onclick="switchDepositCat('mobile')">📱 โมบายแบงก์กิ้ง</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'cards' ? 'active' : ''}" onclick="switchDepositCat('cards')">🪪 Cards</button>
         </div>
 
         <div class="dp-channel-list">
@@ -2801,12 +3799,10 @@
         </div>
 
         <div class="wd-footer">
-          <div class="wd-footer-inner">
-            <button type="button" class="black-action-btn" onclick="confirmDepositSheet()">
-              <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/></svg>
-              ชำระเงิน
-            </button>
-          </div>
+          <button type="button" class="black-action-btn" onclick="confirmDepositSheet()">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/></svg>
+            ชำระเงิน
+          </button>
         </div>
       `;
     }
@@ -2851,7 +3847,7 @@
       return `${dd}/${mm}/${yyyy} ${hh}:${min} น.`;
     }
 
-    // --- Fullscreen In-Tab Payment Gateway (QR PromptPay & Thai Bank Transfer) ---
+    // --- In-Tab Payment Gateway (QR PromptPay & Thai Bank Transfer) ---
     const paymentGatewayOverlay = document.getElementById('paymentGatewayOverlay');
     const paymentGatewayPage = document.getElementById('paymentGatewayPage');
     let currentGatewayTx = null;
@@ -2982,7 +3978,7 @@
             <img src="https://i.postimg.cc/kXhzdBK3/ab72fcfd-1473-449e-bc9a-693f1ed75001.png" alt="Logo" class="gw-brand-img" onerror="this.style.display='none'">
             <span>${isQR ? 'THAI QR PAYMENT' : 'THAI BANK PAYMENT'}</span>
           </div>
-          <span style="width:32px;"></span>
+          <span style="width:30px;"></span>
         </header>
 
         <section class="gw-content">
@@ -3056,7 +4052,7 @@
       openInTabPaymentGateway(selectedDepositAmount, selectedDepositChannel, sheetMode === 'checkout' ? 'checkout' : 'deposit');
     };
 
-    // 2. Fullscreen Withdraw Sheet
+    // 2. Withdraw Bottom Sheet (Matching Images 3298, 3299, 3304 & Wallet Phone Input 3313)
     let wdTabMode = 'cash';
     let savedWalletPhone = '';
 
@@ -3074,146 +4070,136 @@
 
       walletSheetPanel.innerHTML = `
         <div class="wd-top-blue">
-          <div class="wd-top-inner">
-            <div class="wd-header-bar">
-              <button type="button" onclick="closeWalletSheet()" aria-label="ย้อนกลับ">‹</button>
-              <h3>ถอนเงิน</h3>
-              <button type="button" onclick="showToast('ประวัติการถอนเงินทั้งหมด')" aria-label="ประวัติรายการ">
-                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
-              </button>
-            </div>
-
-            <div class="wd-tabs">
-              <button type="button" class="wd-tab ${wdTabMode === 'cash' ? 'active' : ''}" onclick="switchWdTab('cash')">ถอนเงินสด</button>
-              <button type="button" class="wd-tab ${wdTabMode === 'wallet' ? 'active' : ''}" onclick="switchWdTab('wallet')">ถอนวอลเล็ต</button>
-            </div>
-
-            <div class="wd-label-row">
-              <span>จำนวนเงินที่ถอน</span>
-              <span>ยอดคงเหลือของฉัน: ${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</span>
-            </div>
-            <input type="number" id="wdAmountInput" class="wd-amount-box" placeholder="วงเงิน: 10,000.00" oninput="updateWdSubmitState()">
+          <div class="wd-header-bar">
+            <button type="button" onclick="closeWalletSheet()" aria-label="ย้อนกลับ">‹</button>
+            <h3>ถอนเงิน</h3>
+            <button type="button" onclick="showToast('ประวัติการถอนเงินทั้งหมด')" aria-label="ประวัติรายการ">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+            </button>
           </div>
+
+          <div class="wd-tabs">
+            <button type="button" class="wd-tab ${wdTabMode === 'cash' ? 'active' : ''}" onclick="switchWdTab('cash')">ถอนเงินสด</button>
+            <button type="button" class="wd-tab ${wdTabMode === 'wallet' ? 'active' : ''}" onclick="switchWdTab('wallet')">ถอนวอลเล็ต</button>
+          </div>
+
+          <div class="wd-label-row">
+            <span>จำนวนเงินที่ถอน</span>
+            <span>ยอดคงเหลือของฉัน: ${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</span>
+          </div>
+          <input type="number" id="wdAmountInput" class="wd-amount-box" placeholder="วงเงิน: 10,000.00" oninput="updateWdSubmitState()">
         </div>
 
         <div class="wd-body">
-          <div class="wd-body-inner">
-            ${isWalletTab ? `
-              <div style="margin-bottom:18px;">
-                <label class="light-field-label"><span>*</span>เบอร์โทรศัพท์วอลเล็ต (TrueMoney Wallet)</label>
-                <div class="phone-input-card">
-                  <div class="phone-prefix-wrap">
-                    <svg class="thai-flag-svg" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="30" height="20" fill="#A51931"/>
-                      <rect y="3.33" width="30" height="13.33" fill="#F4F5F8"/>
-                      <rect y="6.67" width="30" height="6.67" fill="#2D2A4A"/>
-                    </svg>
-                    <span>+66</span>
-                    <span style="font-size:11px;color:#111827;">▾</span>
-                  </div>
-                  <input type="tel" id="wdWalletPhoneInput" placeholder="กรุณากรอกเบอร์โทรศัพท์" maxlength="10" value="${savedWalletPhone}" oninput="onWalletPhoneInput(this.value)">
+          ${isWalletTab ? `
+            <div style="margin-bottom:18px;">
+              <label class="light-field-label"><span>*</span>เบอร์โทรศัพท์วอลเล็ต (TrueMoney Wallet)</label>
+              <div class="phone-input-card">
+                <div class="phone-prefix-wrap">
+                  <svg class="thai-flag-svg" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="30" height="20" fill="#A51931"/>
+                    <rect y="3.33" width="30" height="13.33" fill="#F4F5F8"/>
+                    <rect y="6.67" width="30" height="6.67" fill="#2D2A4A"/>
+                  </svg>
+                  <span>+66</span>
+                  <span style="font-size:11px;color:#111827;">▾</span>
                 </div>
+                <input type="tel" id="wdWalletPhoneInput" placeholder="กรุณากรอกเบอร์โทรศัพท์" maxlength="10" value="${savedWalletPhone}" oninput="onWalletPhoneInput(this.value)">
               </div>
-            ` : `
-              ${savedBankAccount && bankMeta ? `
-                <div class="bank-card-box">
-                  <div class="bank-card-top">
-                    <div class="bank-card-brand">
-                      ${renderBankBadge(bankMeta)}
-                      <span>${bankMeta.enName}</span>
-                    </div>
-                    <span style="width:20px;height:20px;border-radius:50%;background:#ef4444;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;">✓</span>
-                  </div>
-                  <div class="bank-card-num">${savedBankAccount.accountNumber}</div>
-                  <div class="bank-card-owner">${savedBankAccount.accountName}</div>
-                </div>
-              ` : ''}
-
-              <button type="button" class="add-account-dashed" onclick="openAddBankSubSheet()">
-                <span>+ เพิ่มบัญชี</span>
-                <span style="display:inline-flex;gap:3px;">
-                  <span style="width:18px;height:18px;border-radius:50%;background:#1ba5e1;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">KTB</span>
-                  <span style="width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">T</span>
-                  <span style="width:18px;height:18px;border-radius:50%;background:#4e2a84;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">SCB</span>
-                </span>
-              </button>
-            `}
-
-            <div class="wd-rules">
-              <h4>รายละเอียดการถอนเงิน <span style="width:15px;height:15px;border:1px solid #9ca3af;border-radius:50%;display:inline-grid;place-items:center;font-size:10px;color:#6b7280;">?</span></h4>
-              <div>1.วงเงินการถอนต่อวัน: <span class="red-num">10,000.00</span></div>
-              <div>2.Up to <b>2</b> withdrawals per day, funds will be credited within approximately <b>1-10 minutes</b></div>
-              <div>3.เวลาทำการถอนเงิน: <b>วันจันทร์ถึงวันเสาร์ 10:00 - 19:00</b></div>
             </div>
+          ` : `
+            ${savedBankAccount && bankMeta ? `
+              <div class="bank-card-box">
+                <div class="bank-card-top">
+                  <div class="bank-card-brand">
+                    ${renderBankBadge(bankMeta)}
+                    <span>${bankMeta.enName}</span>
+                  </div>
+                  <span style="width:20px;height:20px;border-radius:50%;background:#ef4444;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;">✓</span>
+                </div>
+                <div class="bank-card-num">${savedBankAccount.accountNumber}</div>
+                <div class="bank-card-owner">${savedBankAccount.accountName}</div>
+              </div>
+            ` : ''}
+
+            <button type="button" class="add-account-dashed" onclick="openAddBankSubSheet()">
+              <span>+ เพิ่มบัญชี</span>
+              <span style="display:inline-flex;gap:3px;">
+                <span style="width:18px;height:18px;border-radius:50%;background:#1ba5e1;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">KTB</span>
+                <span style="width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">T</span>
+                <span style="width:18px;height:18px;border-radius:50%;background:#4e2a84;color:#fff;font-size:8px;display:grid;place-items:center;font-weight:700;">SCB</span>
+              </span>
+            </button>
+          `}
+
+          <div class="wd-rules">
+            <h4>รายละเอียดการถอนเงิน <span style="width:15px;height:15px;border:1px solid #9ca3af;border-radius:50%;display:inline-grid;place-items:center;font-size:10px;color:#6b7280;">?</span></h4>
+            <div>1.วงเงินการถอนต่อวัน: <span class="red-num">10,000.00</span></div>
+            <div>2.Up to <b>2</b> withdrawals per day, funds will be credited within approximately <b>1-10 minutes</b></div>
+            <div>3.เวลาทำการถอนเงิน: <b>วันจันทร์ถึงวันเสาร์ 10:00 - 19:00</b></div>
           </div>
         </div>
 
         <div class="wd-footer">
-          <div class="wd-footer-inner">
-            <button type="button" id="wdConfirmBtn" class="wd-submit-btn ${(isWalletTab ? savedWalletPhone.length >= 9 : !!savedBankAccount) ? 'ready' : ''}" onclick="submitWithdrawAction()">
-              ${isWalletTab ? 'ยืนยันการถอน' : `ยืนยันการถอนเงิน (${savedBankAccount ? '2/2' : '1/2'})`}
-            </button>
-          </div>
+          <button type="button" id="wdConfirmBtn" class="wd-submit-btn ${(isWalletTab ? savedWalletPhone.length >= 9 : !!savedBankAccount) ? 'ready' : ''}" onclick="submitWithdrawAction()">
+            ${isWalletTab ? 'ยืนยันการถอน' : `ยืนยันการถอนเงิน (${savedBankAccount ? '2/2' : '1/2'})`}
+          </button>
         </div>
 
-        <!-- Fullscreen Sub-Sheet 1: เพิ่มบัญชี -->
+        <!-- Sub-Sheet 1: เพิ่มบัญชี (Image 3299) -->
         <div class="sub-sheet-backdrop" id="addBankSubSheet">
           <div class="sub-sheet-box">
-            <div class="sub-sheet-inner">
-              <div class="sub-sheet-head">
-                <h4>เพิ่มบัญชี</h4>
-                <button type="button" class="sub-sheet-close" onclick="closeAddBankSubSheet()">×</button>
-              </div>
-
-              <label class="light-field-label"><span>*</span>ชื่อบัญชี</label>
-              <div class="light-input-box" style="color:#6b7280;">
-                <input type="text" id="newAccNameInput" value="นรินทร์ภัทร มีชัย" readonly style="color:#6b7280;">
-                <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#6b7280;flex-shrink:0;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-              </div>
-
-              <label class="light-field-label"><span>*</span>Bank / E-Wallet</label>
-              <div class="light-input-box" style="cursor:pointer;" onclick="openBankPickerSubSheet()">
-                <div style="display:flex;align-items:center;gap:10px;" id="selectedBankDisplay">
-                  ${renderBankBadge(THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0])}
-                  <span style="font-weight:600;">${(THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0]).name}</span>
-                </div>
-                <span style="font-size:18px;color:#6b7280;">›</span>
-              </div>
-
-              <label class="light-field-label"><span>*</span>หมายเลขบัญชี</label>
-              <div class="light-input-box">
-                <input type="tel" id="newAccNumberInput" placeholder="กรุณากรอกหมายเลขบัญชี" maxlength="15" value="${savedBankAccount ? savedBankAccount.accountNumber : ''}">
-              </div>
-
-              <p style="text-align:center;font-size:11px;color:#9ca3af;margin:6px 0 16px;">*บัญชีจะถูกผูกโดยอัตโนมัติหลังจากยืนยันตัวตนสำเร็จ</p>
-              <button type="button" class="black-action-btn" style="margin-top:auto;" onclick="saveNewBankAccount()">ส่งข้อมูล</button>
+            <div class="sub-sheet-head">
+              <h4>เพิ่มบัญชี</h4>
+              <button type="button" class="sub-sheet-close" onclick="closeAddBankSubSheet()">×</button>
             </div>
+
+            <label class="light-field-label"><span>*</span>ชื่อบัญชี</label>
+            <div class="light-input-box" style="color:#6b7280;">
+              <input type="text" id="newAccNameInput" value="นรินทร์ภัทร มีชัย" readonly style="color:#6b7280;">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#6b7280;flex-shrink:0;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            </div>
+
+            <label class="light-field-label"><span>*</span>Bank / E-Wallet</label>
+            <div class="light-input-box" style="cursor:pointer;" onclick="openBankPickerSubSheet()">
+              <div style="display:flex;align-items:center;gap:10px;" id="selectedBankDisplay">
+                ${renderBankBadge(THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0])}
+                <span style="font-weight:600;">${(THAI_BANKS.find(b => b.code === selectedBankCode) || THAI_BANKS[0]).name}</span>
+              </div>
+              <span style="font-size:18px;color:#6b7280;">›</span>
+            </div>
+
+            <label class="light-field-label"><span>*</span>หมายเลขบัญชี</label>
+            <div class="light-input-box">
+              <input type="tel" id="newAccNumberInput" placeholder="กรุณากรอกหมายเลขบัญชี" maxlength="15" value="${savedBankAccount ? savedBankAccount.accountNumber : ''}">
+            </div>
+
+            <p style="text-align:center;font-size:11px;color:#9ca3af;margin:6px 0 16px;">*บัญชีจะถูกผูกโดยอัตโนมัติหลังจากยืนยันตัวตนสำเร็จ</p>
+            <button type="button" class="black-action-btn" onclick="saveNewBankAccount()">ส่งข้อมูล</button>
           </div>
         </div>
 
-        <!-- Fullscreen Sub-Sheet 2: เลือกธนาคาร/วอลเล็ต -->
+        <!-- Sub-Sheet 2: เลือกธนาคาร/วอลเล็ต (Image 3304) -->
         <div class="sub-sheet-backdrop" id="bankPickerSubSheet">
           <div class="sub-sheet-box">
-            <div class="sub-sheet-inner">
-              <div class="sub-sheet-head">
-                <h4>เลือกธนาคาร/วอลเล็ต</h4>
-                <button type="button" class="sub-sheet-close" onclick="closeBankPickerSubSheet()">×</button>
-              </div>
-              <div id="bankPickerList" style="flex:1;overflow-y:auto;">
-                ${THAI_BANKS.map(b => `
-                  <div class="bank-select-row" onclick="chooseBankOption('${b.code}')">
-                    <div class="bank-row-left">
-                      ${renderBankBadge(b)}
-                      <span>${b.name}</span>
-                    </div>
-                    <div class="radio-circle ${selectedBankCode === b.code ? 'checked' : ''}">
-                      ${selectedBankCode === b.code ? '✓' : ''}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-              <button type="button" class="black-action-btn" style="margin-top:14px;" onclick="confirmBankPicker()">ยืนยัน</button>
+            <div class="sub-sheet-head">
+              <h4>เลือกธนาคาร/วอลเล็ต</h4>
+              <button type="button" class="sub-sheet-close" onclick="closeBankPickerSubSheet()">×</button>
             </div>
+            <div id="bankPickerList">
+              ${THAI_BANKS.map(b => `
+                <div class="bank-select-row" onclick="chooseBankOption('${b.code}')">
+                  <div class="bank-row-left">
+                    ${renderBankBadge(b)}
+                    <span>${b.name}</span>
+                  </div>
+                  <div class="radio-circle ${selectedBankCode === b.code ? 'checked' : ''}">
+                    ${selectedBankCode === b.code ? '✓' : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <button type="button" class="black-action-btn" style="margin-top:10px;" onclick="confirmBankPicker()">ยืนยัน</button>
           </div>
         </div>
       `;
@@ -3347,28 +4333,29 @@
       showToast(`ส่งคำขอถอนเงิน ฿${val.toLocaleString('th-TH')} เข้าบัญชี ${savedBankAccount.accountNumber} สำเร็จ!`);
     };
 
-    // 3. Fullscreen Logout Confirmation Modal
+    // 3. Logout Confirmation Modal
     function openLogoutModal() {
       closeMenu();
       openModal(
         'ยืนยันการออกจากระบบ',
         '<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
         `
-          <p style="font-size:14px;color:#cbd5e1;line-height:1.65;margin:0 0 22px;">คุณต้องการออกจากระบบบัญชีสมาชิก NOVATEK ใช่หรือไม่? ข้อมูลตะกร้าสินค้าของคุณจะถูกบันทึกไว้ชั่วคราว</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:auto;">
-            <button type="button" class="preset-btn" style="height:46px;font-size:14px;" onclick="closeModal()">ยกเลิก</button>
-            <button type="button" class="modal-submit danger" style="height:46px;" onclick="closeModal();showToast('ออกจากระบบเรียบร้อยแล้ว')">ออกจากระบบ</button>
+          <p style="font-size:13px;color:#cbd5e1;line-height:1.6;margin:0 0 18px;">คุณต้องการออกจากระบบบัญชีสมาชิก NOVATEK ใช่หรือไม่? ข้อมูลตะกร้าสินค้าของคุณจะถูกบันทึกไว้ชั่วคราว</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <button type="button" class="preset-btn" style="height:42px;" onclick="closeModal()">ยกเลิก</button>
+            <button type="button" class="modal-submit danger" style="height:42px;" onclick="closeModal();showToast('ออกจากระบบเรียบร้อยแล้ว')">ออกจากระบบ</button>
           </div>
         `
       );
     }
 
-    // 4. Fullscreen Edge-to-Edge Shopping Cart Drawer
+    // 4. Full-Height Shopping Cart Drawer
     const cartDrawer = document.getElementById('cartDrawer');
     const cartBackdrop = document.getElementById('cartBackdrop');
 
     function openCartDrawer() {
       closeMenu();
+      closeProductDrawer();
       closeModal();
       renderCartDrawer();
       cartDrawer.classList.add('open');
@@ -3412,17 +4399,18 @@
         appliedCoupon = null;
         bodyEl.innerHTML = `
           <div style="margin:auto;text-align:center;padding:30px 16px;color:#8592a6;">
-            <svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:#3b4761;fill:none;stroke-width:1.5;margin-bottom:12px;"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
-            <div style="font-size:15px;color:#cbd5e1;font-weight:600;margin-bottom:4px;">ตะกร้าสินค้าของคุณยังว่างอยู่</div>
-            <div style="font-size:12.5px;">เลือกชมสินค้าเทคโนโลยีสุดล้ำและเพิ่มลงตะกร้าได้เลย</div>
+            <svg viewBox="0 0 24 24" style="width:44px;height:44px;stroke:#3b4761;fill:none;stroke-width:1.5;margin-bottom:10px;"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+            <div style="font-size:14px;color:#cbd5e1;font-weight:600;margin-bottom:4px;">ตะกร้าสินค้าของคุณยังว่างอยู่</div>
+            <div style="font-size:12px;">เลือกชมสินค้าเทคโนโลยีสุดล้ำและเพิ่มลงตะกร้าได้เลย</div>
           </div>
         `;
         footerEl.innerHTML = `<button type="button" class="modal-submit" onclick="closeCartDrawer()">เลือกช้อปสินค้าต่อ</button>`;
         return;
       }
 
+      // 1. สินค้าที่เพิ่ม (Added Items)
       bodyEl.innerHTML = `
-        <div style="font-size:11.5px;font-weight:600;color:#8fa3cc;letter-spacing:0.5px;">รายการสินค้าที่เพิ่ม</div>
+        <div style="font-size:11px;font-weight:600;color:#8fa3cc;letter-spacing:0.5px;">รายการสินค้าที่เพิ่ม</div>
         ${cartItems.map((item, index) => `
           <div class="cart-item">
             <img src="${item.img}" alt="${item.name}">
@@ -3442,6 +4430,7 @@
         `).join('')}
       `;
 
+      // Calculate Discount, Shipping, VAT 7%, Net Total
       let discountAmount = 0;
       if (appliedCoupon) {
         if (appliedCoupon.type === 'percent') {
@@ -3456,6 +4445,7 @@
       const vatAmount = afterDiscount * 0.07;
       const netTotal = afterDiscount + shippingFee + vatAmount;
 
+      // 2. คูปองที่ใช้ & รหัสส่วนลด -> 3. ค่าจัดส่ง & ภาษีมูลค่าเพิ่ม -> 4. ยอดสุทธิ
       footerEl.innerHTML = `
         <div class="coupon-box">
           <input type="text" id="couponCodeInput" placeholder="กรอกรหัสส่วนลด (เช่น NOVA10, SAVE50)" value="${appliedCoupon ? appliedCoupon.code : ''}">
@@ -3515,14 +4505,36 @@
       openCheckoutChannelSheet(Number(netTotal));
     };
 
-    // 6. Fullscreen Product Detail Sheet with Banner Header
+    // 6. Bottom-Sliding Product Detail Sheet with Banner Header
+    const productDrawer = document.getElementById('productDrawer');
+    const productBackdrop = document.getElementById('productBackdrop');
+    const productPageView = document.getElementById('productPageView');
+    const storeMainContent = document.getElementById('storeMainContent');
     const productSheetOverlay = document.getElementById('productSheetOverlay');
     const productSheetPanel = document.getElementById('productSheetPanel');
     let currentDetailQty = 1;
 
+    function closeProductDrawer() {
+      productDrawer.classList.remove('open');
+      productBackdrop.classList.remove('open');
+    }
+
+    function closeProductPage() {
+      productPageView.classList.remove('active');
+      storeMainContent.style.display = 'block';
+    }
+
     function closeProductSheet() {
       productSheetOverlay.classList.remove('open');
     }
+
+    productSheetOverlay.addEventListener('click', e => {
+      if (e.target === productSheetOverlay) closeProductSheet();
+    });
+
+    document.getElementById('backToShopBtn').addEventListener('click', closeProductPage);
+    document.getElementById('productCloseBtn').addEventListener('click', closeProductDrawer);
+    productBackdrop.addEventListener('click', closeProductDrawer);
 
     window.openProductDetail = function(name, price, img, desc) {
       closeMenu();
@@ -3608,8 +4620,8 @@
           </div>
 
           <div class="p-tab-panel active" id="tab-overview">
-            <p style="margin:0 0 10px;font-size:13px;">${desc}</p>
-            <ul style="margin:0;padding-left:18px;color:#9fb0cc;font-size:12.5px;line-height:1.8;">
+            <p style="margin:0 0 10px;font-size:12.5px;">${desc}</p>
+            <ul style="margin:0;padding-left:18px;color:#9fb0cc;font-size:12px;line-height:1.8;">
               <li>วัสดุเกรดพรีเมียม ออกแบบตามหลักสรีรศาสตร์ ใช้งานได้ยาวนาน</li>
               <li>รองรับการเชื่อมต่อไร้สายความเร็วสูงและระบบชาร์จไวอัจฉริยะ</li>
               <li>สินค้าของแท้ 100% พร้อมซีเรียลนัมเบอร์ตรวจสอบได้</li>
@@ -3635,10 +4647,8 @@
         </div>
 
         <div class="pd-sheet-footer">
-          <div class="pd-sheet-footer-inner">
-            <button type="button" class="preset-btn" style="height:46px;padding:0 16px;flex:1;font-size:13.5px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', false)">+ เพิ่มลงตะกร้า</button>
-            <button type="button" class="modal-submit" style="flex:1.25;font-size:14px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', true)">ชำระเงินเลย</button>
-          </div>
+          <button type="button" class="preset-btn" style="height:44px;padding:0 16px;flex:1;font-size:13px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', false)">+ เพิ่มลงตะกร้า</button>
+          <button type="button" class="modal-submit" style="flex:1.25;font-size:13.5px;" onclick="confirmDetailAddCart('${name}', ${price}, '${img}', true)">ชำระเงินเลย</button>
         </div>
       `;
 
@@ -3675,23 +4685,23 @@
       }
     };
 
-    // 7. Fullscreen Account & Care+ Modals
+    // 7. Account & Care+ Modals
     function openAccountModal() {
       openModal(
         'บัญชีสมาชิก NOVATEK',
         '<svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.7"/><path d="M4.5 21c.5-4.1 3.2-6.3 7.5-6.3s7 2.2 7.5 6.3"/></svg>',
         `
-          <div style="background:#111724;border:1px solid #232d42;border-radius:14px;padding:18px;margin-bottom:18px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-              <strong style="font-size:16px;color:#fff;">คุณธนกร วัฒนากูล</strong>
-              <span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,.12);padding:4px 10px;border-radius:20px;font-weight:600;">VIP Member</span>
+          <div style="background:#111724;border:1px solid #232d42;border-radius:14px;padding:14px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <strong style="font-size:15px;color:#fff;">คุณธนกร วัฒนากูล</strong>
+              <span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,.12);padding:3px 9px;border-radius:20px;font-weight:600;">VIP Member</span>
             </div>
-            <div style="font-size:13px;color:#94a3b8;">อีเมล: thanakorn.w@novatek.co.th</div>
-            <div style="font-size:13px;color:#94a3b8;margin-top:6px;">ยอดเงินคงเหลือ: <strong style="color:#6c91ff;font-size:15px;">฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</strong></div>
+            <div style="font-size:12px;color:#94a3b8;">อีเมล: thanakorn.w@novatek.co.th</div>
+            <div style="font-size:12px;color:#94a3b8;margin-top:4px;">ยอดเงินคงเหลือ: <strong style="color:#6c91ff;">฿${walletBalance.toLocaleString('th-TH', { minimumFractionDigits: 2 })}</strong></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:auto;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <button type="button" class="modal-submit" onclick="openDepositModal()">ฝากเงิน</button>
-            <button type="button" class="preset-btn" style="height:46px;font-size:14px;" onclick="openWithdrawModal()">ถอนเงิน</button>
+            <button type="button" class="preset-btn" style="height:44px;" onclick="openWithdrawModal()">ถอนเงิน</button>
           </div>
         `
       );
@@ -3774,13 +4784,13 @@
         'NOVATEK Care+ Protection',
         '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
         `
-          <p style="font-size:14px;color:#cbd5e1;line-height:1.65;margin:0 0 16px;">คุ้มครองอุปกรณ์ของคุณนานสูงสุด 2 ปีเต็ม ครอบคลุมอุบัติเหตุ หน้าจอแตก น้ำเข้า และเปลี่ยนแบตเตอรี่ฟรีเมื่อเสื่อมสภาพ</p>
-          <ul style="font-size:13px;color:#94a3b8;padding-left:18px;margin:0 0 22px;line-height:1.9;">
+          <p style="font-size:13px;color:#cbd5e1;line-height:1.6;margin:0 0 14px;">คุ้มครองอุปกรณ์ของคุณนานสูงสุด 2 ปีเต็ม ครอบคลุมอุบัติเหตุ หน้าจอแตก น้ำเข้า และเปลี่ยนแบตเตอรี่ฟรีเมื่อเสื่อมสภาพ</p>
+          <ul style="font-size:12px;color:#94a3b8;padding-left:18px;margin:0 0 18px;line-height:1.8;">
             <li>เปลี่ยนเครื่องใหม่ทันทีภายใน 24 ชม.</li>
             <li>บริการรับ-ส่งเครื่องซ่อมถึงหน้าบ้านฟรี</li>
             <li>ทีมผู้เชี่ยวชาญดูแลตลอด 24 ชั่วโมง</li>
           </ul>
-          <button type="button" class="modal-submit" style="margin-top:auto;" onclick="closeModal();showToast('สมัครรับสิทธิ์ NOVATEK Care+ สำเร็จ!')">สมัครแพ็กเกจ Care+ ($49/ปี)</button>
+          <button type="button" class="modal-submit" onclick="closeModal();showToast('สมัครรับสิทธิ์ NOVATEK Care+ สำเร็จ!')">สมัครแพ็กเกจ Care+ ($49/ปี)</button>
         `
       );
     }
@@ -3821,4 +4831,4 @@
     updateCartUI();
   </script>
 </body>
-</html>
+  </html>
