@@ -1,0 +1,1557 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13 Metro Analytics Dashboard</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #070d19;
+    --panel: #111c2d;
+    --panel2: #152238;
+    --border: #24344d;
+    --blue: #1678ff;
+    --cyan: #28c6e8;
+    --green: #00d6a0;
+    --text: #f4f7ff;
+    --muted: #8494ad;
+}
+
+body {
+    background: #080e1a;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+.dashboard {
+    width: 100%;
+    max-width: 1600px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 15px 20px;
+    background: #111b2c;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 16px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    font-size: 35px;
+    font-weight: 800;
+    color: #2694ff;
+}
+
+.logo-text strong {
+    font-size: 14px;
+    display: block;
+}
+
+.logo-text small {
+    font-size: 9px;
+    color: #9aabc4;
+    letter-spacing: 2px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.nav a {
+    color: #c0ccdd;
+    text-decoration: none;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+.nav a.active {
+    background: #1765d7;
+    color: white;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    background: #344a75;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 205px;
+    border-radius: 15px;
+    margin-bottom: 14px;
+    background:
+    linear-gradient(90deg, rgba(8,17,34,.97) 0%, rgba(8,17,34,.85) 40%, rgba(8,17,34,.1) 100%),
+    url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85') center 55% / cover;
+    display: flex;
+    align-items: center;
+    padding: 28px;
+}
+
+.hero-content {
+    max-width: 500px;
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #b1c1d9;
+    margin-bottom: 10px;
+}
+
+.hero h1 {
+    font-size: clamp(22px, 3vw, 34px);
+    line-height: 1.2;
+    margin-bottom: 9px;
+}
+
+.hero h1 span {
+    color: #36a4ff;
+}
+
+.hero p {
+    font-size: 11px;
+    color: #bdc9dc;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: 1px solid #53647e;
+    background: transparent;
+    color: white;
+    border-radius: 7px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: #0874ff;
+    border-color: #0874ff;
+}
+
+/* CARDS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 17px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: #12364a;
+    color: #45d4e9;
+    font-size: 20px;
+}
+
+.stat-card small {
+    font-size: 10px;
+    color: #9caec6;
+}
+
+.stat-card h2 {
+    font-size: clamp(15px, 1.6vw, 21px);
+    margin: 4px 0;
+    white-space: nowrap;
+}
+
+.positive {
+    font-size: 10px;
+    color: var(--green);
+}
+
+/* PANELS */
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 16px;
+    min-width: 0;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.panel-header h3 {
+    font-size: 14px;
+}
+
+.panel-header p {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.select {
+    background: #18263a;
+    color: white;
+    border: 1px solid #34455f;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 10px;
+}
+
+/* PERFORMANCE */
+
+.performance {
+    margin-bottom: 15px;
+}
+
+.performance-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+}
+
+.tab {
+    border: 1px solid #31415a;
+    background: transparent;
+    color: #bac8dc;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-size: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #0875ff;
+    color: white;
+    border-color: #0875ff;
+}
+
+.chart-wrap {
+    width: 100%;
+    height: 190px;
+    position: relative;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.return-box {
+    background: #15243a;
+    border: 1px solid #2b405c;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.return-main {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #30415a;
+    margin-bottom: 8px;
+}
+
+.return-main strong {
+    font-size: 23px;
+}
+
+.return-main small {
+    color: var(--muted);
+    display: block;
+    font-size: 10px;
+}
+
+.return-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 10px;
+    color: #b5c4d9;
+}
+
+.return-row strong {
+    color: white;
+    font-size: 12px;
+}
+
+/* MAIN GRID */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .9fr;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+/* MAP */
+
+.map {
+    height: 175px;
+    position: relative;
+    border-radius: 9px;
+    overflow: hidden;
+    background:
+    linear-gradient(35deg, transparent 45%, #193c46 46%, transparent 49%),
+    linear-gradient(125deg, transparent 40%, #244c42 41%, transparent 45%),
+    repeating-linear-gradient(45deg,#172a36 0px,#172a36 12px,#1c3540 13px,#1c3540 25px);
+}
+
+.map::before,
+.map::after {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 3px;
+    background: #36586b;
+    top: 50%;
+    left: -10%;
+    transform: rotate(-20deg);
+}
+
+.map::after {
+    transform: rotate(35deg);
+    background: #274d5e;
+}
+
+.map-point {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+}
+
+.map-point span {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #0b9d91;
+    border: 2px solid #6bfff0;
+    box-shadow: 0 0 14px #00d6d688;
+}
+
+.map-point.big span {
+    width: 30px;
+    height: 30px;
+    background: #087aff;
+    border-color: #81baff;
+}
+
+.map-point label {
+    background: #101d2dce;
+    padding: 5px 7px;
+    border-radius: 5px;
+}
+
+/* ALLOCATION */
+
+.allocation-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 15px;
+    min-height: 175px;
+}
+
+.donut {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #2681ff 0 46%,
+        #21d1e1 46% 70.5%,
+        #00c99b 70.5% 85.7%,
+        #627baf 85.7% 94.8%,
+        #c2c9e0 94.8% 100%
+    );
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.donut-center {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: #111c2d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.donut-center strong {
+    font-size: 17px;
+}
+
+.donut-center small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.legend {
+    flex: 1;
+    min-width: 100px;
+}
+
+.legend-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 9px;
+    margin: 11px 0;
+    white-space: nowrap;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.legend-row strong {
+    margin-left: auto;
+}
+
+/* BOTTOM */
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .9fr;
+    gap: 14px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th {
+    text-align: left;
+    color: #9eafc7;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 10px 5px;
+    border-bottom: 1px solid #30415a;
+}
+
+td {
+    font-size: 10px;
+    padding: 8px 5px;
+    border-bottom: 1px solid #233249;
+}
+
+.property {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.property img {
+    width: 36px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 7px;
+    border-radius: 5px;
+    font-size: 8px;
+    background: #16477b;
+    color: #78c2ff;
+}
+
+.gain {
+    color: var(--green);
+    background: #073c37;
+    padding: 4px 6px;
+    border-radius: 5px;
+    font-size: 9px;
+}
+
+/* CASHFLOW */
+
+.cash-chart {
+    height: 155px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 7px;
+    padding: 10px 4px 22px;
+    border-bottom: 1px solid #30415a;
+    position: relative;
+    background: repeating-linear-gradient(
+        to top,
+        transparent 0,
+        transparent 37px,
+        #26374b 38px
+    );
+}
+
+.bar-column {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+}
+
+.bar {
+    width: 100%;
+    max-width: 28px;
+    background: linear-gradient(180deg,#27d6e5,#087aff);
+    border-radius: 3px 3px 0 0;
+    min-height: 8px;
+}
+
+.bar-column small {
+    color: #91a2ba;
+    font-size: 8px;
+}
+
+.cash-stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.cash-item {
+    background: #18273a;
+    padding: 11px 7px;
+    border: 1px solid #2c3e56;
+    border-radius: 8px;
+}
+
+.cash-item small {
+    font-size: 9px;
+    color: #9aacc4;
+}
+
+.cash-item strong {
+    display: block;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.green {
+    color: var(--green);
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    color: #65768f;
+    font-size: 10px;
+    padding: 20px;
+}
+
+/* TABLET */
+
+@media(max-width: 900px) {
+    .nav a {
+        padding: 9px 7px;
+        font-size: 10px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .main-grid,
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .performance-layout {
+        grid-template-columns: 1.6fr 1fr;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width: 600px) {
+
+    .dashboard {
+        padding: 10px;
+    }
+
+    .header {
+        padding: 11px;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .logo-icon {
+        font-size: 27px;
+    }
+
+    .logo-text strong {
+        font-size: 11px;
+    }
+
+    .logo-text small {
+        font-size: 7px;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .profile {
+        font-size: 10px;
+        gap: 7px;
+    }
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .hero {
+        min-height: 175px;
+        padding: 17px;
+        background-position: center;
+    }
+
+    .hero h1 {
+        font-size: 23px;
+    }
+
+    .hero p {
+        font-size: 9px;
+        max-width: 260px;
+    }
+
+    .eyebrow {
+        font-size: 8px;
+    }
+
+    .btn {
+        padding: 9px 10px;
+        font-size: 9px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .stat-card {
+        padding: 10px 8px;
+        gap: 8px;
+        border-radius: 9px;
+    }
+
+    .stat-icon {
+        width: 31px;
+        height: 31px;
+        font-size: 15px;
+    }
+
+    .stat-card small {
+        font-size: 8px;
+    }
+
+    .stat-card h2 {
+        font-size: 14px;
+    }
+
+    .positive {
+        font-size: 8px;
+    }
+
+    .panel {
+        padding: 11px;
+        border-radius: 10px;
+    }
+
+    .panel-header h3 {
+        font-size: 12px;
+    }
+
+    .panel-header p {
+        font-size: 8px;
+    }
+
+    .select {
+        font-size: 8px;
+        padding: 6px;
+    }
+
+    .performance-layout {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .chart-wrap {
+        height: 170px;
+    }
+
+    .return-box {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 0 10px;
+    }
+
+    .return-main {
+        grid-column: span 2;
+    }
+
+    .return-row {
+        font-size: 9px;
+    }
+
+    .return-row strong {
+        font-size: 11px;
+    }
+
+    .main-grid,
+    .bottom-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .map {
+        height: 180px;
+    }
+
+    .allocation-content {
+        min-height: 155px;
+        justify-content: center;
+        gap: 18px;
+    }
+
+    .donut {
+        width: 125px;
+        height: 125px;
+    }
+
+    .donut-center {
+        width: 83px;
+        height: 83px;
+    }
+
+    .donut-center strong {
+        font-size: 15px;
+    }
+
+    .legend-row {
+        font-size: 8px;
+        margin: 9px 0;
+    }
+
+    th {
+        font-size: 8px;
+        padding: 8px 5px;
+    }
+
+    td {
+        font-size: 9px;
+        padding: 7px 5px;
+    }
+
+    .property img {
+        width: 31px;
+        height: 28px;
+    }
+
+    .cash-chart {
+        height: 145px;
+    }
+
+    .cash-item {
+        padding: 9px 5px;
+    }
+
+    .cash-item small {
+        font-size: 8px;
+    }
+
+    .cash-item strong {
+        font-size: 11px;
+    }
+
+    .footer {
+        font-size: 9px;
+        padding: 15px 5px;
+    }
+}
+
+/* SMALL MOBILE */
+
+@media(max-width: 360px) {
+    .dashboard {
+        padding: 7px;
+    }
+
+    .stat-card h2 {
+        font-size: 12px;
+    }
+
+    .stat-icon {
+        width: 27px;
+        height: 27px;
+    }
+
+    .hero h1 {
+        font-size: 20px;
+    }
+
+    .allocation-content {
+        gap: 10px;
+    }
+
+    .donut {
+        width: 110px;
+        height: 110px;
+    }
+
+    .donut-center {
+        width: 75px;
+        height: 75px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- HEADER -->
+<header class="header">
+
+    <div class="logo">
+        <div class="logo-icon">13</div>
+        <div class="logo-text">
+            <strong>13 METRO</strong>
+            <small>ANALYTICS</small>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <a class="active" href="#">▦ Overview</a>
+        <a href="#">▥ Portfolio</a>
+        <a href="#">⌂ Properties</a>
+        <a href="#">▤ Market</a>
+        <a href="#">▣ Reports</a>
+    </nav>
+
+    <div class="profile">
+        <span>⌕</span>
+        <span>♧</span>
+        <div class="avatar">JD</div>
+        <span>⌄</span>
+    </div>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">REAL ESTATE INVESTMENT ANALYTICS</div>
+
+        <h1>
+            Portfolio Intelligence<br>
+            for <span>Metro Real Estate</span>
+        </h1>
+
+        <p>
+            Track performance, analyze markets, and optimize<br>
+            returns across your property portfolio.
+        </p>
+
+        <div class="hero-buttons">
+            <button class="btn primary">▥ Analyze Portfolio</button>
+            <button class="btn">＋ Add Property</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATS -->
+<section class="stats">
+
+    <div class="stat-card">
+        <div class="stat-icon">▱</div>
+        <div>
+            <small>Portfolio Value</small>
+            <h2>$52,340,000</h2>
+            <span class="positive">↑ +8.4% &nbsp; vs. prior period</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">▥</div>
+        <div>
+            <small>Total Return (TTM)</small>
+            <h2>14.7%</h2>
+            <span class="positive">↑ +3.2 pp</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">♧</div>
+        <div>
+            <small>Net Operating Income</small>
+            <h2>$3,842,000</h2>
+            <span class="positive">↑ +11.6%</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">⌂</div>
+        <div>
+            <small>Occupancy</small>
+            <h2>96.2%</h2>
+            <span class="positive">↑ +1.8 pp</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- PERFORMANCE -->
+<section class="panel performance">
+
+    <div class="panel-header">
+        <div>
+            <h3>Portfolio Performance</h3>
+        </div>
+
+        <select class="select">
+            <option>Last 12 Months</option>
+            <option>Last 6 Months</option>
+            <option>Last 30 Days</option>
+        </select>
+    </div>
+
+    <div class="performance-layout">
+
+        <div>
+
+            <div class="tabs">
+                <button class="tab active" data-type="return">Total Return</button>
+                <button class="tab" data-type="value">Portfolio Value</button>
+                <button class="tab" data-type="noi">NOI</button>
+                <button class="tab" data-type="occupancy">Occupancy</button>
+            </div>
+
+            <div class="chart-wrap">
+                <canvas id="performanceChart"></canvas>
+            </div>
+
+        </div>
+
+        <div class="return-box">
+
+            <div class="return-main">
+                <strong id="mainReturn">14.7%</strong>
+                <small id="mainLabel">Dec (TTM)</small>
+            </div>
+
+            <div class="return-row">
+                <span>↗ Total Return (TTM)</span>
+                <strong>14.7%</strong>
+            </div>
+
+            <div class="return-row">
+                <span>↗ Annualized Return</span>
+                <strong>13.9%</strong>
+            </div>
+
+            <div class="return-row">
+                <span>⌁ Volatility</span>
+                <strong>4.8%</strong>
+            </div>
+
+            <div class="return-row">
+                <span>▦ Sharpe Ratio</span>
+                <strong>2.14</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- MARKET + ALLOCATION -->
+<section class="main-grid">
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Metro Market Map</h3>
+                <p>Property locations, clusters, and performance by district</p>
+            </div>
+
+            <select class="select">
+                <option>Metro City</option>
+            </select>
+        </div>
+
+        <div class="map">
+
+            <div class="map-point" style="top:12%;left:13%">
+                <label>North District<br>12 properties</label>
+                <span>12</span>
+            </div>
+
+            <div class="map-point big" style="top:39%;left:38%">
+                <span>18</span>
+                <label>Central District<br>18 properties</label>
+            </div>
+
+            <div class="map-point" style="top:60%;left:67%">
+                <span>11</span>
+                <label>East District<br>11 properties</label>
+            </div>
+
+            <div class="map-point" style="top:67%;left:6%">
+                <label>West District<br>9 properties</label>
+                <span>9</span>
+            </div>
+
+            <div class="map-point" style="top:77%;left:39%">
+                <span>7</span>
+                <label>South District<br>7 properties</label>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Asset Allocation</h3>
+                <p>Portfolio value by property type</p>
+            </div>
+        </div>
+
+        <div class="allocation-content">
+
+            <div class="donut">
+                <div class="donut-center">
+                    <strong>$52.34M</strong>
+                    <small>Total Value</small>
+                </div>
+            </div>
+
+            <div class="legend">
+
+                <div class="legend-row">
+                    <span class="dot" style="background:#2681ff"></span>
+                    Multifamily <strong>46.0%</strong>
+                </div>
+
+                <div class="legend-row">
+                    <span class="dot" style="background:#21d1e1"></span>
+                    Office <strong>24.5%</strong>
+                </div>
+
+                <div class="legend-row">
+                    <span class="dot" style="background:#00c99b"></span>
+                    Retail <strong>15.2%</strong>
+                </div>
+
+                <div class="legend-row">
+                    <span class="dot" style="background:#627baf"></span>
+                    Industrial <strong>9.1%</strong>
+                </div>
+
+                <div class="legend-row">
+                    <span class="dot" style="background:#c2c9e0"></span>
+                    Other <strong>5.2%</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PROPERTY + CASH FLOW -->
+<section class="bottom-grid">
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Property Performance</h3>
+                <p>Key assets and investment metrics</p>
+            </div>
+
+            <button class="select">View All Properties</button>
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>NOI (TTM)</th>
+                        <th>Return</th>
+                        <th>Occupancy</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <div class="property">
+                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100">
+                                Riverside Residences
+                            </div>
+                        </td>
+                        <td><span class="badge">Multifamily</span></td>
+                        <td>$14.20M</td>
+                        <td>$1.12M</td>
+                        <td><span class="gain">↑15.8%</span></td>
+                        <td>97.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="property">
+                                <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=100">
+                                Metro Tower
+                            </div>
+                        </td>
+                        <td><span class="badge">Office</span></td>
+                        <td>$10.50M</td>
+                        <td>$0.81M</td>
+                        <td><span class="gain">↑13.1%</span></td>
+                        <td>95.6%</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="property">
+                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100">
+                                Lakeside Retail
+                            </div>
+                        </td>
+                        <td><span class="badge">Retail</span></td>
+                        <td>$7.96M</td>
+                        <td>$0.59M</td>
+                        <td><span class="gain">↑12.6%</span></td>
+                        <td>96.1%</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="property">
+                                <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=100">
+                                Harbor Logistics
+                            </div>
+                        </td>
+                        <td><span class="badge">Industrial</span></td>
+                        <td>$4.76M</td>
+                        <td>$0.42M</td>
+                        <td><span class="gain">↑11.9%</span></td>
+                        <td>98.3%</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="property">
+                                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=100">
+                                Pinecrest Mixed-Use
+                            </div>
+                        </td>
+                        <td><span class="badge">Mixed-Use</span></td>
+                        <td>$8.90M</td>
+                        <td>$0.70M</td>
+                        <td><span class="gain">↑14.5%</span></td>
+                        <td>95.8%</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Cash Flow Analysis</h3>
+                <p>Monthly net cash flow (portfolio)</p>
+            </div>
+
+            <select class="select">
+                <option>Last 12 Months</option>
+            </select>
+        </div>
+
+        <div class="cash-chart" id="cashChart">
+
+            <div class="bar-column">
+                <div class="bar" style="height:37%"></div>
+                <small>Jan</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:45%"></div>
+                <small>Feb</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:49%"></div>
+                <small>Mar</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:52%"></div>
+                <small>Apr</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:48%"></div>
+                <small>May</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:57%"></div>
+                <small>Jun</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:64%"></div>
+                <small>Jul</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:61%"></div>
+                <small>Aug</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:69%"></div>
+                <small>Sep</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:75%"></div>
+                <small>Oct</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:82%"></div>
+                <small>Nov</small>
+            </div>
+
+            <div class="bar-column">
+                <div class="bar" style="height:92%"></div>
+                <small>Dec</small>
+            </div>
+
+        </div>
+
+        <div class="cash-stats">
+
+            <div class="cash-item">
+                <small>▣ Inflow</small>
+                <strong>$5.62M</strong>
+            </div>
+
+            <div class="cash-item">
+                <small>▢ Outflow</small>
+                <strong>($1.78M)</strong>
+            </div>
+
+            <div class="cash-item">
+                <small>▱ Net Cash Flow</small>
+                <strong class="green">$3.84M</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div class="footer">
+    © 2026 13 Metro Analytics · Real Estate Intelligence
+</div>
+
+</div>
+
+<script>
+
+/* PORTFOLIO PERFORMANCE CHART */
+
+const canvas = document.getElementById("performanceChart");
+const ctx = canvas.getContext("2d");
+
+const chartData = {
+    return: [4,5,5.2,6.5,7,6.8,7.5,8,8.2,9.5,8.8,10,10.5,9.8,10.8,11,10.2,11.3,12,11.5,12.5,13.5,12.5,14.7],
+    value: [7,7.5,8,8.2,8.5,9,9.5,9.2,10,10.5,10.8,11,11.5,12,12.3,12.8,13,13.5,14,14.2,14.8,15,15.5,16],
+    noi: [3,4,4.2,4.5,5,5.4,5.8,5.5,6,6.2,6.5,7,7.2,7.5,8,8.2,8.5,9,9.3,9.6,10,10.5,11,11.5],
+    occupancy: [80,81,82,83,84,83,85,86,87,88,89,88,89,90,91,90,92,93,92,94,95,94,96,96.2]
+};
+
+let currentType = "return";
+
+function drawChart() {
+
+    const rect = canvas.getBoundingClientRect();
+
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    const w = rect.width;
+    const h = rect.height;
+
+    const left = 28;
+    const right = 8;
+    const top = 15;
+    const bottom = 25;
+
+    const cw = w-left-right;
+    const ch = h-top-bottom;
+
+    const data = chartData[currentType];
+
+    let max = Math.max(...data) * 1.2;
+    let min = 0;
+
+    ctx.clearRect(0,0,w,h);
+
+    /* GRID */
+
+    ctx.font = "9px Inter";
+    ctx.fillStyle = "#a1b1c8";
+
+    for(let i=0;i<=5;i++){
+
+        const y = top + ch*i/5;
+
+        ctx.strokeStyle = "#2a394e";
+        ctx.lineWidth = 1;
+
+        ctx.beginPath();
+        ctx.moveTo(left,y);
+        ctx.lineTo(w-right,y);
+        ctx.stroke();
+
+        ctx.fillText(
+            Math.round(max-(max-min)*i/5)+"%",
+            2,y+3
+        );
+    }
+
+    /* X LABEL */
+
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    months.forEach((m,i)=>{
+
+        const x = left + cw*i/11;
+
+        ctx.fillStyle = "#9aaac0";
+        ctx.fillText(m,x-8,h-7);
+
+    });
+
+    /* LINE */
+
+    const points = data.map((v,i)=>({
+
+        x:left + cw*i/(data.length-1),
+
+        y:top + ch - ((v-min)/(max-min))*ch
+
+    }));
+
+    /* GRADIENT */
+
+    const gradient = ctx.createLinearGradient(0,top,0,h);
+
+    gradient.addColorStop(0,"rgba(20,125,255,.42)");
+    gradient.addColorStop(1,"rgba(20,125,255,0)");
+
+    ctx.beginPath();
+
+    ctx.moveTo(points[0].x,h-bottom);
+
+    points.forEach(p=>ctx.lineTo(p.x,p.y));
+
+    ctx.lineTo(points[points.length-1].x,h-bottom);
+
+    ctx.closePath();
+
+    ctx.fillStyle=gradient;
+    ctx.fill();
+
+    /* LINE STROKE */
+
+    ctx.beginPath();
+
+    points.forEach((p,i)=>{
+
+        if(i===0) ctx.moveTo(p.x,p.y);
+        else ctx.lineTo(p.x,p.y);
+
+    });
+
+    ctx.strokeStyle="#35a3ff";
+    ctx.lineWidth=2.2;
+    ctx.lineJoin="round";
+    ctx.stroke();
+
+    /* LAST POINT */
+
+    const last = points[points.length-1];
+
+    ctx.beginPath();
+    ctx.arc(last.x,last.y,4,0,Math.PI*2);
+    ctx.fillStyle="#ffffff";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(last.x,last.y,7,0,Math.PI*2);
+    ctx.strokeStyle="#1687ff";
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    document.getElementById("mainReturn").textContent =
+        data[data.length-1].toFixed(1)+"%";
+
+}
+
+document.querySelectorAll(".tab").forEach(tab=>{
+
+    tab.addEventListener("click",()=>{
+
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+
+        tab.classList.add("active");
+
+        currentType=tab.dataset.type;
+
+        drawChart();
+
+    });
+
+});
+
+window.addEventListener("resize",drawChart);
+
+drawChart();
+
+</script>
+
+</body>
+</html>
