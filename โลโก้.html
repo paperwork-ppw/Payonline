@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Yahaterm Loading</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -15,9 +16,9 @@
 }
 
 body {
-    background: #fff;
     width: 100%;
     height: 100vh;
+    background: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,89 +28,125 @@ body {
 
 .container {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-}
-
-.logo {
-    position: relative;
     display: flex;
-    align-items: center;
     justify-content: center;
-    white-space: nowrap;
-    font-size: clamp(38px, 10vw, 76px);
-    font-weight: 800;
-    letter-spacing: -3px;
-    z-index: 2;
+    align-items: center;
 }
 
-/* วงกลมทั้งหมด */
+/* วงแอนิเมชั่น */
 
-.orbit {
+.animation {
     position: absolute;
     width: 145px;
     height: 145px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* เส้นวงกลม */
-
-.solid-ring {
-    border: 2px solid rgba(0, 188, 180, .55);
-    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* วงไข่ปลา */
 
-.dot-ring {
-    width: 165px;
-    height: 165px;
+.dots {
+    position: absolute;
+    width: 115px;
+    height: 115px;
     border-radius: 50%;
 
     background: repeating-conic-gradient(
-        from 0deg,
-        #00cba5 0deg 3deg,
-        transparent 3deg 12deg,
-        #078ee8 12deg 15deg,
-        transparent 15deg 24deg
+        #00cba5 0deg 5deg,
+        transparent 5deg 15deg,
+        #078de0 15deg 20deg,
+        transparent 20deg 30deg
     );
 
     -webkit-mask: radial-gradient(
         farthest-side,
-        transparent calc(100% - 5px),
-        #000 calc(100% - 4px)
+        transparent calc(100% - 4px),
+        #000 calc(100% - 3px)
     );
 
     mask: radial-gradient(
         farthest-side,
-        transparent calc(100% - 5px),
-        #000 calc(100% - 4px)
+        transparent calc(100% - 4px),
+        #000 calc(100% - 3px)
     );
+
+    opacity: 0;
 }
 
-/* วงแหวนด้านนอก */
+/* วงเส้นตรง */
 
-.outer-ring {
-    width: 190px;
-    height: 190px;
+.line {
+    position: absolute;
+    width: 135px;
+    height: 135px;
     border-radius: 50%;
-    border: 1px solid rgba(0, 137, 220, .15);
+    border: 2px solid transparent;
+    border-top-color: #00cba5;
+    border-right-color: #078de0;
+    opacity: 0;
 }
 
-/* ตัวอักษร */
+/* เริ่มหมุน */
+
+.animation.start .dots {
+    animation:
+        spin 1s linear 2,
+        alternateDots 2s steps(1) 2;
+}
+
+.animation.start .line {
+    animation:
+        spinReverse 1s linear 2,
+        alternateLine 2s steps(1) 2;
+}
+
+/* หมุน 2 รอบ */
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(720deg); }
+}
+
+@keyframes spinReverse {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-720deg); }
+}
+
+/* สลับไข่ปลาและเส้น */
+
+@keyframes alternateDots {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@keyframes alternateLine {
+    0%, 49% { opacity: 0; }
+    50%, 100% { opacity: 1; }
+}
+
+/* ชื่อ Yahaterm */
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+
+    font-size: clamp(40px, 10vw, 72px);
+    font-weight: 800;
+    letter-spacing: -3px;
+}
 
 .letter {
     display: inline-block;
     opacity: 0;
-    position: relative;
-    will-change: transform, opacity;
+    transform: scale(0.3) translateY(15px);
+    transform-origin: center;
 }
+
+/* สีตัวอักษร */
 
 .letter:nth-child(1),
 .letter:nth-child(2) {
@@ -128,50 +165,42 @@ body {
     color: #078de0;
 }
 
-/* แสงตอนประกอบโลโก้ */
+/* เด้งทีละตัว */
 
-.logo.finished {
-    filter: drop-shadow(0 3px 12px rgba(0,180,190,.10));
+.letter.show {
+    animation: pop 0.55s cubic-bezier(.17,.89,.32,1.49) forwards;
 }
 
-/* หมุนวงกลม 2 รอบ */
-
-.orbit.play {
-    animation: appear .3s ease forwards,
-               rotateTwo 1.8s cubic-bezier(.45,0,.2,1) forwards;
-}
-
-@keyframes appear {
-    to { opacity: 1; }
-}
-
-@keyframes rotateTwo {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
+@keyframes pop {
+    0% {
+        opacity: 0;
+        transform: scale(.3) translateY(15px);
     }
-    to {
-        transform: translate(-50%, -50%) rotate(720deg);
+
+    65% {
+        opacity: 1;
+        transform: scale(1.18) translateY(-4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
     }
 }
 
-/* มือถือ */
+/* Responsive */
 
 @media(max-width:480px) {
-    .orbit {
-        width: 120px;
-        height: 120px;
+    .logo {
+        font-size: 42px;
+        letter-spacing: -2px;
     }
 
-    .dot-ring {
-        width: 140px;
-        height: 140px;
-    }
-
-    .outer-ring {
-        width: 160px;
-        height: 160px;
+    .animation {
+        transform: scale(.9);
     }
 }
+
 </style>
 </head>
 
@@ -179,12 +208,14 @@ body {
 
 <div class="container">
 
+    <!-- วงกลมแอนิเมชั่น -->
+    <div class="animation" id="animation">
+        <div class="dots"></div>
+        <div class="line"></div>
+    </div>
+
+    <!-- โลโก้ตัวอักษร -->
     <div class="logo" id="logo">
-
-        <div class="orbit outer-ring" id="outer"></div>
-        <div class="orbit solid-ring" id="solid"></div>
-        <div class="orbit dot-ring" id="dots"></div>
-
         <span class="letter">Y</span>
         <span class="letter">a</span>
         <span class="letter">h</span>
@@ -193,112 +224,45 @@ body {
         <span class="letter">e</span>
         <span class="letter">r</span>
         <span class="letter">m</span>
-
     </div>
 
 </div>
 
 <script>
 
-const logo = document.getElementById('logo');
+const animation = document.getElementById('animation');
 const letters = document.querySelectorAll('.letter');
 
-const rings = [
-    document.getElementById('outer'),
-    document.getElementById('solid'),
-    document.getElementById('dots')
-];
+// เริ่มวงกลม
+window.addEventListener('load', () => {
 
-function startAnimation() {
+    setTimeout(() => {
+        animation.classList.add('start');
+    }, 300);
 
-    // แสดงวงกลมและหมุน 2 รอบ
-    rings.forEach((ring, index) => {
-
-        ring.animate([
-            {
-                opacity: 0,
-                transform: 'translate(-50%,-50%) rotate(0deg)'
-            },
-            {
-                opacity: 1,
-                transform: `translate(-50%,-50%) rotate(${index % 2 ? -720 : 720}deg)`
-            }
-        ], {
-            duration: 1800,
-            delay: index * 100,
-            easing: 'cubic-bezier(.45,0,.2,1)',
-            fill: 'forwards'
-        });
-
-    });
-
-    // ให้ตัวอักษรวิ่งวนและประกอบเป็นชื่อ
+    // หมุนครบ 2 รอบแล้วแสดงชื่อ
     setTimeout(() => {
 
-        const rect = logo.getBoundingClientRect();
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const radius = 82;
-        const total = letters.length;
-
-        letters.forEach((letter, index) => {
-
-            const box = letter.getBoundingClientRect();
-
-            const targetX =
-                box.left - rect.left + box.width / 2 - centerX;
-
-            const targetY =
-                box.top - rect.top + box.height / 2 - centerY;
-
-            const angle = index / total * Math.PI * 2;
-
-            const startX = Math.cos(angle) * radius - targetX;
-            const startY = Math.sin(angle) * radius - targetY;
-
-            letter.animate([
-                {
-                    opacity: 0,
-                    transform: `translate(${startX}px,${startY}px) rotate(0deg)`
-                },
-                {
-                    opacity: 1,
-                    offset: .1,
-                    transform: `translate(${startX}px,${startY}px) rotate(0deg)`
-                },
-                {
-                    opacity: 1,
-                    offset: .7,
-                    transform: `
-                        translate(${startX}px,${startY}px)
-                        rotate(720deg)
-                    `
-                },
-                {
-                    opacity: 1,
-                    transform: 'translate(0,0) rotate(0deg)'
-                }
-            ], {
-                duration: 1500,
-                delay: index * 80,
-                easing: 'cubic-bezier(.16,1,.3,1)',
-                fill: 'forwards'
-            });
-
-        });
+        animation.style.transition = 'opacity .35s ease';
+        animation.style.opacity = '0';
 
         setTimeout(() => {
-            logo.classList.add('finished');
-        }, 1800);
 
-    }, 1300);
+            animation.style.display = 'none';
 
-}
+            // เด้งตัวอักษรทีละตัว
+            letters.forEach((letter, index) => {
 
-window.addEventListener('load', () => {
-    setTimeout(startAnimation, 300);
+                setTimeout(() => {
+                    letter.classList.add('show');
+                }, index * 100);
+
+            });
+
+        }, 350);
+
+    }, 2400);
+
 });
 
 </script>
