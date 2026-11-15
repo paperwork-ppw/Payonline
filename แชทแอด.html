@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YaHaTerm - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --pink-soft: #fff0f2;
+    --pink-header: #ffe4e8;
+    --pink-accent: #f4c4cb;
+    --pink-dark: #d97a8f;
+    --chat-bg: #eef2f7;
+    --text-main: #2d2a32;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Prompt', sans-serif;
+    background: linear-gradient(135deg, #fce7eb 0%, #e4ebf5 100%);
+    color: var(--text-main);
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main App Container */
+.admin-app {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    background: var(--chat-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+@media (min-width: 900px) {
+    .admin-app {
+        max-width: 980px;
+        height: 88dvh;
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(55, 52, 58, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* SIDEBAR: Customer List */
+.sidebar {
+    width: 100%;
+    max-width: 340px;
+    background: rgba(255, 255, 255, 0.95);
+    border-right: 1px solid rgba(233, 174, 184, 0.45);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        max-width: 100%;
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+    }
+    .sidebar.hidden-mobile {
+        transform: translateX(-100%);
+    }
+}
+
+.sidebar-header {
+    height: 66px;
+    background: rgba(255, 232, 236, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(233, 174, 184, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d2a32;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-badge {
+    background: #ec4899;
+    color: white;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-weight: 500;
+}
+
+.sidebar-search {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f2cfd5;
+    background: #fff9fa;
+}
+
+.sidebar-search input {
+    width: 100%;
+    padding: 8px 14px;
+    border: 1.5px solid #f2c4cc;
+    border-radius: 99px;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    background: #ffffff;
+}
+
+.customer-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.customer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.customer-item:hover, .customer-item.active {
+    background: #fff0f2;
+}
+
+.customer-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fce7eb;
+    border: 1.5px solid #f0bec6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.online-dot {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 11px;
+    height: 11px;
+    background: #10b981;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.customer-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.customer-name-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.customer-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d2a32;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customer-time {
+    font-size: 11px;
+    color: #64748b;
+    flex-shrink: 0;
+}
+
+.customer-preview {
+    font-size: 12.5px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.unread-badge {
+    background: #ec4899;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 99px;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* CHAT ROOM PANEL */
+.chat-room-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--chat-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.chat-room-header {
+    height: 66px;
+    background: rgba(255, 232, 236, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(233, 174, 184, 0.45);
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 12px;
+    z-index: 10;
+}
+
+.back-to-list-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #37343a;
+}
+
+@media (max-width: 768px) {
+    .back-to-list-btn {
+        display: block;
+    }
+}
+
+.chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px 20px;
+    position: relative;
+    scroll-behavior: smooth;
+    background: linear-gradient(180deg, #e9eef5 0%, #dfe6f0 100%);
+}
+
+/* Architectural Line-Art Watermark Locked to chat area */
+.chat-area::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 100% auto;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 720'%3E%3Cg fill='none' stroke='%23475569' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='0' y1='670' x2='1200' y2='670' stroke-width='2.5'/%3E%3Cline x1='195' y1='210' x2='330' y2='670' stroke-width='2.2'/%3E%3Crect x='365' y='130' width='190' height='540' stroke-width='2.6'/%3E%3Cpath d='M585 670 V235 L725 180 V670' stroke-width='2.3'/%3E%3Crect x='755' y='290' width='155' height='380' stroke-width='2.2'/%3E%3Cg transform='translate(460, 560)'%3E%3Crect x='-150' y='-32' width='300' height='58' rx='8' fill='%23eef2f7' stroke='%23475569' stroke-width='2'/%3E%3Ctext x='0' y='6' font-family='Prompt, sans-serif' font-size='30' font-weight='700' letter-spacing='6' text-anchor='middle' fill='%23475569'%3EYAHATERM%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: local;
+}
+
+.chat-content {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: auto;
+}
+
+.date-label {
+    display: table;
+    margin: 0 auto 16px;
+    background: rgba(217, 150, 165, 0.85);
+    backdrop-filter: blur(4px);
+    color: white;
+    padding: 4px 15px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* MESSAGE ROWS */
+.message-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.message-row.me {
+    align-items: flex-end;
+}
+
+.sender-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 2px;
+}
+
+.avatar-wrap {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid #f0bec6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.sender-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #4a3f46;
+}
+
+.sender-tag {
+    font-size: 10px;
+    background: rgba(236, 72, 153, 0.12);
+    color: #d9467a;
+    padding: 1px 6px;
+    border-radius: 99px;
+    font-weight: 500;
+}
+
+.message-wrap {
+    max-width: 85%;
+    width: fit-content;
+}
+
+.bubble {
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(226, 184, 192, 0.75);
+    border-radius: 20px;
+    border-top-left-radius: 6px;
+    padding: 11px 16px;
+    font-size: 14px;
+    line-height: 1.55;
+    box-shadow: 0 4px 16px rgba(45, 42, 50, 0.06);
+    overflow-wrap: anywhere;
+}
+
+.message-row.me .bubble {
+    background: linear-gradient(135deg, #f8ccd3 0%, #f2b8c3 100%);
+    border-color: #e8a7b4;
+    color: #2d2327;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 6px;
+}
+
+.message-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+    padding: 0 6px;
+}
+
+.message-row.me .message-meta {
+    justify-content: flex-end;
+}
+
+.message-time {
+    font-size: 11px;
+    color: #64748b;
+}
+
+/* DRAWER FOR CANNED RESPONSES / PLUS MENU */
+.action-drawer {
+    background: rgba(255, 246, 248, 0.98);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(233, 174, 184, 0.65);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, padding 0.25s ease;
+    padding: 0 16px;
+    z-index: 12;
+}
+
+.action-drawer.open {
+    max-height: 250px;
+    opacity: 1;
+    padding: 14px 16px 16px;
+}
+
+.drawer-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.drawer-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #4a3f46;
+}
+
+.canned-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 175px;
+    overflow-y: auto;
+}
+
+.canned-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid #f3cfd6;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 13px;
+    gap: 10px;
+}
+
+.canned-text-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: 13px;
+    color: #332b30;
+    cursor: pointer;
+}
+
+.canned-text-btn:hover {
+    color: #d9467a;
+}
+
+.canned-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.action-sm-btn {
+    background: #fff0f2;
+    border: none;
+    color: #d95d78;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.action-sm-btn:hover {
+    background: #fce7eb;
+}
+
+/* FOOTER INPUT AREA */
+.footer {
+    background: rgba(255, 232, 236, 0.96);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(233, 174, 184, 0.45);
+    padding: 10px 14px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 15;
+}
+
+.tool-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.78);
+    color: #4a3f44;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.22s ease;
+}
+
+.tool-btn:hover {
+    background: #ffffff;
+    color: #d95d78;
+}
+
+.tool-btn.active {
+    background: #ec4899;
+    color: #ffffff;
+}
+
+.plus-icon-svg {
+    transition: transform 0.28s ease;
+}
+
+.tool-btn.active .plus-icon-svg {
+    transform: rotate(45deg);
+}
+
+.input-box {
+    flex: 1;
+    background: #ffffff;
+    border: 1.5px solid #f2c4cc;
+    border-radius: 99px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    height: 38px;
+}
+
+.input-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: #2d2a32;
+}
+
+.send-btn {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #f47290 0%, #db4d6d 100%);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(219, 77, 109, 0.35);
+}
+
+.hidden {
+    display: none;
+}
+
+/* MODAL & TOAST */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 35, 45, 0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+}
+
+.modal-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.toast-msg {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: rgba(45, 42, 50, 0.92);
+    color: #ffffff;
+    padding: 9px 18px;
+    border-radius: 99px;
+    font-size: 13px;
+    z-index: 60;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.toast-msg.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin-app">
+
+    <!-- SIDEBAR: Customer List -->
+    <aside class="sidebar" id="sidebarPanel">
+        <div class="sidebar-header">
+            <div class="sidebar-title">
+                <span>💬 รายชื่อลูกค้า</span>
+                <span class="admin-badge">แอดมิน</span>
+            </div>
+            <span style="font-size:12px;color:#64748b;" id="activeCount">3 ห้องแชท</span>
+        </div>
+
+        <div class="sidebar-search">
+            <input type="text" id="customerSearchInput" placeholder="ค้นหาชื่อลูกค้า..." autocomplete="off">
+        </div>
+
+        <div class="customer-list" id="customerListContainer">
+            <!-- Rendered by JS -->
+        </div>
+    </aside>
+
+    <!-- CHAT ROOM PANEL -->
+    <main class="chat-room-panel">
+        <header class="chat-room-header">
+            <button class="back-to-list-btn" onclick="backToList()" title="กลับสู่รายชื่อ">←</button>
+            <div class="customer-avatar" id="currentChatAvatar">👤</div>
+            <div style="flex:1;min-width:0;">
+                <div style="font-size:16px;font-weight:600;color:#2d2a32;" id="currentChatName">เลือกห้องแชท</div>
+                <div style="font-size:12px;color:#10b981;" id="currentChatStatus">● ออนไลน์</div>
+            </div>
+            <button onclick="openBroadcastModal()" style="border:none;background:#fff0f2;color:#d95d78;padding:6px 12px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;">📢 ประกาศ</button>
+        </header>
+
+        <div class="chat-area" id="chatArea">
+            <div class="chat-content" id="chatContent">
+                <div style="text-align:center;color:#64748b;margin-top:40px;font-size:13.5px;">
+                    👈 กรุณาเลือกรายชื่อลูกค้าทางด้านซ้ายเพื่อเริ่มสนทนา
+                </div>
+            </div>
+        </div>
+
+        <!-- DRAWER: ข้อความตอบกลับที่ตั้งไว้ (Canned Responses) -->
+        <div class="action-drawer" id="cannedDrawer">
+            <div class="drawer-header-row">
+                <span class="drawer-title">⚡ ข้อความตอบกลับที่ตั้งไว้ (Canned Responses)</span>
+                <div style="display:flex;gap:8px;">
+                    <button onclick="openAddCannedModal()" style="border:none;background:#ec4899;color:white;padding:4px 10px;border-radius:8px;font-size:11.5px;font-weight:600;cursor:pointer;">+ เพิ่มข้อความ</button>
+                    <button onclick="closeCannedDrawer()" style="border:none;background:none;color:#d95d78;font-size:12px;cursor:pointer;">ปิด ✕</button>
+                </div>
+            </div>
+            <div class="canned-list" id="cannedListContainer">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <!-- FOOTER INPUT -->
+        <footer class="footer">
+            <!-- ปุ่มบวก (+) เปิด/ปิด ข้อความตอบกลับที่ตั้งไว้ -->
+            <button class="tool-btn" id="plusToggleBtn" onclick="toggleCannedDrawer()" title="ข้อความตอบกลับที่ตั้งไว้ (+)">
+                <svg class="plus-icon-svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+
+            <div class="input-box">
+                <input
+                    type="text"
+                    id="adminMessageInput"
+                    placeholder="พิมพ์ข้อความตอบกลับในฐานะแอดมิน..."
+                    autocomplete="off"
+                    disabled
+                >
+            </div>
+
+            <button class="send-btn" onclick="sendAdminMessage()" title="ส่งข้อความ">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="transform: translateX(-1px);"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+        </footer>
+    </main>
+
+</div>
+
+<!-- CUSTOM MODAL CONTAINER -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+    <div class="modal-card" id="modalCard" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast-msg" id="toastMsg"></div>
+
+<script>
+// Mock Customers & Chat Data
+let customers = [
+    {
+        id: 1,
+        name: "คุณสมชาย ใจดี",
+        avatar: "👦",
+        preview: "สอบถามเรทราคาเติมเกมค่ะ",
+        time: "10:24 น.",
+        unread: 2,
+        messages: [
+            { sender: "customer", text: "สวัสดีครับแอดมิน สอบถามเรทราคาเติมเกม RoV หน่อยครับ", time: "10:20 น." },
+            { sender: "customer", text: "สอบถามเรทราคาเติมเกมค่ะ", time: "10:24 น." }
+        ]
+    },
+    {
+        id: 2,
+        name: "คุณมินตรา พาเพลิน",
+        avatar: "👧",
+        preview: "แจ้งปัญหาเติมเงินไม่เข้าค่ะ",
+        time: "09:45 น.",
+        unread: 0,
+        messages: [
+            { sender: "customer", text: "สวัสดีค่ะแอดมิน เติมเงินไปแล้วแต่เพชรยังไม่เข้าเลยค่ะ", time: "09:40 น." },
+            { sender: "customer", text: "แจ้งปัญหาเติมเงินไม่เข้าค่ะ", time: "09:45 น." }
+        ]
+    },
+    {
+        id: 3,
+        name: "คุณธน ฯ.",
+        avatar: "🧑",
+        preview: "เช็กสถานะออเดอร์ล่าสุดครับ",
+        time: "เมื่อวาน",
+        unread: 1,
+        messages: [
+            { sender: "customer", text: "เช็กสถานะออเดอร์ล่าสุดครับ เลขที่ YH-98234", time: "เมื่อวาน" }
+        ]
+    }
+];
+
+// Canned Responses (ข้อความตอบกลับที่ตั้งไว้) ที่สามารถ เพิ่ม ลบ แก้ไข ได้
+let cannedResponses = [
+    { id: 1, text: "สวัสดีค่ะ YaHaTerm ยินดีให้บริการค่ะ มีอะไรให้แอดมินช่วยดูแลแจ้งได้เลยนะคะ 💗" },
+    { id: 2, text: "รบกวนขอเลขออเดอร์ (Order ID) และ UID ในเกม เพื่อให้แอดมินตรวจสอบยอดให้หน่อยนะคะ 🙏" },
+    { id: 3, text: "ตรวจสอบพบยอดโอนเรียบร้อยแล้วค่ะ กำลังดำเนินการเติมเกมให้ภายใน 3-5 นาทีนี้ค่ะ 💎" },
+    { id: 4, text: "สามารถดูเรทราคาและโปรโมชั่นเพิ่มเติมได้ที่เว็บหลัก yahaterm.shop ได้เลยค่ะ ✨" }
+];
+
+let activeCustomerId = null;
+let isDrawerOpen = false;
+
+const customerListContainer = document.getElementById("customerListContainer");
+const chatContent = document.getElementById("chatContent");
+const chatArea = document.getElementById("chatArea");
+const adminInput = document.getElementById("adminMessageInput");
+
+function showToast(msg) {
+    const toast = document.getElementById("toastMsg");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2400);
+}
+
+function getTime() {
+    return new Date().toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" }) + " น.";
+}
+
+// Render Customer List
+function renderCustomerList(filter = "") {
+    customerListContainer.innerHTML = "";
+    const filtered = customers.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
+
+    filtered.forEach(c => {
+        const item = document.createElement("div");
+        item.className = "customer-item" + (c.id === activeCustomerId ? " active" : "");
+        item.onclick = () => selectCustomer(c.id);
+
+        item.innerHTML = `
+            <div class="customer-avatar">
+                ${c.avatar}
+                <div class="online-dot"></div>
+            </div>
+            <div class="customer-info">
+                <div class="customer-name-row">
+                    <span class="customer-name">${escapeHTML(c.name)}</span>
+                    <span class="customer-time">${c.time}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span class="customer-preview">${escapeHTML(c.preview)}</span>
+                    ${c.unread > 0 ? `<span class="unread-badge">${c.unread}</span>` : ''}
+                </div>
+            </div>
+        `;
+        customerListContainer.appendChild(item);
+    });
+}
+
+document.getElementById("customerSearchInput").addEventListener("input", function() {
+    renderCustomerList(this.value);
+});
+
+function selectCustomer(id) {
+    activeCustomerId = id;
+    const customer = customers.find(c => c.id === id);
+    if (!customer) return;
+
+    customer.unread = 0;
+    renderCustomerList(document.getElementById("customerSearchInput").value);
+
+    // Update Header
+    document.getElementById("currentChatAvatar").textContent = customer.avatar;
+    document.getElementById("currentChatName").textContent = customer.name;
+    document.getElementById("currentChatStatus").textContent = "● กำลังสนทนา";
+    adminInput.disabled = false;
+    adminInput.placeholder = `ตอบกลับ ${customer.name}...`;
+
+    // Mobile sidebar toggle
+    if (window.innerWidth <= 768) {
+        document.getElementById("sidebarPanel").classList.add("hidden-mobile");
+    }
+
+    renderChatMessages(customer);
+}
+
+function backToList() {
+    document.getElementById("sidebarPanel").classList.remove("hidden-mobile");
+}
+
+function renderChatMessages(customer) {
+    chatContent.innerHTML = `<div class="date-label">ประวัติการสนทนา</div>`;
+
+    customer.messages.forEach(m => {
+        const isMe = m.sender === "admin";
+        const row = document.createElement("div");
+        row.className = "message-row" + (isMe ? " me" : "");
+
+        row.innerHTML = `
+            ${!isMe ? `
+                <div class="sender-header">
+                    <div class="avatar-wrap">${customer.avatar}</div>
+                    <span class="sender-name">${escapeHTML(customer.name)}</span>
+                    <span class="sender-tag">ลูกค้า</span>
+                </div>
+            ` : `
+                <div class="sender-header" style="justify-content:flex-end;">
+                    <span class="sender-tag" style="background:#fbcfe8;color:#be185d;">แอดมิน</span>
+                    <span class="sender-name">YaHaTerm Admin</span>
+                    <div class="avatar-wrap">💗</div>
+                </div>
+            `}
+            <div class="message-wrap">
+                <div class="bubble">${escapeHTML(m.text)}</div>
+                <div class="message-meta">
+                    <span class="message-time">${m.time}</span>
+                    ${isMe ? '<span style="font-size:11px;color:#5b7399;font-weight:500;">✓✓ ส่งแล้ว</span>' : ''}
+                </div>
+            </div>
+        `;
+        chatContent.appendChild(row);
+    });
+
+    setTimeout(() => {
+        chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: "smooth" });
+    }, 60);
+}
+
+// Send Admin Message
+function sendAdminMessage() {
+    if (!activeCustomerId) {
+        showToast("กรุณาเลือกห้องแชทลูกค้าก่อนครับ");
+        return;
+    }
+    const text = adminInput.value.trim();
+    if (!text) return;
+
+    const customer = customers.find(c => c.id === activeCustomerId);
+    const newMsg = { sender: "admin", text: text, time: getTime() };
+    customer.messages.push(newMsg);
+    customer.preview = "คุณ: " + text;
+    customer.time = "เมื่อสักครู่";
+
+    adminInput.value = "";
+    closeCannedDrawer();
+    renderChatMessages(customer);
+    renderCustomerList(document.getElementById("customerSearchInput").value);
+}
+
+adminInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendAdminMessage();
+});
+
+// Canned Responses Drawer & Management
+function toggleCannedDrawer() {
+    if (isDrawerOpen) {
+        closeCannedDrawer();
+    } else {
+        openCannedDrawer();
+    }
+}
+
+function openCannedDrawer() {
+    isDrawerOpen = true;
+    document.getElementById("cannedDrawer").classList.add("open");
+    document.getElementById("plusToggleBtn").classList.add("active");
+    renderCannedList();
+}
+
+function closeCannedDrawer() {
+    isDrawerOpen = false;
+    document.getElementById("cannedDrawer").classList.remove("open");
+    document.getElementById("plusToggleBtn").classList.remove("active");
+}
+
+function renderCannedList() {
+    const container = document.getElementById("cannedListContainer");
+    container.innerHTML = "";
+
+    cannedResponses.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "canned-item-row";
+        row.innerHTML = `
+            <button class="canned-text-btn" onclick="useCannedResponse('${escapeQuotes(item.text)}')">
+                ${escapeHTML(item.text)}
+            </button>
+            <div class="canned-actions">
+                <button class="action-sm-btn" onclick="openEditCannedModal(${item.id})" title="แก้ไข">✏️</button>
+                <button class="action-sm-btn" onclick="deleteCannedResponse(${item.id})" title="ลบ">🗑️</button>
+            </div>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function useCannedResponse(text) {
+    adminInput.value = text;
+    closeCannedDrawer();
+    adminInput.focus();
+}
+
+// ADD / EDIT / DELETE CANNED RESPONSES MODALS
+function openAddCannedModal() {
+    const card = document.getElementById("modalCard");
+    card.innerHTML = `
+        <h3 style="font-size:17px;font-weight:600;margin-bottom:12px;color:#2d2a32;">➕ เพิ่มข้อความตอบกลับใหม่</h3>
+        <textarea id="cannedModalText" placeholder="พิมพ์ข้อความตอบกลับสำเร็จรูป..." style="width:100%;height:90px;padding:10px;border:1.5px solid #f2c4cc;border-radius:12px;font-family:inherit;font-size:13.5px;outline:none;resize:none;margin-bottom:16px;"></textarea>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button onclick="closeModal()" style="padding:8px 16px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;font-size:13.5px;cursor:pointer;">ยกเลิก</button>
+            <button onclick="saveNewCanned()" style="padding:8px 16px;border-radius:12px;border:none;background:#ec4899;color:#fff;font-size:13.5px;font-weight:500;cursor:pointer;">บันทึก</button>
+        </div>
+    `;
+    document.getElementById("modalBackdrop").style.display = "flex";
+    setTimeout(() => document.getElementById("cannedModalText").focus(), 100);
+}
+
+function saveNewCanned() {
+    const val = document.getElementById("cannedModalText").value.trim();
+    if (!val) return;
+    cannedResponses.push({ id: Date.now(), text: val });
+    closeModal();
+    renderCannedList();
+    showToast("เพิ่มข้อความตอบกลับสำเร็จ");
+}
+
+function openEditCannedModal(id) {
+    const item = cannedResponses.find(c => c.id === id);
+    if (!item) return;
+
+    const card = document.getElementById("modalCard");
+    card.innerHTML = `
+        <h3 style="font-size:17px;font-weight:600;margin-bottom:12px;color:#2d2a32;">✏️ แก้ไขข้อความตอบกลับ</h3>
+        <textarea id="cannedModalText" style="width:100%;height:90px;padding:10px;border:1.5px solid #f2c4cc;border-radius:12px;font-family:inherit;font-size:13.5px;outline:none;resize:none;margin-bottom:16px;">${escapeHTML(item.text)}</textarea>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button onclick="closeModal()" style="padding:8px 16px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;font-size:13.5px;cursor:pointer;">ยกเลิก</button>
+            <button onclick="saveEditCanned(${id})" style="padding:8px 16px;border-radius:12px;border:none;background:#ec4899;color:#fff;font-size:13.5px;font-weight:500;cursor:pointer;">บันทึกการแก้ไข</button>
+        </div>
+    `;
+    document.getElementById("modalBackdrop").style.display = "flex";
+}
+
+function saveEditCanned(id) {
+    const val = document.getElementById("cannedModalText").value.trim();
+    if (!val) return;
+    const item = cannedResponses.find(c => c.id === id);
+    if (item) item.text = val;
+    closeModal();
+    renderCannedList();
+    showToast("แก้ไขข้อความตอบกลับสำเร็จ");
+}
+
+function deleteCannedResponse(id) {
+    cannedResponses = cannedResponses.filter(c => c.id !== id);
+    renderCannedList();
+    showToast("ลบข้อความเรียบร้อย");
+}
+
+function openBroadcastModal() {
+    const card = document.getElementById("modalCard");
+    card.innerHTML = `
+        <h3 style="font-size:17px;font-weight:600;margin-bottom:12px;color:#2d2a32;">📢 ส่งประกาศถึงลูกค้าทุกคน</h3>
+        <textarea id="broadcastText" placeholder="พิมพ์ข้อความประกาศโปรโมชั่นหรือแจ้งเตือน..." style="width:100%;height:90px;padding:10px;border:1.5px solid #f2c4cc;border-radius:12px;font-family:inherit;font-size:13.5px;outline:none;resize:none;margin-bottom:16px;"></textarea>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button onclick="closeModal()" style="padding:8px 16px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;font-size:13.5px;cursor:pointer;">ยกเลิก</button>
+            <button onclick="sendBroadcast()" style="padding:8px 16px;border-radius:12px;border:none;background:#ec4899;color:#fff;font-size:13.5px;font-weight:500;cursor:pointer;">ส่งประกาศ</button>
+        </div>
+    `;
+    document.getElementById("modalBackdrop").style.display = "flex";
+}
+
+function sendBroadcast() {
+    const text = document.getElementById("broadcastText").value.trim();
+    if (!text) return;
+    customers.forEach(c => {
+        c.messages.push({ sender: "admin", text: "[ประกาศร้าน] " + text, time: getTime() });
+        c.preview = "[ประกาศ] " + text;
+    });
+    closeModal();
+    if (activeCustomerId) {
+        const activeC = customers.find(c => c.id === activeCustomerId);
+        renderChatMessages(activeC);
+    }
+    renderCustomerList(document.getElementById("customerSearchInput").value);
+    showToast("ส่งประกาศไปยังลูกค้าทุกคนเรียบร้อยแล้วครับ");
+}
+
+function closeModal() {
+    document.getElementById("modalBackdrop").style.display = "none";
+}
+
+function escapeHTML(text) {
+    return text.replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    }[char]));
+}
+
+function escapeQuotes(text) {
+    return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+// Initial render
+renderCustomerList();
+</script>
+
+</body>
+</html>
