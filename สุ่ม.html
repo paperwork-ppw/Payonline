@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>วงล้อหรรษา</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #10001d;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow-x: hidden;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse at 50% 45%, #40005e 0%, #170025 55%, #09000f 100%);
+}
+
+.game {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 720 / 971;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 40%, #350052 0%, #170022 65%, #0b0014 100%);
+}
+
+/* แสงด้านหลัง */
+.glow {
+    position: absolute;
+    width: 85%;
+    aspect-ratio: 1;
+    top: 12%;
+    left: 7.5%;
+    border-radius: 50%;
+    background: #a000ff;
+    filter: blur(85px);
+    opacity: .3;
+}
+
+/* ฟองรางวัล */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%,
+        rgba(255,255,255,.25),
+        rgba(90,0,150,.2) 55%,
+        rgba(0,0,0,.5));
+    border: 2px solid rgba(200,150,255,.4);
+    box-shadow: inset 0 0 15px #b76aff55,
+                0 0 15px #a000ff44;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 4s ease-in-out infinite;
+    z-index: 1;
+}
+
+.bubble span {
+    font-size: clamp(20px, 6vw, 48px);
+}
+
+.b1 { width: 17%; aspect-ratio: 1; top: 4%; left: 5%; }
+.b2 { width: 28%; aspect-ratio: 1; top: 0%; right: 2%; animation-delay: -2s; }
+.b3 { width: 17%; aspect-ratio: 1; bottom: 18%; left: 6%; animation-delay: -1s; }
+.b4 { width: 9%; aspect-ratio: 1; bottom: 9%; right: 10%; animation-delay: -3s; }
+.b5 { width: 8%; aspect-ratio: 1; top: 58%; right: 5%; }
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+/* ฐานวงล้อ */
+.base {
+    position: absolute;
+    width: 65%;
+    height: 10%;
+    left: 17.5%;
+    top: 73%;
+    background: linear-gradient(180deg,#9b22ff,#f000b7 65%,#b80089);
+    border: 5px solid #ff5be9;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #ff00e5;
+    z-index: 2;
+}
+
+.base::before {
+    content: "";
+    position: absolute;
+    width: 75%;
+    height: 100%;
+    left: 12.5%;
+    top: -35%;
+    background: linear-gradient(90deg,#3d00a7,#c000ff,#4500a5);
+    clip-path: polygon(25% 0,75% 0,100% 100%,0 100%);
+    z-index: -1;
+}
+
+.base-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(14px, 3vw, 23px);
+    text-shadow: 0 2px 4px #60004a;
+}
+
+/* วงล้อ */
+.wheel-area {
+    position: absolute;
+    width: 87%;
+    aspect-ratio: 1;
+    left: 6.5%;
+    top: 10%;
+    z-index: 4;
+}
+
+.wheel {
+    position: absolute;
+    width: 83%;
+    height: 83%;
+    top: 8.5%;
+    left: 8.5%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #171717;
+    border: 9px solid #777;
+    outline: 6px solid #151515;
+    box-shadow:
+        0 0 0 10px #333,
+        0 0 20px 15px #8700ff,
+        inset 0 0 15px #000;
+    transition: transform 5s cubic-bezier(.12,.65,.12,1);
+}
+
+/* ช่องรางวัล */
+.sectors {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from -30deg,
+        #252525 0deg 60deg,
+        #111 60deg 120deg,
+        #252525 120deg 180deg,
+        #111 180deg 240deg,
+        #252525 240deg 300deg,
+        #111 300deg 360deg
+    );
+}
+
+.sectors::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(60deg, transparent 49.7%, #aaa 49.9%, #aaa 50.1%, transparent 50.3%),
+      linear-gradient(120deg, transparent 49.7%, #aaa 49.9%, #aaa 50.1%, transparent 50.3%),
+      linear-gradient(0deg, transparent 49.7%, #aaa 49.9%, #aaa 50.1%, transparent 50.3%);
+}
+
+/* ข้อความในวงล้อ */
+.prize {
+    position: absolute;
+    width: 33%;
+    height: 33%;
+    left: 33.5%;
+    top: 33.5%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: clamp(12px, 3vw, 21px);
+    text-align: center;
+    line-height: 1.3;
+    padding-top: 4%;
+    color: white;
+}
+
+.prize:nth-child(1) { transform: rotate(0deg) translateY(-65%); }
+.prize:nth-child(2) { transform: rotate(60deg) translateY(-65%); }
+.prize:nth-child(3) { transform: rotate(120deg) translateY(-65%); }
+.prize:nth-child(4) { transform: rotate(180deg) translateY(-65%); }
+.prize:nth-child(5) { transform: rotate(240deg) translateY(-65%); }
+.prize:nth-child(6) { transform: rotate(300deg) translateY(-65%); }
+
+.medal {
+    font-size: clamp(25px, 6vw, 44px);
+    margin-top: 10px;
+    filter: drop-shadow(0 3px 3px #000);
+}
+
+/* กรอบ GIF */
+.frame-gif {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* เข็มชี้ */
+.pointer {
+    position: absolute;
+    z-index: 8;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8%;
+    height: 12%;
+    background: linear-gradient(90deg,#ffab00,#fff16c,#ff9900);
+    clip-path: polygon(50% 100%,0 0,100% 0);
+    filter: drop-shadow(0 0 8px #ffcc00);
+}
+
+.pointer::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 45%;
+    border-radius: 50%;
+    background: #00c9ff;
+    left: 25%;
+    top: 8%;
+}
+
+/* ปุ่มหมุน */
+.center-button {
+    position: absolute;
+    z-index: 9;
+    width: 16%;
+    aspect-ratio: 1;
+    left: 42%;
+    top: 42%;
+    border-radius: 50%;
+    border: 6px solid #ffed9b;
+    background: radial-gradient(circle at 35% 25%,#fffca5,#ffb800 55%,#e65b00);
+    box-shadow: 0 0 0 5px #9a4b00, 0 0 20px #ffb000;
+    color: #8a2900;
+    font-weight: bold;
+    font-size: clamp(16px,4vw,26px);
+    cursor: pointer;
+}
+
+.center-button:active {
+    transform: scale(.93);
+}
+
+/* ปุ่มรับคะแนน */
+.star {
+    position: absolute;
+    z-index: 10;
+    width: 25%;
+    aspect-ratio: 1;
+    right: 3%;
+    top: 67%;
+    background: linear-gradient(145deg,#fff900,#ffb000 70%,#ff8200);
+    clip-path: polygon(50% 0%,62% 28%,95% 35%,72% 57%,76% 92%,50% 77%,23% 92%,28% 57%,5% 35%,38% 28%);
+    filter: drop-shadow(0 0 10px #ffba00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #e64b00;
+    font-size: clamp(16px,4vw,28px);
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    padding-top: 5%;
+}
+
+/* ข้อความแจ้งผล */
+.result {
+    position: absolute;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(.7);
+    padding: 20px 30px;
+    width: 75%;
+    border-radius: 20px;
+    text-align: center;
+    background: linear-gradient(145deg,#4c006c,#a900b9);
+    border: 2px solid #ff9cff;
+    box-shadow: 0 0 40px #e000ff;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s;
+}
+
+.result.show {
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+.result button {
+    margin-top: 15px;
+    padding: 9px 25px;
+    border: none;
+    border-radius: 30px;
+    background: #ffcf00;
+    color: #671b00;
+    font-weight: bold;
+}
+
+/* มือถือ */
+@media(max-width:480px) {
+    .wheel-area {
+        width: 91%;
+        left: 4.5%;
+        top: 10%;
+    }
+    .wheel {
+        border-width: 5px;
+        outline-width: 4px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+<div class="game">
+
+<div class="glow"></div>
+
+<!-- ฟองรางวัล -->
+<div class="bubble b1"><span>🎁</span></div>
+<div class="bubble b2"><span>🛵</span></div>
+<div class="bubble b3"><span>💎</span></div>
+<div class="bubble b4"><span>🎁</span></div>
+<div class="bubble b5"><span>🪙</span></div>
+
+<!-- ฐาน -->
+<div class="base">
+    <div class="base-text">คุณมี 0 สปินที่ใช้ได้</div>
+</div>
+
+<!-- วงล้อ -->
+<div class="wheel-area">
+
+    <div class="wheel" id="wheel">
+        <div class="sectors"></div>
+
+        <div class="prize">
+            1-8 โบนัสสุดพิเศษ
+            <div class="medal">🥇</div>
+        </div>
+
+        <div class="prize">
+            1-18 โบนัสสุดพิเศษ
+            <div class="medal">🥈</div>
+        </div>
+
+        <div class="prize">
+            1-38 โบนัส
+            <div class="medal">🥉</div>
+        </div>
+
+        <div class="prize">
+            1-88 โบนัส
+            <div class="medal">🏅</div>
+        </div>
+
+        <div class="prize">
+            1-199
+            <div class="medal">🏅</div>
+        </div>
+
+        <div class="prize">
+            HONDA PCX
+            <div class="medal">💎</div>
+        </div>
+    </div>
+
+    <!-- GIF กรอบวงล้อ -->
+    <img class="frame-gif"
+    src="https://static-47.spi2red.com/public/html/default_whitelabel/shared-image/lucky_wheel/s1/lucky-wheel-outer-frame.gif"
+    alt="Wheel Frame">
+
+    <div class="pointer"></div>
+
+    <button class="center-button" id="spinBtn" onclick="spinWheel()">
+        หมุน
+    </button>
+</div>
+
+<!-- ดาวรับคะแนน -->
+<div class="star" onclick="receivePoints()">
+    รับ<br>คะแนน
+</div>
+
+<!-- กล่องผลรางวัล -->
+<div class="result" id="result">
+    <h2>🎉 ยินดีด้วย!</h2>
+    <p id="prizeResult">คุณได้รับรางวัล</p>
+    <button onclick="closeResult()">ตกลง</button>
+</div>
+
+</div>
+</div>
+
+<script>
+let rotation = 0;
+let spinning = false;
+
+const prizes = [
+    "โบนัสสุดพิเศษ 1-8",
+    "โบนัสสุดพิเศษ 1-18",
+    "โบนัส 1-38",
+    "โบนัส 1-88",
+    "โบนัส 1-199",
+    "HONDA PCX"
+];
+
+function spinWheel() {
+    if (spinning) return;
+
+    spinning = true;
+
+    const btn = document.getElementById("spinBtn");
+    const wheel = document.getElementById("wheel");
+
+    btn.disabled = true;
+
+    const selected = Math.floor(Math.random() * 6);
+    const sector = 360 / 6;
+
+    // หมุนหลายรอบและหยุดตรงรางวัล
+    const target = 360 - (selected * sector + sector / 2);
+
+    rotation += 360 * 5 + target;
+    wheel.style.transform = `rotate(${rotation}deg)`;
+
+    setTimeout(() => {
+        document.getElementById("prizeResult").textContent =
+            "คุณได้รับ " + prizes[selected];
+
+        document.getElementById("result").classList.add("show");
+
+        btn.disabled = false;
+        spinning = false;
+    }, 5100);
+}
+
+function closeResult() {
+    document.getElementById("result").classList.remove("show");
+}
+
+function receivePoints() {
+    alert("ระบบรับคะแนน");
+}
+</script>
+</body>
+</html>
