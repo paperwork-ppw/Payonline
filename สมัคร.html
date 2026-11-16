@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบสมาชิก - เข้าสู่ระบบ / ลงทะเบียน</title>
+    <!-- โหลด Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- โหลด Google Fonts: Prompt และ Kanit สำหรับภาษาไทยที่ทันสมัย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        brandRed: '#F21B2D',
+                        inputBg: '#F5F5F7',
+                        inputHover: '#ECECEF',
+                        darkBg: '#262626',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar สำหรับความสะอาดตา */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF;
+        }
+
+        /* เอฟเฟกต์สลับหน้าแบบนุ่มนวล */
+        .fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ป้องกันลูกศรขึ้นลงในช่องเบอร์โทร */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="bg-[#2C2C2C] min-h-screen flex flex-col items-center justify-end sm:justify-center font-sans text-gray-900 antialiased selection:bg-black selection:text-white">
+
+    <!-- ส่วนหัวจำลองด้านบน (เหมือนแถบพื้นหลังด้านบนในรูปตัวอย่าง) -->
+    <div class="w-full max-w-[440px] px-5 pt-6 pb-5 flex items-center gap-4 text-white/90 select-none">
+        <!-- อวตารจำลองด้านบนซ้าย -->
+        <div class="w-16 h-16 rounded-full bg-[#3A3A3A] border border-white/10 flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden">
+            <svg class="w-10 h-10 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+            </svg>
+        </div>
+        <div>
+            <p class="text-xs text-gray-400 font-light tracking-wide uppercase">Member Portal</p>
+            <h2 id="top-banner-title" class="text-lg font-semibold text-white tracking-tight">เข้าสู่ระบบ หรือ ลงทะเบียน</h2>
+        </div>
+    </div>
+
+    <!-- การ์ดหลักสีขาวโค้งมน (Bottom Sheet / Modal Card Style) -->
+    <main class="w-full max-w-[440px] bg-white rounded-t-[28px] sm:rounded-[28px] shadow-2xl overflow-hidden flex flex-col justify-between min-h-[82vh] sm:min-h-0 relative transition-all duration-300">
+        
+        <!-- แถบแจ้งเตือน Toast (ซ่อนไว้เริ่มต้น) -->
+        <div id="toast-box" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl text-sm font-medium transition-all duration-300 max-w-[90vw]">
+            <span id="toast-icon"></span>
+            <span id="toast-message"></span>
+        </div>
+
+        <div class="p-6 sm:p-7 pb-4">
+            <!-- Header ของการ์ด: โลโก้สีแดง + หัวข้อ + ตัวเลือกภาษา -->
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-3">
+                    <!-- โลโก้สีแดงมุมซ้ายบนตามภาพ -->
+                    <div class="w-9 h-9 rounded-xl bg-[#F41A2A] flex items-center justify-center shadow-sm shrink-0">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"></polygon>
+                            <polyline points="7.5 10.5 12 13 16.5 10.5"></polyline>
+                        </svg>
+                    </div>
+                    <h1 id="card-title" class="text-[19px] font-bold text-gray-900 tracking-tight">เข้าสู่ระบบ</h1>
+                </div>
+
+                <!-- ตัวเลือกภาษา ไทย ▾ -->
+                <div class="relative">
+                    <button type="button" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black py-1 px-2 rounded-lg hover:bg-gray-100 transition">
+                        <span id="current-lang">ไทย</span>
+                        <svg class="w-3.5 h-3.5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown ภาษา -->
+                    <div id="lang-menu" class="hidden absolute right-0 mt-1 w-28 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20 text-sm">
+                        <button type="button" onclick="selectLang('ไทย')" class="w-full text-left px-3.5 py-2 hover:bg-gray-50 font-medium text-gray-900 flex items-center justify-between">
+                            ไทย <span class="text-xs text-green-600">●</span>
+                        </button>
+                        <button type="button" onclick="selectLang('English')" class="w-full text-left px-3.5 py-2 hover:bg-gray-50 text-gray-600">
+                            English
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- แถบสลับโหมดรวดเร็ว (Tab Navigation) เพื่อความสะดวกในการกดสลับดูทั้ง 3 หน้า -->
+            <div class="grid grid-cols-3 bg-[#F5F5F7] p-1 rounded-xl mb-6 text-xs font-medium">
+                <button type="button" id="tab-login" onclick="switchView('login')" class="py-2 rounded-lg bg-white text-black shadow-sm transition-all">
+                    เข้าสู่ระบบ
+                </button>
+                <button type="button" id="tab-register" onclick="switchView('register')" class="py-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all">
+                    เปิดใช้งานบัญชีใหม่
+                </button>
+                <button type="button" id="tab-forgot" onclick="switchView('forgot')" class="py-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all">
+                    ลืมรหัสผ่าน
+                </button>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- 1. หน้าเข้าสู่ระบบ (LOGIN VIEW)             -->
+            <!-- ========================================== -->
+            <section id="view-login" class="fade-in">
+                <form onsubmit="handleLogin(event)" class="space-y-3.5">
+                    <!-- ช่องกรอก: ชื่อผู้ใช้งาน อีเมล์ หรือ เบอร์โทรศัพท์ -->
+                    <div class="relative">
+                        <input type="text" id="login-identity" required
+                            placeholder="ชื่อผู้ใช้งาน อีเมล์ หรือ เบอร์โทรศัพท์"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 pr-10 outline-none border border-transparent focus:border-gray-300 transition-all">
+                        <!-- ปุ่มล้างข้อความ (X) แบบในภาพ -->
+                        <button type="button" onclick="clearInput('login-identity')" class="absolute right-3.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gray-300/80 hover:bg-gray-400 text-white flex items-center justify-center transition">
+                            <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- ช่องกรอก: รหัสผ่าน -->
+                    <div class="relative">
+                        <input type="password" id="login-password" required
+                            placeholder="รหัสผ่าน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 pr-11 outline-none border border-transparent focus:border-gray-300 transition-all">
+                        <button type="button" onclick="togglePassword('login-password', this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 p-1 transition" aria-label="แสดงรหัสผ่าน">
+                            <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- ลิงก์ลืมรหัสผ่าน -->
+                    <div class="flex justify-end pt-0.5">
+                        <button type="button" onclick="switchView('forgot')" class="text-xs font-medium text-gray-500 hover:text-black transition">
+                            ลืมรหัสผ่าน?
+                        </button>
+                    </div>
+
+                    <!-- ปุ่มหลักสีดำ: ลงชื่อเข้าใช้งาน -->
+                    <button type="submit" class="w-full bg-black hover:bg-neutral-800 active:scale-[0.99] text-white font-medium text-[15px] py-3.5 rounded-2xl shadow-md transition-all mt-1">
+                        ลงชื่อเข้าใช้งาน
+                    </button>
+                </form>
+
+                <!-- ตัวคั่น: หรือเข้าผ่านโซเชียลมีเดีย -->
+                <div class="relative flex py-6 items-center">
+                    <div class="flex-grow border-t border-gray-200"></div>
+                    <span class="flex-shrink mx-3 text-xs text-gray-400 font-normal">หรือเข้าผ่านโซเชียลมีเดีย</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+
+                <!-- ปุ่มโซเชียลมีเดีย 4 ปุ่มเรียงแถวเดียวกันข้างๆ กัน (Grid 4 คอลัมน์) -->
+                <div class="grid grid-cols-4 gap-2.5">
+                    <!-- Google -->
+                    <button type="button" onclick="handleSocial('Google')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group" title="เข้าสู่ระบบด้วย Google">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">Google</span>
+                    </button>
+
+                    <!-- Facebook -->
+                    <button type="button" onclick="handleSocial('Facebook')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group" title="เข้าสู่ระบบด้วย Facebook">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#1877F2">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">Facebook</span>
+                    </button>
+
+                    <!-- LINE -->
+                    <button type="button" onclick="handleSocial('LINE')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group" title="เข้าสู่ระบบด้วย LINE">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#06C755">
+                            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">LINE</span>
+                    </button>
+
+                    <!-- Discord -->
+                    <button type="button" onclick="handleSocial('Discord')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group" title="เข้าสู่ระบบด้วย Discord">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#5865F2">
+                            <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">Discord</span>
+                    </button>
+                </div>
+
+                <!-- ลิงก์สลับไปหน้าเปิดใช้งานบัญชีใหม่ -->
+                <div class="text-center mt-6">
+                    <p class="text-xs text-gray-500">
+                        ยังไม่มีบัญชีใช่หรือไม่? 
+                        <button type="button" onclick="switchView('register')" class="text-black font-semibold hover:underline ml-1">
+                            เปิดใช้งานบัญชีใหม่
+                        </button>
+                    </p>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- 2. หน้าสมัครสมาชิก (REGISTER VIEW)          -->
+            <!-- ========================================== -->
+            <section id="view-register" class="hidden fade-in">
+                <form onsubmit="handleRegister(event)" class="space-y-3">
+                    <!-- Username ชื่อผู้ใช้งาน -->
+                    <div>
+                        <input type="text" id="reg-username" required
+                            placeholder="Username ชื่อผู้ใช้งาน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 outline-none border border-transparent focus:border-gray-300 transition-all">
+                    </div>
+
+                    <!-- ชื่อจริง | นามสกุลจริง (แบ่ง 2 คอลัมน์ข้างกัน) -->
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <input type="text" id="reg-firstname" required
+                            placeholder="ชื่อจริง"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 outline-none border border-transparent focus:border-gray-300 transition-all">
+                        <input type="text" id="reg-lastname" required
+                            placeholder="นามสกุลจริง"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 outline-none border border-transparent focus:border-gray-300 transition-all">
+                    </div>
+
+                    <!-- กรุณากรอกเบอร์โทรศัพท์ (มีธงชาติไทย +66 ด้านหน้าแบบในรูป) -->
+                    <div class="flex items-center bg-[#F5F5F7] hover:bg-[#EFEFF2] focus-within:bg-white rounded-2xl px-4 py-3.5 border border-transparent focus-within:border-gray-300 transition-all">
+                        <!-- ธงชาติไทย SVG +66 -->
+                        <div class="flex items-center gap-1.5 pr-3 border-r border-gray-300 shrink-0 select-none">
+                            <svg class="w-5 h-3.5 rounded-[2px] shadow-xs" viewBox="0 0 900 600">
+                                <rect width="900" height="600" fill="#ED1C24"/>
+                                <rect y="100" width="900" height="400" fill="#FFFFFF"/>
+                                <rect y="200" width="900" height="200" fill="#241D4F"/>
+                            </svg>
+                            <span class="text-[14px] font-medium text-gray-800">+66</span>
+                            <svg class="w-3 h-3 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input type="tel" id="reg-phone" required maxlength="10"
+                            placeholder="กรุณากรอกเบอร์โทรศัพท์"
+                            class="w-full bg-transparent text-gray-900 placeholder-gray-400 text-[14px] pl-3 outline-none">
+                    </div>
+
+                    <!-- กรุณากรอกอีเมล์ใช้งาน -->
+                    <div>
+                        <input type="email" id="reg-email" required
+                            placeholder="กรุณากรอกอีเมล์ใช้งาน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 outline-none border border-transparent focus:border-gray-300 transition-all">
+                    </div>
+
+                    <!-- รหัสผ่าน -->
+                    <div class="relative">
+                        <input type="password" id="reg-password" required minlength="6"
+                            placeholder="รหัสผ่าน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 pr-11 outline-none border border-transparent focus:border-gray-300 transition-all">
+                        <button type="button" onclick="togglePassword('reg-password', this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 p-1 transition">
+                            <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- ยืนยันรหัสผ่าน -->
+                    <div class="relative">
+                        <input type="password" id="reg-confirm-password" required minlength="6"
+                            placeholder="ยืนยันรหัสผ่าน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 pr-11 outline-none border border-transparent focus:border-gray-300 transition-all">
+                        <button type="button" onclick="togglePassword('reg-confirm-password', this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 p-1 transition">
+                            <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- ปุ่มหลักสีดำ: สร้างบัญชี -->
+                    <button type="submit" class="w-full bg-black hover:bg-neutral-800 active:scale-[0.99] text-white font-medium text-[15px] py-3.5 rounded-2xl shadow-md transition-all mt-2">
+                        สร้างบัญชี
+                    </button>
+                </form>
+
+                <!-- ตัวคั่น: หรือ สมัครผ่าน -->
+                <div class="relative flex py-5 items-center">
+                    <div class="flex-grow border-t border-gray-200"></div>
+                    <span class="flex-shrink mx-3 text-xs text-gray-400 font-normal">หรือ สมัครผ่าน</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+
+                <!-- ปุ่มโซเชียลมีเดีย 4 ปุ่มเรียงแถวเดียวกันข้างๆ กัน (Grid 4 คอลัมน์) -->
+                <div class="grid grid-cols-4 gap-2.5">
+                    <!-- Google -->
+                    <button type="button" onclick="handleSocial('Google')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">Google</span>
+                    </button>
+
+                    <!-- Facebook -->
+                    <button type="button" onclick="handleSocial('Facebook')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#1877F2">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">Facebook</span>
+                    </button>
+
+                    <!-- LINE -->
+                    <button type="button" onclick="handleSocial('LINE')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#06C755">
+                            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">LINE</span>
+                    </button>
+
+                    <!-- Discord -->
+                    <button type="button" onclick="handleSocial('Discord')" class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 bg-[#F5F5F7] hover:bg-gray-200/80 active:scale-95 rounded-2xl transition-all group">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#5865F2">
+                            <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                        </svg>
+                        <span class="text-[11px] font-medium text-gray-600 group-hover:text-black">Discord</span>
+                    </button>
+                </div>
+
+                <!-- ลิงก์สลับกลับไปหน้าเข้าสู่ระบบ -->
+                <div class="text-center mt-5">
+                    <p class="text-xs text-gray-500">
+                        มีบัญชีผู้ใช้งานอยู่แล้ว? 
+                        <button type="button" onclick="switchView('login')" class="text-black font-semibold hover:underline ml-1">
+                            เข้าสู่ระบบ
+                        </button>
+                    </p>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- 3. หน้าลืมรหัสผ่าน (FORGOT PASSWORD VIEW)  -->
+            <!-- ========================================== -->
+            <section id="view-forgot" class="hidden fade-in">
+                <p class="text-xs text-gray-500 mb-4 leading-relaxed">
+                    กรุณากรอกข้อมูลบัญชีที่ลงทะเบียนไว้ ระบบจะทำการตรวจสอบและส่งลิงก์สำหรับตั้งค่ารหัสผ่านใหม่ให้คุณ
+                </p>
+
+                <form onsubmit="handleForgot(event)" class="space-y-3.5">
+                    <!-- Username ชื่อผู้ใช้งาน -->
+                    <div>
+                        <input type="text" id="forgot-username" required
+                            placeholder="Username ชื่อผู้ใช้งาน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 outline-none border border-transparent focus:border-gray-300 transition-all">
+                    </div>
+
+                    <!-- Email อีเมล์ที่ลงทะเบียน -->
+                    <div>
+                        <input type="email" id="forgot-email" required
+                            placeholder="Email อีเมล์ที่ลงทะเบียน"
+                            class="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] focus:bg-white text-gray-900 placeholder-gray-400 text-[14px] rounded-2xl px-4 py-3.5 outline-none border border-transparent focus:border-gray-300 transition-all">
+                    </div>
+
+                    <!-- Phone หมายเลขโทรศัพท์ (มีธงชาติไทย +66 ด้านหน้า) -->
+                    <div class="flex items-center bg-[#F5F5F7] hover:bg-[#EFEFF2] focus-within:bg-white rounded-2xl px-4 py-3.5 border border-transparent focus-within:border-gray-300 transition-all">
+                        <div class="flex items-center gap-1.5 pr-3 border-r border-gray-300 shrink-0 select-none">
+                            <svg class="w-5 h-3.5 rounded-[2px] shadow-xs" viewBox="0 0 900 600">
+                                <rect width="900" height="600" fill="#ED1C24"/>
+                                <rect y="100" width="900" height="400" fill="#FFFFFF"/>
+                                <rect y="200" width="900" height="200" fill="#241D4F"/>
+                            </svg>
+                            <span class="text-[14px] font-medium text-gray-800">+66</span>
+                            <svg class="w-3 h-3 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input type="tel" id="forgot-phone" required maxlength="10"
+                            placeholder="Phone หมายเลขโทรศัพท์"
+                            class="w-full bg-transparent text-gray-900 placeholder-gray-400 text-[14px] pl-3 outline-none">
+                    </div>
+
+                    <!-- ปุ่มหลักสีดำ: ส่งคำขอกู้คืนรหัสผ่าน -->
+                    <button type="submit" class="w-full bg-black hover:bg-neutral-800 active:scale-[0.99] text-white font-medium text-[15px] py-3.5 rounded-2xl shadow-md transition-all mt-2">
+                        ส่งคำขอกู้คืนรหัสผ่าน
+                    </button>
+                </form>
+
+                <!-- ลิงก์กลับไปหน้าเข้าสู่ระบบ -->
+                <div class="text-center mt-6">
+                    <button type="button" onclick="switchView('login')" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-black transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                        </svg>
+                        กลับไปหน้าเข้าสู่ระบบ
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ส่วนท้ายการ์ด: ปุ่มติดต่อเจ้าหน้าที่ + ข้อตกลง  -->
+        <!-- ========================================== -->
+        <footer class="px-6 pb-6 pt-2 flex flex-col">
+            <!-- ปุ่มติดต่อเจ้าหน้าที่ชิดขวาแบบในภาพตัวอย่าง -->
+            <div class="flex justify-end mb-5">
+                <button type="button" onclick="showToast('กำลังเชื่อมต่อกับเจ้าหน้าที่ฝ่ายบริการลูกค้า...', 'info')" 
+                    class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 active:scale-95 text-gray-800 text-xs font-medium px-3.5 py-2 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-100 transition-all">
+                    <!-- ไอคอนหูฟัง Call Center -->
+                    <svg class="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 18v-6a9 9 0 0118 0v6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z" />
+                    </svg>
+                    ติดต่อเจ้าหน้าที่
+                </button>
+            </div>
+
+            <!-- ข้อความข้อตกลงผู้ใช้งานและนโยบายความเป็นส่วนตัว -->
+            <p class="text-[11px] text-center text-gray-400 leading-relaxed">
+                การเข้าสู่ระบบหรือลงทะเบียน ถือเป็นการยอมรับ 
+                <a href="javascript:void(0)" onclick="showToast('เปิดหน้าข้อตกลงผู้ใช้งาน', 'info')" class="text-gray-700 underline underline-offset-2 hover:text-black font-medium">ข้อตกลงผู้ใช้งาน</a> 
+                และ 
+                <a href="javascript:void(0)" onclick="showToast('เปิดหน้านโยบายความเป็นส่วนตัว', 'info')" class="text-gray-700 underline underline-offset-2 hover:text-black font-medium">นโยบายความเป็นส่วนตัว</a>
+            </p>
+        </footer>
+    </main>
+
+    <!-- JavaScript ควบคุมการทำงานทั้งหมด -->
+    <script>
+        // ข้อมูลหัวข้อของแต่ละหน้า
+        const viewConfigs = {
+            login: {
+                title: 'เข้าสู่ระบบ',
+                banner: 'เข้าสู่ระบบ หรือ ลงทะเบียน'
+            },
+            register: {
+                title: 'เปิดใช้งานบัญชีใหม่',
+                banner: 'สมัครสมาชิกเปิดใช้งานบัญชี'
+            },
+            forgot: {
+                title: 'ลืมรหัสการเข้าใช้งานบัญชี',
+                banner: 'กู้คืนรหัสผ่านบัญชีผู้ใช้งาน'
+            }
+        };
+
+        // ฟังก์ชันสลับหน้า (Login <-> Register <-> Forgot Password)
+        function switchView(viewName) {
+            const views = ['login', 'register', 'forgot'];
+            
+            views.forEach(v => {
+                const section = document.getElementById(`view-${v}`);
+                const tab = document.getElementById(`tab-${v}`);
+                
+                if (v === viewName) {
+                    section.classList.remove('hidden');
+                    // รีสตาร์ท animation
+                    section.classList.remove('fade-in');
+                    void section.offsetWidth;
+                    section.classList.add('fade-in');
+
+                    // อัปเดตสไตล์ปุ่มแท็บด้านบน
+                    tab.classList.add('bg-white', 'text-black', 'shadow-sm');
+                    tab.classList.remove('text-gray-500');
+                } else {
+                    section.classList.add('hidden');
+                    tab.classList.remove('bg-white', 'text-black', 'shadow-sm');
+                    tab.classList.add('text-gray-500');
+                }
+            });
+
+            // เปลี่ยนหัวข้อหลักในการ์ดและแบนเนอร์ด้านบน
+            document.getElementById('card-title').textContent = viewConfigs[viewName].title;
+            document.getElementById('top-banner-title').textContent = viewConfigs[viewName].banner;
+        }
+
+        // ฟังก์ชันเปิด/ปิดการมองเห็นรหัสผ่าน
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+
+            // เปลี่ยนไอคอนดวงตา
+            if (isPassword) {
+                btn.innerHTML = `
+                    <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    </svg>`;
+            } else {
+                btn.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>`;
+            }
+        }
+
+        // ฟังก์ชันล้างข้อความในช่อง Input
+        function clearInput(inputId) {
+            const input = document.getElementById(inputId);
+            input.value = '';
+            input.focus();
+        }
+
+        // ฟังก์ชันเปิด/ปิดเมนูเลือกภาษา
+        function toggleLangMenu() {
+            const menu = document.getElementById('lang-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function selectLang(lang) {
+            document.getElementById('current-lang').textContent = lang;
+            document.getElementById('lang-menu').classList.add('hidden');
+            showToast(`เปลี่ยนภาษาเป็น ${lang} เรียบร้อยแล้ว`, 'info');
+        }
+
+        // ปิดเมนูภาษาเมื่อคลิกพื้นที่อื่น
+        document.addEventListener('click', function(e) {
+            const langMenu = document.getElementById('lang-menu');
+            if (!e.target.closest('.relative') && !langMenu.classList.contains('hidden')) {
+                langMenu.classList.add('hidden');
+            }
+        });
+
+        // ระบบแจ้งเตือน Toast Notification
+        let toastTimeout;
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast-box');
+            const msgEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            clearTimeout(toastTimeout);
+
+            // กำหนดสีและไอคอนตามประเภท
+            toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl text-sm font-medium transition-all duration-300 max-w-[90vw] fade-in';
+            
+            if (type === 'success') {
+                toast.classList.add('bg-black', 'text-white');
+                iconEl.innerHTML = `<svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+            } else if (type === 'error') {
+                toast.classList.add('bg-red-600', 'text-white');
+                iconEl.innerHTML = `<svg class="w-5 h-5 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>`;
+            } else {
+                toast.classList.add('bg-neutral-800', 'text-white');
+                iconEl.innerHTML = `<svg class="w-5 h-5 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>`;
+            }
+
+            msgEl.textContent = message;
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        // จัดการฟอร์มเข้าสู่ระบบ
+        function handleLogin(e) {
+            e.preventDefault();
+            const identity = document.getElementById('login-identity').value.trim();
+            showToast(`เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับคุณ ${identity}`, 'success');
+        }
+
+        // จัดการฟอร์มสมัครสมาชิก
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showToast('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง', 'error');
+                document.getElementById('reg-confirm-password').focus();
+                return;
+            }
+
+            showToast(`สร้างบัญชี "${username}" สำเร็จ! กรุณาเข้าสู่ระบบ`, 'success');
+            setTimeout(() => {
+                switchView('login');
+                document.getElementById('login-identity').value = username;
+            }, 1200);
+        }
+
+        // จัดการฟอร์มลืมรหัสผ่าน
+        function handleForgot(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value.trim();
+            showToast(`ส่งลิงก์กู้คืนรหัสผ่านไปยัง ${email} เรียบร้อยแล้ว`, 'success');
+            setTimeout(() => {
+                switchView('login');
+            }, 1500);
+        }
+
+        // จัดการปุ่มโซเชียลมีเดีย
+        function handleSocial(provider) {
+            showToast(`กำลังเชื่อมต่อเข้าสู่ระบบผ่าน ${provider}...`, 'info');
+        }
+    </script>
+</body>
+</html>
