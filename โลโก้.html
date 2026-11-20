@@ -175,43 +175,73 @@
 
             </form>
 
-            <!-- ส่วนล่างสุด: ทางลัดเติมเงิน / ประวัติการสั่งซื้อ (สไตล์เดียวกับ "หรือ สมัครผ่าน" + 4 ปุ่มด้านล่างในภาพ) -->
+            <!-- ส่วนล่างสุด: วิธีการใช้งาน / ขั้นตอนการสั่งซื้อ / การตั้งค่าลิงก์สาธารณะ / กฎและเงื่อนไข -->
             <div class="mt-6">
                 <div class="relative flex py-2 items-center">
                     <div class="flex-grow border-t border-gray-100"></div>
-                    <span class="flex-shrink mx-3 text-xs text-gray-400">เมนูลัดจัดการบัญชี</span>
+                    <span class="flex-shrink mx-3 text-xs text-gray-400">คู่มือ & วิธีการใช้งานระบบ</span>
                     <div class="flex-grow border-t border-gray-100"></div>
                 </div>
 
                 <div class="grid grid-cols-4 gap-2.5 mt-3">
-                    <button type="button" onclick="showToast('เปิดหน้าต่างเติมเงินอัตโนมัติ (PromptPay / TrueMoney)', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
-                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">
-                            <i class="fa-solid fa-wallet"></i>
+                    <button type="button" onclick="openGuideModal('steps')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-list-check"></i>
                         </div>
-                        <span class="text-[11px] font-medium text-gray-700">เติมเงิน</span>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">ขั้นตอนใช้งาน</span>
                     </button>
 
-                    <button type="button" onclick="showToast('กำลังโหลดรายการประวัติการสั่งซื้อของคุณ...', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                    <button type="button" onclick="openGuideModal('public_link')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
                         <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
-                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <i class="fa-solid fa-globe"></i>
                         </div>
-                        <span class="text-[11px] font-medium text-gray-700">ประวัติสั่งซื้อ</span>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">ลิงก์สาธารณะ</span>
                     </button>
 
-                    <button type="button" onclick="showToast('เชื่อมต่อ LINE Official เพื่อรับการแจ้งเตือนสถานะออเดอร์', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
-                        <div class="w-8 h-8 rounded-full bg-[#06C755] text-white flex items-center justify-center text-sm">
-                            <i class="fa-brands fa-line"></i>
+                    <button type="button" onclick="openGuideModal('copy_link')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-link"></i>
                         </div>
-                        <span class="text-[11px] font-medium text-gray-700">LINE แจ้งเตือน</span>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">วิธีคัดลอกลิงก์</span>
                     </button>
 
-                    <button type="button" onclick="showToast('ติดต่อแอดมินดูแลตลอด 24 ชั่วโมง', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
-                        <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-sm">
-                            <i class="fa-solid fa-headset"></i>
+                    <button type="button" onclick="openGuideModal('rules')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-shield-halved"></i>
                         </div>
-                        <span class="text-[11px] font-medium text-gray-700">ติดต่อแอดมิน</span>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">ข้อควรระวัง</span>
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal แสดงคู่มือ วิธีการใช้งาน และการค้นหาลิงก์สาธารณะแบบละเอียด -->
+    <div id="guideModal" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4">
+        <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+            <!-- ส่วนหัว Modal -->
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                <div class="flex items-center gap-2.5">
+                    <div id="guideModalIcon" class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-base">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 id="guideModalTitle" class="text-base font-bold text-gray-900">หัวข้อคู่มือ</h3>
+                </div>
+                <button type="button" onclick="closeGuideModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- เนื้อหาคู่มือ (เลื่อนอ่านได้) -->
+            <div id="guideModalBody" class="p-6 overflow-y-auto text-sm text-gray-600 space-y-4 leading-relaxed">
+                <!-- เนื้อหาจะถูกแทรกด้วย JavaScript -->
+            </div>
+
+            <!-- ปุ่มปิดด้านล่าง -->
+            <div class="p-4 border-t border-gray-100 bg-white">
+                <button type="button" onclick="closeGuideModal()" class="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold py-3.5 rounded-2xl transition">
+                    เข้าใจแล้ว / ปิดหน้าต่าง
+                </button>
             </div>
         </div>
     </div>
@@ -656,6 +686,149 @@
 
         function closeToast() {
             const modal = document.getElementById('toastModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ==========================================
+        // 7. ระบบคู่มือ วิธีการใช้งาน และการตั้งค่าลิงก์สาธารณะจริง
+        // ==========================================
+        const GUIDE_CONTENTS = {
+            steps: {
+                title: 'ขั้นตอนการใช้งานระบบปั๊มยอด',
+                icon: 'fa-solid fa-list-check',
+                iconClass: 'bg-indigo-100 text-indigo-600',
+                html: `
+                    <div class="space-y-3">
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">เลือกแพลตฟอร์มและหมวดหมู่</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">กดเลือกไอคอนแพลตฟอร์มด้านบน (เช่น Facebook, TikTok, IG) จากนั้นเลือกหมวดหมู่ที่ต้องการ (บริการคนไทย หรือ ต่างประเทศ)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">เลือกบริการและตรวจสอบเรทราคา</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">เลือกบริการย่อยที่ต้องการ เช่น ปั๊มไลก์โพสต์ หรือ เพิ่มผู้ติดตาม ระบบจะแสดงราคาต่อ 1,000 และจำนวนขั้นต่ำ-สูงสุดให้อัตโนมัติ</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">วางลิงก์สาธารณะ (Public Link)</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">คัดลอกลิงก์โพสต์หรือโปรไฟล์ที่ <strong>เปิดสาธารณะแล้ว</strong> มาวางในช่องลิงก์เป้าหมาย (ตรวจสอบให้ตรงกับตัวอย่างใต้ช่อง)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">ระบุจำนวนและกดยืนยันสั่งซื้อ</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">ใส่ตัวเลขจำนวนที่ต้องการ ระบบจะคำนวณค่าบริการทันที จากนั้นกดปุ่ม <strong>ยืนยันการสั่งซื้อบริการ</strong> ระบบจะเริ่มทำงานภายใน 0-15 นาที</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            public_link: {
+                title: 'วิธีตั้งค่าบัญชี & ลิงก์ให้เป็นสาธารณะ',
+                icon: 'fa-solid fa-globe',
+                iconClass: 'bg-blue-100 text-blue-600',
+                html: `
+                    <p class="text-xs text-gray-500 bg-blue-50 text-blue-700 p-3 rounded-xl border border-blue-100">
+                        <i class="fa-solid fa-circle-info mr-1"></i>
+                        <strong>สำคัญมาก:</strong> หากบัญชีตั้งค่าเป็น "ส่วนตัว (Private)" หรือโพสต์จำกัดอายุ/ประเทศ ระบบจะไม่สามารถส่งยอดได้
+                    </p>
+                    <div class="space-y-3 mt-2">
+                        <div class="p-3 rounded-2xl border border-gray-100">
+                            <h4 class="font-bold text-blue-600 text-xs flex items-center gap-1.5"><i class="fa-brands fa-facebook"></i> Facebook (เฟซบุ๊ก)</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li><strong>ปั๊มไลก์โพสต์:</strong> กดจุด 3 จุดมุมขวาบนของโพสต์ > แก้ไขความเป็นส่วนตัว > เลือกเป็น <strong>สาธารณะ (รูปโลก)</strong></li>
+                                <li><strong>ปั๊มผู้ติดตามโปรไฟล์:</strong> ไปที่ การตั้งค่า > ผู้ติดตามและเนื้อหาสาธารณะ > เปิดให้ "ทุกคน" สามารถติดตามได้</li>
+                            </ul>
+                        </div>
+                        <div class="p-3 rounded-2xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 text-xs flex items-center gap-1.5"><i class="fa-brands fa-tiktok"></i> TikTok (ติ๊กต็อก)</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li>ไปที่หน้าโปรไฟล์ > ขีด 3 ขีดมุมขวาบน > การตั้งค่าและความเป็นส่วนตัว > ความเป็นส่วนตัว > <strong>ปิด "บัญชีส่วนตัว"</strong></li>
+                                <li>สำหรับคลิปวิดีโอ: กดที่คลิป > จุด 3 จุด > การตั้งค่าความเป็นส่วนตัว > เลือก <strong>ทุกคน</strong></li>
+                            </ul>
+                        </div>
+                        <div class="p-3 rounded-2xl border border-gray-100">
+                            <h4 class="font-bold text-pink-600 text-xs flex items-center gap-1.5"><i class="fa-brands fa-instagram"></i> Instagram (อินสตาแกรม)</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li>ไปที่โปรไฟล์ > ขีด 3 ขีดมุมขวาบน > ความเป็นส่วนตัวของบัญชี > <strong>ปิดสวิตช์ "บัญชีส่วนตัว"</strong> (ห้ามเปิดค้างไว้ระหว่างรอระบบทำงาน)</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            copy_link: {
+                title: 'วิธีค้นหาและคัดลอกลิงก์ที่ถูกต้อง',
+                icon: 'fa-solid fa-link',
+                iconClass: 'bg-amber-100 text-amber-600',
+                html: `
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <h4 class="font-bold text-gray-900 text-xs">1. การคัดลอกลิงก์โพสต์ / รูปภาพ / คลิปวิดีโอ</h4>
+                            <p class="text-xs text-gray-600 mt-1">กดปุ่ม <strong>"แชร์ (Share)"</strong> ที่ใต้โพสต์หรือคลิปวิดีโอนั้นๆ แล้วเลือกเมนู <strong>"คัดลอกลิงก์ (Copy Link)"</strong> จากนั้นนำมาวางในช่องได้เลย</p>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <h4 class="font-bold text-gray-900 text-xs">2. การคัดลอกลิงก์โปรไฟล์ / ช่อง / เพจ</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li><strong>Facebook:</strong> เข้าหน้าโปรไฟล์หรือเพจ > กดปุ่มจุด 3 จุด (...) > เลื่อนลงล่างสุดกด <strong>"คัดลอกลิงก์"</strong></li>
+                                <li><strong>TikTok:</strong> เข้าหน้าโปรไฟล์ > กดที่ชื่อ @username ของตัวเองเพื่อคัดลอก หรือกดปุ่มแชร์โปรไฟล์มุมขวาบน > คัดลอกลิงก์</li>
+                                <li><strong>Instagram:</strong> เข้าหน้าโปรไฟล์ > กดปุ่ม <strong>"แชร์โปรไฟล์"</strong> > กด "คัดลอกลิงก์"</li>
+                                <li><strong>YouTube:</strong> เข้าหน้าช่อง > กดจุด 3 จุดมุมขวาบน > แชร์ > คัดลอกลิงก์</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            rules: {
+                title: 'ข้อควรระวังก่อนกดสั่งซื้อ',
+                icon: 'fa-solid fa-shield-halved',
+                iconClass: 'bg-rose-100 text-rose-600',
+                html: `
+                    <ul class="space-y-2.5 text-xs text-gray-600">
+                        <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-rose-50/70 border border-rose-100">
+                            <i class="fa-solid fa-triangle-exclamation text-rose-500 mt-0.5"></i>
+                            <span><strong>ห้ามสั่งซื้อซ้ำซ้อน:</strong> ห้ามกดสั่งบริการประเภทเดียวกันในลิงก์เดิมซ้ำ หากออเดอร์เก่ายังขึ้นไม่ครบ (อาจทำให้ยอดทับซ้อนและได้ไม่ครบ)</span>
+                        </li>
+                        <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-gray-50 border border-gray-100">
+                            <i class="fa-solid fa-user-lock text-gray-700 mt-0.5"></i>
+                            <span><strong>ห้ามเปลี่ยนชื่อบัญชีหรือตั้งส่วนตัว:</strong> ระหว่างที่ระบบกำลังดำเนินการ ห้ามเปลี่ยน @Username หรือปิดบัญชีเป็นส่วนตัวเด็ดขาด</span>
+                        </li>
+                        <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-gray-50 border border-gray-100">
+                            <i class="fa-solid fa-link-slash text-gray-700 mt-0.5"></i>
+                            <span><strong>ตรวจสอบประเภทลิงก์ให้ตรง:</strong> เช่น บริการเพิ่มผู้ติดตาม ให้ใส่ <em>ลิงก์โปรไฟล์</em> ห้ามนำ <em>ลิงก์โพสต์</em> มาใส่แทน</span>
+                        </li>
+                    </ul>
+                `
+            }
+        };
+
+        function openGuideModal(key) {
+            const data = GUIDE_CONTENTS[key];
+            if (!data) return;
+
+            const modal = document.getElementById('guideModal');
+            const iconBox = document.getElementById('guideModalIcon');
+            const titleEl = document.getElementById('guideModalTitle');
+            const bodyEl = document.getElementById('guideModalBody');
+
+            iconBox.className = `w-9 h-9 rounded-xl ${data.iconClass} flex items-center justify-center text-base`;
+            iconBox.innerHTML = `<i class="${data.icon}"></i>`;
+            titleEl.textContent = data.title;
+            bodyEl.innerHTML = data.html;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGuideModal() {
+            const modal = document.getElementById('guideModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
