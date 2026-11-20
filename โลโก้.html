@@ -26,17 +26,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-
-        /* ปรับแต่งลูกศรของ Select Box ให้ดูเรียบหรู */
-        select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1.1em;
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-end sm:justify-center items-center sm:p-4">
@@ -84,32 +73,43 @@
                     <input 
                         type="text" 
                         id="searchInput" 
-                        placeholder="ค้นหาไอดีบริการ หรือ คีย์เวิร์ด (เช่น ไลก์คนไทย, ผู้ติดตาม)..." 
-                        class="w-full bg-[#f3f4f6] text-gray-800 placeholder-gray-400 text-sm rounded-2xl pl-10 pr-9 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition"
+                        placeholder="ค้นหาด้วย ID บริการ หรือ คีย์เวิร์ด..." 
+                        class="w-full bg-[#f3f4f6] text-gray-800 placeholder-gray-400 text-sm rounded-2xl pl-11 pr-10 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition"
                     >
                     <button type="button" id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600">
-                        <i class="fa-solid fa-circle-xmark text-sm"></i>
+                        <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                 </div>
 
-                <!-- 2. ช่องเลือกหมวดหมู่ -->
-                <div>
+                <!-- 2. ช่องเลือกหมวดหมู่ (Custom Dropdown พร้อมไอคอน ไทย / ต่างประเทศ) -->
+                <div class="relative" id="categoryDropdownWrapper">
                     <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">เลือกหมวดหมู่บริการ</label>
-                    <div class="relative">
-                        <select id="categorySelect" class="w-full bg-[#f3f4f6] text-gray-800 text-sm font-medium rounded-2xl px-4 py-3.5 pr-10 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition cursor-pointer">
-                            <!-- ตัวเลือกหมวดหมู่จะอัปเดตตามหัวเมนูที่เลือก -->
-                        </select>
+                    <button type="button" id="categoryDropdownBtn" onclick="toggleDropdown('category')" class="w-full bg-[#f3f4f6] text-gray-800 text-sm font-medium rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition flex items-center justify-between text-left">
+                        <div id="categorySelectedDisplay" class="flex items-center gap-2.5 truncate">
+                            <!-- แสดงหมวดหมู่ที่เลือกพร้อมไอคอน -->
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400 shrink-0 ml-2 transition-transform duration-200" id="categoryArrow"></i>
+                    </button>
+                    <!-- รายการตัวเลือกหมวดหมู่ -->
+                    <div id="categoryDropdownMenu" class="hidden absolute z-30 left-0 right-0 mt-1.5 bg-white rounded-2xl shadow-xl border border-gray-100 max-h-60 overflow-y-auto py-1.5">
+                        <!-- รายการจะถูกสร้างด้วย JavaScript -->
                     </div>
                 </div>
 
-                <!-- 3. ช่องเลือกบริการ -->
-                <div>
+                <!-- 3. ช่องเลือกบริการ (Custom Dropdown พร้อมไอคอนโซเชียลของบริการนั้นๆ) -->
+                <div class="relative" id="serviceDropdownWrapper">
                     <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">เลือกบริการ</label>
-                    <div class="relative">
-                        <select id="serviceSelect" class="w-full bg-[#f3f4f6] text-gray-800 text-sm font-medium rounded-2xl px-4 py-3.5 pr-10 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition cursor-pointer">
-                            <!-- ตัวเลือกบริการจะอัปเดตตามหมวดหมู่ -->
-                        </select>
+                    <button type="button" id="serviceDropdownBtn" onclick="toggleDropdown('service')" class="w-full bg-[#f3f4f6] text-gray-800 text-sm font-medium rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition flex items-center justify-between text-left">
+                        <div id="serviceSelectedDisplay" class="flex items-center gap-2.5 truncate">
+                            <!-- แสดงบริการที่เลือกพร้อมไอคอนโซเชียล -->
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400 shrink-0 ml-2 transition-transform duration-200" id="serviceArrow"></i>
+                    </button>
+                    <!-- รายการตัวเลือกบริการ -->
+                    <div id="serviceDropdownMenu" class="hidden absolute z-30 left-0 right-0 mt-1.5 bg-white rounded-2xl shadow-xl border border-gray-100 max-h-64 overflow-y-auto py-1.5">
+                        <!-- รายการจะถูกสร้างด้วย JavaScript -->
                     </div>
+
                     <!-- กล่องรายละเอียดบริการย่อ (เรทราคา / ขั้นต่ำ-สูงสุด) -->
                     <div id="serviceMeta" class="mt-2 px-3 py-2 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
                         <span id="serviceRateText">เรท: ฿0.00 / 1,000</span>
@@ -184,36 +184,47 @@
                 </div>
 
                 <div class="grid grid-cols-4 gap-2.5 mt-3">
-                    <button type="button" onclick="showToast('เปิดหน้าประวัติการสั่งซื้อ')" class="flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:bg-gray-50 transition shadow-sm">
-                        <i class="fa-solid fa-clock-rotate-left text-blue-500 text-lg mb-1"></i>
+                    <button type="button" onclick="showToast('เปิดหน้าต่างเติมเงินอัตโนมัติ (PromptPay / TrueMoney)', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700">เติมเงิน</span>
+                    </button>
+
+                    <button type="button" onclick="showToast('กำลังโหลดรายการประวัติการสั่งซื้อของคุณ...', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
                         <span class="text-[11px] font-medium text-gray-700">ประวัติสั่งซื้อ</span>
                     </button>
-                    <button type="button" onclick="showToast('เปิดหน้าเติมเงินเข้าระบบ')" class="flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:bg-gray-50 transition shadow-sm">
-                        <i class="fa-solid fa-wallet text-emerald-500 text-lg mb-1"></i>
-                        <span class="text-[11px] font-medium text-gray-700">เติมเครดิต</span>
+
+                    <button type="button" onclick="showToast('เชื่อมต่อ LINE Official เพื่อรับการแจ้งเตือนสถานะออเดอร์', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-[#06C755] text-white flex items-center justify-center text-sm">
+                            <i class="fa-brands fa-line"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700">LINE แจ้งเตือน</span>
                     </button>
-                    <button type="button" onclick="showToast('เปิดดูเรทราคาทั้งหมด')" class="flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:bg-gray-50 transition shadow-sm">
-                        <i class="fa-solid fa-tags text-amber-500 text-lg mb-1"></i>
-                        <span class="text-[11px] font-medium text-gray-700">เรทราคา</span>
-                    </button>
-                    <button type="button" onclick="showToast('ติดต่อแอดมินผ่าน LINE')" class="flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:bg-gray-50 transition shadow-sm">
-                        <i class="fa-brands fa-line text-[#06c755] text-lg mb-1"></i>
-                        <span class="text-[11px] font-medium text-gray-700">ติดต่อเรา</span>
+
+                    <button type="button" onclick="showToast('ติดต่อแอดมินดูแลตลอด 24 ชั่วโมง', 'info')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700">ติดต่อแอดมิน</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal / Toast แจ้งเตือนแบบนุ่มนวล (ไม่ใช้ alert()) -->
-    <div id="toastModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4 transition-opacity">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl transform transition-all text-center">
+    <!-- Modal แจ้งเตือนแบบสวยงาม (แทนการใช้ alert) -->
+    <div id="toastModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+        <div class="bg-white rounded-3xl max-w-xs w-full p-6 text-center shadow-2xl transform transition-all">
             <div id="toastIcon" class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-2xl">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h3 id="toastTitle" class="text-lg font-bold text-gray-900 mb-1">ทำรายการสำเร็จ</h3>
-            <p id="toastMessage" class="text-sm text-gray-500 mb-5 leading-relaxed">รายละเอียดคำสั่งซื้อของคุณถูกส่งเข้าสู่ระบบเรียบร้อยแล้ว</p>
-            <button type="button" onclick="closeToast()" class="w-full bg-gray-900 text-white font-medium text-sm py-3.5 rounded-2xl hover:bg-gray-800 transition">
+            <h3 id="toastTitle" class="text-base font-bold text-gray-900 mb-1">สำเร็จ</h3>
+            <p id="toastMessage" class="text-xs text-gray-500 leading-relaxed mb-5">ข้อความแจ้งเตือน</p>
+            <button type="button" onclick="closeToast()" class="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold py-3 rounded-xl transition">
                 ตกลง
             </button>
         </div>
@@ -221,10 +232,10 @@
 
     <script>
         // ==========================================
-        // 1. ฐานข้อมูลหัวเมนูแพลตฟอร์มและบริการทั้งหมด
+        // 1. ข้อมูลแพลตฟอร์มและบริการทั้งหมด
         // ==========================================
         const PLATFORMS = [
-            { id: 'all', name: 'ทั้งหมด', icon: 'fa-solid fa-layer-group', color: 'text-gray-800' },
+            { id: 'all', name: 'ทั้งหมด', icon: 'fa-solid fa-layer-group', color: 'text-gray-700' },
             { id: 'thai', name: 'คนไทย', icon: 'fa-solid fa-flag', color: 'text-red-500' },
             { id: 'facebook', name: 'Facebook', icon: 'fa-brands fa-facebook', color: 'text-blue-600' },
             { id: 'tiktok', name: 'TikTok', icon: 'fa-brands fa-tiktok', color: 'text-gray-900' },
@@ -233,56 +244,92 @@
             { id: 'twitter', name: 'Twitter', icon: 'fa-brands fa-x-twitter', color: 'text-gray-900' },
             { id: 'shopee', name: 'Shopee', icon: 'fa-solid fa-bag-shopping', color: 'text-orange-500' },
             { id: 'twitch', name: 'Twitch', icon: 'fa-brands fa-twitch', color: 'text-purple-600' },
-            { id: 'other', name: 'อื่นๆ', icon: 'fa-solid fa-globe', color: 'text-teal-600' }
+            { id: 'other', name: 'อื่นๆ', icon: 'fa-solid fa-ellipsis', color: 'text-teal-600' }
         ];
 
-        // ข้อมูลบริการจำลองแยกตามแพลตฟอร์มและหมวดหมู่
+        // ข้อมูลบริการจำลองแยกตามแพลตฟอร์มและหมวดหมู่ (เพิ่ม region: 'thai' | 'inter' และ socialType)
         const SERVICES_DATA = [
             // คนไทย
-            { id: 101, platform: 'thai', platformLabel: 'Facebook (บัญชีคนไทยแท้)', linkExample: 'https://www.facebook.com/username/posts/123456', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 101 - ปั๊มไลก์โพสต์ Facebook คนไทยแท้ (งานไว)', rate: 65.00, min: 20, max: 5000 },
-            { id: 102, platform: 'thai', platformLabel: 'TikTok (บัญชีคนไทยแท้)', linkExample: 'https://www.tiktok.com/@username/video/7123456789', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 102 - ปั๊มหัวใจวิดีโอ TikTok คนไทยมีตัวตน', rate: 85.00, min: 50, max: 10000 },
-            { id: 103, platform: 'thai', platformLabel: 'Instagram (บัญชีคนไทยแท้)', linkExample: 'https://www.instagram.com/p/CxYz12345/', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 103 - เพิ่มผู้ติดตาม IG คนไทยแท้ (รับประกัน 30 วัน)', rate: 120.00, min: 50, max: 3000 },
+            { id: 101, platform: 'thai', region: 'thai', socialType: 'facebook', platformLabel: 'Facebook (บัญชีคนไทยแท้)', linkExample: 'https://www.facebook.com/username/posts/123456', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 101 - ปั๊มไลก์โพสต์ Facebook คนไทยแท้ (งานไว)', rate: 65.00, min: 20, max: 5000 },
+            { id: 102, platform: 'thai', region: 'thai', socialType: 'tiktok', platformLabel: 'TikTok (บัญชีคนไทยแท้)', linkExample: 'https://www.tiktok.com/@username/video/7123456789', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 102 - ปั๊มหัวใจวิดีโอ TikTok คนไทยมีตัวตน', rate: 85.00, min: 50, max: 10000 },
+            { id: 103, platform: 'thai', region: 'thai', socialType: 'instagram', platformLabel: 'Instagram (บัญชีคนไทยแท้)', linkExample: 'https://www.instagram.com/p/CxYz12345/', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 103 - เพิ่มผู้ติดตาม IG คนไทยแท้ (รับประกัน 30 วัน)', rate: 120.00, min: 50, max: 3000 },
 
             // Facebook
-            { id: 201, platform: 'facebook', platformLabel: 'Facebook (โพสต์ / รูปภาพ / วิดีโอ)', linkExample: 'https://www.facebook.com/page/posts/123456789', category: 'Facebook - ปั๊มไลก์โพสต์ / อิโมจิ', name: 'ID 201 - ปั๊มไลก์โพสต์ Facebook ราคาประหยัด (เริ่มต้นทันที)', rate: 18.50, min: 50, max: 50000 },
-            { id: 202, platform: 'facebook', platformLabel: 'Facebook (โพสต์ / รูปภาพ)', linkExample: 'https://www.facebook.com/page/posts/123456789', category: 'Facebook - ปั๊มไลก์โพสต์ / อิโมจิ', name: 'ID 202 - ปั๊มอิโมจิ หัวใจ ❤️ / ว้าว 😮 (เลือกได้)', rate: 25.00, min: 50, max: 20000 },
-            { id: 203, platform: 'facebook', platformLabel: 'Facebook (ลิงก์เพจ หรือ โปรไฟล์)', linkExample: 'https://www.facebook.com/YourPageName', category: 'Facebook - เพิ่มผู้ติดตามเพจ / โปรไฟล์', name: 'ID 203 - เพิ่มผู้ติดตามเพจ + ถูกใจเพจ (รับประกันไม่ลด)', rate: 45.00, min: 100, max: 100000 },
-            { id: 204, platform: 'facebook', platformLabel: 'Facebook (ลิงก์ไลฟ์สด Live Stream)', linkExample: 'https://www.facebook.com/watch/live/?v=123456', category: 'Facebook - ปั๊มคนดูไลฟ์สด (Live)', name: 'ID 204 - คนดูไลฟ์สด Facebook อยู่ครบ 60 นาที', rate: 90.00, min: 50, max: 5000 },
+            { id: 201, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (โพสต์ / รูปภาพ / วิดีโอ)', linkExample: 'https://www.facebook.com/page/posts/123456789', category: 'Facebook - ปั๊มไลก์โพสต์ / อิโมจิ', name: 'ID 201 - ปั๊มไลก์โพสต์ Facebook ราคาประหยัด (เริ่มต้นทันที)', rate: 18.50, min: 50, max: 50000 },
+            { id: 202, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (โพสต์ / รูปภาพ)', linkExample: 'https://www.facebook.com/page/posts/123456789', category: 'Facebook - ปั๊มไลก์โพสต์ / อิโมจิ', name: 'ID 202 - ปั๊มอิโมจิ หัวใจ ❤️ / ว้าว 😮 (เลือกได้)', rate: 25.00, min: 50, max: 20000 },
+            { id: 203, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (ลิงก์เพจ หรือ โปรไฟล์)', linkExample: 'https://www.facebook.com/YourPageName', category: 'Facebook - เพิ่มผู้ติดตามเพจ / โปรไฟล์', name: 'ID 203 - เพิ่มผู้ติดตามเพจ + ถูกใจเพจ (รับประกันไม่ลด)', rate: 45.00, min: 100, max: 100000 },
+            { id: 204, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (ลิงก์ไลฟ์สด Live Stream)', linkExample: 'https://www.facebook.com/watch/live/?v=123456', category: 'Facebook - ปั๊มคนดูไลฟ์สด (Live)', name: 'ID 204 - คนดูไลฟ์สด Facebook อยู่ครบ 60 นาที', rate: 90.00, min: 50, max: 5000 },
 
             // TikTok
-            { id: 301, platform: 'tiktok', platformLabel: 'TikTok (ลิงก์วิดีโอ)', linkExample: 'https://vt.tiktok.com/ZSNxxxxxx/', category: 'TikTok - ปั๊มวิว / ยอดเข้าชมวิดีโอ', name: 'ID 301 - ปั๊มวิว TikTok ความเร็วสูง (ขึ้นทันที 0-5 นาที)', rate: 2.50, min: 100, max: 1000000 },
-            { id: 302, platform: 'tiktok', platformLabel: 'TikTok (ลิงก์วิดีโอ)', linkExample: 'https://www.tiktok.com/@user/video/7283910293', category: 'TikTok - ปั๊มหัวใจ (Likes)', name: 'ID 302 - ปั๊มหัวใจ TikTok คุณภาพสูง ไม่ลด', rate: 19.00, min: 50, max: 100000 },
-            { id: 303, platform: 'tiktok', platformLabel: 'TikTok (ลิงก์โปรไฟล์ @username)', linkExample: 'https://www.tiktok.com/@yourusername', category: 'TikTok - เพิ่มผู้ติดตาม (Followers)', name: 'ID 303 - เพิ่มผู้ติดตาม TikTok บัญชีต่างชาติ (เปิดไลฟ์ได้)', rate: 55.00, min: 100, max: 50000 },
+            { id: 301, platform: 'tiktok', region: 'inter', socialType: 'tiktok', platformLabel: 'TikTok (ลิงก์วิดีโอ)', linkExample: 'https://vt.tiktok.com/ZSNxxxxxx/', category: 'TikTok - ปั๊มวิว / ยอดเข้าชมวิดีโอ', name: 'ID 301 - ปั๊มวิว TikTok ความเร็วสูง (ขึ้นทันที 0-5 นาที)', rate: 2.50, min: 100, max: 1000000 },
+            { id: 302, platform: 'tiktok', region: 'inter', socialType: 'tiktok', platformLabel: 'TikTok (ลิงก์วิดีโอ)', linkExample: 'https://www.tiktok.com/@user/video/7283910293', category: 'TikTok - ปั๊มหัวใจ (Likes)', name: 'ID 302 - ปั๊มหัวใจ TikTok คุณภาพสูง ไม่ลด', rate: 19.00, min: 50, max: 100000 },
+            { id: 303, platform: 'tiktok', region: 'inter', socialType: 'tiktok', platformLabel: 'TikTok (ลิงก์โปรไฟล์ @username)', linkExample: 'https://www.tiktok.com/@yourusername', category: 'TikTok - เพิ่มผู้ติดตาม (Followers)', name: 'ID 303 - เพิ่มผู้ติดตาม TikTok บัญชีต่างชาติ (เปิดไลฟ์ได้)', rate: 55.00, min: 100, max: 50000 },
 
             // Instagram
-            { id: 401, platform: 'instagram', platformLabel: 'Instagram (ลิงก์โพสต์ หรือ Reels)', linkExample: 'https://www.instagram.com/p/C8xxxxxx/', category: 'Instagram - ปั๊มไลก์รูปภาพ / Reels', name: 'ID 401 - ปั๊มไลก์ IG งานไว ราคาถูกที่สุด', rate: 12.00, min: 50, max: 100000 },
-            { id: 402, platform: 'instagram', platformLabel: 'Instagram (ลิงก์โปรไฟล์ IG)', linkExample: 'https://www.instagram.com/yourusername/', category: 'Instagram - เพิ่มผู้ติดตาม (Followers)', name: 'ID 402 - เพิ่มผู้ติดตาม IG รับประกัน 365 วัน (เติมอัตโนมัติ)', rate: 38.00, min: 100, max: 200000 },
+            { id: 401, platform: 'instagram', region: 'inter', socialType: 'instagram', platformLabel: 'Instagram (ลิงก์โพสต์ หรือ Reels)', linkExample: 'https://www.instagram.com/p/C8xxxxxx/', category: 'Instagram - ปั๊มไลก์รูปภาพ / Reels', name: 'ID 401 - ปั๊มไลก์ IG งานไว ราคาถูกที่สุด', rate: 12.00, min: 50, max: 100000 },
+            { id: 402, platform: 'instagram', region: 'inter', socialType: 'instagram', platformLabel: 'Instagram (ลิงก์โปรไฟล์ IG)', linkExample: 'https://www.instagram.com/yourusername/', category: 'Instagram - เพิ่มผู้ติดตาม (Followers)', name: 'ID 402 - เพิ่มผู้ติดตาม IG รับประกัน 365 วัน (เติมอัตโนมัติ)', rate: 38.00, min: 100, max: 200000 },
 
             // YouTube
-            { id: 501, platform: 'youtube', platformLabel: 'YouTube (ลิงก์วิดีโอ หรือ Shorts)', linkExample: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', category: 'YouTube - เพิ่มยอดวิว (Views)', name: 'ID 501 - เพิ่มยอดวิว YouTube คุณภาพสูง (ไม่ลด)', rate: 42.00, min: 100, max: 500000 },
-            { id: 502, platform: 'youtube', platformLabel: 'YouTube (ลิงก์ช่อง YouTube Channel)', linkExample: 'https://www.youtube.com/@YourChannel', category: 'YouTube - เพิ่มผู้ติดตามช่อง (Subscribers)', name: 'ID 502 - เพิ่มซับ YouTube รับประกัน 30 วัน', rate: 280.00, min: 50, max: 10000 },
+            { id: 501, platform: 'youtube', region: 'inter', socialType: 'youtube', platformLabel: 'YouTube (ลิงก์วิดีโอ หรือ Shorts)', linkExample: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', category: 'YouTube - เพิ่มยอดวิว (Views)', name: 'ID 501 - เพิ่มยอดวิว YouTube คุณภาพสูง (ไม่ลด)', rate: 42.00, min: 100, max: 500000 },
+            { id: 502, platform: 'youtube', region: 'inter', socialType: 'youtube', platformLabel: 'YouTube (ลิงก์ช่อง YouTube Channel)', linkExample: 'https://www.youtube.com/@YourChannel', category: 'YouTube - เพิ่มผู้ติดตามช่อง (Subscribers)', name: 'ID 502 - เพิ่มซับ YouTube รับประกัน 30 วัน', rate: 280.00, min: 50, max: 10000 },
 
             // Twitter (X)
-            { id: 601, platform: 'twitter', platformLabel: 'Twitter / X (ลิงก์ทวีตโพสต์)', linkExample: 'https://x.com/username/status/17283910293', category: 'Twitter (X) - ปั๊มหัวใจ & รีทวีต', name: 'ID 601 - ปั๊มหัวใจโพสต์ Twitter (X) ขึ้นไว', rate: 28.00, min: 50, max: 50000 },
-            { id: 602, platform: 'twitter', platformLabel: 'Twitter / X (ลิงก์โปรไฟล์)', linkExample: 'https://x.com/yourusername', category: 'Twitter (X) - เพิ่มผู้ติดตาม', name: 'ID 602 - เพิ่มผู้ติดตาม Twitter (X) คุณภาพสูง', rate: 65.00, min: 50, max: 25000 },
+            { id: 601, platform: 'twitter', region: 'inter', socialType: 'twitter', platformLabel: 'Twitter / X (ลิงก์ทวีตโพสต์)', linkExample: 'https://x.com/username/status/17283910293', category: 'Twitter (X) - ปั๊มหัวใจ & รีทวีต', name: 'ID 601 - ปั๊มหัวใจโพสต์ Twitter (X) ขึ้นไว', rate: 28.00, min: 50, max: 50000 },
+            { id: 602, platform: 'twitter', region: 'inter', socialType: 'twitter', platformLabel: 'Twitter / X (ลิงก์โปรไฟล์)', linkExample: 'https://x.com/yourusername', category: 'Twitter (X) - เพิ่มผู้ติดตาม', name: 'ID 602 - เพิ่มผู้ติดตาม Twitter (X) คุณภาพสูง', rate: 65.00, min: 50, max: 25000 },
 
             // Shopee
-            { id: 701, platform: 'shopee', platformLabel: 'Shopee (ลิงก์ร้านค้า Shopee)', linkExample: 'https://shopee.co.th/yourshopname', category: 'Shopee - เพิ่มผู้ติดตามร้านค้า', name: 'ID 701 - เพิ่มผู้ติดตามร้านค้า Shopee (เพิ่มความน่าเชื่อถือ)', rate: 49.00, min: 100, max: 50000 },
-            { id: 702, platform: 'shopee', platformLabel: 'Shopee (ลิงก์สินค้า)', linkExample: 'https://shopee.co.th/product/12345/67890', category: 'Shopee - ปั๊มถูกใจสินค้า', name: 'ID 702 - ปั๊มกดหัวใจสินค้า Shopee ดันอันดับค้นหา', rate: 35.00, min: 50, max: 20000 },
+            { id: 701, platform: 'shopee', region: 'thai', socialType: 'shopee', platformLabel: 'Shopee (ลิงก์ร้านค้า Shopee)', linkExample: 'https://shopee.co.th/yourshopname', category: 'Shopee - เพิ่มผู้ติดตามร้านค้า', name: 'ID 701 - เพิ่มผู้ติดตามร้านค้า Shopee (เพิ่มความน่าเชื่อถือ)', rate: 49.00, min: 100, max: 50000 },
+            { id: 702, platform: 'shopee', region: 'thai', socialType: 'shopee', platformLabel: 'Shopee (ลิงก์สินค้า)', linkExample: 'https://shopee.co.th/product/12345/67890', category: 'Shopee - ปั๊มถูกใจสินค้า', name: 'ID 702 - ปั๊มกดหัวใจสินค้า Shopee ดันอันดับค้นหา', rate: 35.00, min: 50, max: 20000 },
 
             // Twitch
-            { id: 801, platform: 'twitch', platformLabel: 'Twitch (ลิงก์ช่องสตรีม)', linkExample: 'https://www.twitch.tv/yourchannel', category: 'Twitch - เพิ่มผู้ติดตามช่อง', name: 'ID 801 - เพิ่มผู้ติดตาม Twitch (Followers) งานไว', rate: 32.00, min: 50, max: 50000 },
-            { id: 802, platform: 'twitch', platformLabel: 'Twitch (ลิงก์ช่องขณะไลฟ์สด)', linkExample: 'https://www.twitch.tv/yourchannel', category: 'Twitch - คนดูสตรีมสด', name: 'ID 802 - คนดูไลฟ์สด Twitch 30 นาที', rate: 110.00, min: 20, max: 2000 },
+            { id: 801, platform: 'twitch', region: 'inter', socialType: 'twitch', platformLabel: 'Twitch (ลิงก์ช่องสตรีม)', linkExample: 'https://www.twitch.tv/yourchannel', category: 'Twitch - เพิ่มผู้ติดตามช่อง', name: 'ID 801 - เพิ่มผู้ติดตาม Twitch (Followers) งานไว', rate: 32.00, min: 50, max: 50000 },
+            { id: 802, platform: 'twitch', region: 'inter', socialType: 'twitch', platformLabel: 'Twitch (ลิงก์ช่องขณะไลฟ์สด)', linkExample: 'https://www.twitch.tv/yourchannel', category: 'Twitch - คนดูสตรีมสด', name: 'ID 802 - คนดูไลฟ์สด Twitch 30 นาที', rate: 110.00, min: 20, max: 2000 },
 
             // อื่นๆ
-            { id: 901, platform: 'other', platformLabel: 'Telegram (ลิงก์ช่อง หรือ กลุ่ม)', linkExample: 'https://t.me/yourchannel', category: 'อื่นๆ - Telegram / Discord / Threads', name: 'ID 901 - เพิ่มสมาชิกช่อง Telegram (ไม่ลด)', rate: 45.00, min: 100, max: 100000 },
-            { id: 902, platform: 'other', platformLabel: 'Threads (ลิงก์โปรไฟล์ Threads)', linkExample: 'https://www.threads.net/@username', category: 'อื่นๆ - Telegram / Discord / Threads', name: 'ID 902 - เพิ่มผู้ติดตาม Threads บัญชีคุณภาพ', rate: 55.00, min: 50, max: 20000 }
+            { id: 901, platform: 'other', region: 'inter', socialType: 'telegram', platformLabel: 'Telegram (ลิงก์ช่อง หรือ กลุ่ม)', linkExample: 'https://t.me/yourchannel', category: 'อื่นๆ - Telegram / Discord / Threads', name: 'ID 901 - เพิ่มสมาชิกช่อง Telegram (ไม่ลด)', rate: 45.00, min: 100, max: 100000 },
+            { id: 902, platform: 'other', region: 'inter', socialType: 'threads', platformLabel: 'Threads (ลิงก์โปรไฟล์ Threads)', linkExample: 'https://www.threads.net/@username', category: 'อื่นๆ - Telegram / Discord / Threads', name: 'ID 902 - เพิ่มผู้ติดตาม Threads บัญชีคุณภาพ', rate: 55.00, min: 50, max: 20000 }
         ];
+
+        // ฟังก์ชันคืนค่า HTML ไอคอนธงชาติไทย / ต่างประเทศ สำหรับหมวดหมู่
+        function getRegionBadgeHTML(region) {
+            if (region === 'thai') {
+                return `
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50 text-red-600 border border-red-100 text-[11px] font-semibold shrink-0">
+                        <svg class="w-3.5 h-2.5 rounded-[2px] shadow-2xs" viewBox="0 0 900 600"><rect width="900" height="600" fill="#ED1C24"/><rect y="100" width="900" height="400" fill="#fff"/><rect y="200" width="900" height="200" fill="#241D4F"/></svg>
+                        <span>ไทย</span>
+                    </span>
+                `;
+            }
+            return `
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 border border-blue-100 text-[11px] font-semibold shrink-0">
+                    <i class="fa-solid fa-earth-americas text-[11px]"></i>
+                    <span>ต่างประเทศ</span>
+                </span>
+            `;
+        }
+
+        // ฟังก์ชันคืนค่า HTML ไอคอนโซเชียลมีเดียสำหรับรายการบริการ
+        function getSocialIconHTML(socialType) {
+            const map = {
+                facebook: { icon: 'fa-brands fa-facebook', bg: 'bg-blue-100 text-blue-600' },
+                tiktok: { icon: 'fa-brands fa-tiktok', bg: 'bg-zinc-900 text-white' },
+                instagram: { icon: 'fa-brands fa-instagram', bg: 'bg-pink-100 text-pink-600' },
+                youtube: { icon: 'fa-brands fa-youtube', bg: 'bg-red-100 text-red-600' },
+                twitter: { icon: 'fa-brands fa-x-twitter', bg: 'bg-gray-200 text-gray-900' },
+                shopee: { icon: 'fa-solid fa-bag-shopping', bg: 'bg-orange-100 text-orange-600' },
+                twitch: { icon: 'fa-brands fa-twitch', bg: 'bg-purple-100 text-purple-600' },
+                telegram: { icon: 'fa-brands fa-telegram', bg: 'bg-sky-100 text-sky-600' },
+                threads: { icon: 'fa-brands fa-threads', bg: 'bg-gray-200 text-gray-900' }
+            };
+            const item = map[socialType] || { icon: 'fa-solid fa-globe', bg: 'bg-teal-100 text-teal-600' };
+            return `<span class="w-6 h-6 rounded-lg ${item.bg} flex items-center justify-center shrink-0 text-xs"><i class="${item.icon}"></i></span>`;
+        }
 
         // ==========================================
         // 2. ตัวแปรเก็บสถานะปัจจุบัน (State)
         // ==========================================
         let currentPlatformId = 'all';
+        let currentCategory = '';
         let filteredServices = [...SERVICES_DATA];
         let selectedService = SERVICES_DATA[0];
 
@@ -290,8 +337,10 @@
         const platformTabsEl = document.getElementById('platformTabs');
         const searchInputEl = document.getElementById('searchInput');
         const clearSearchBtnEl = document.getElementById('clearSearchBtn');
-        const categorySelectEl = document.getElementById('categorySelect');
-        const serviceSelectEl = document.getElementById('serviceSelect');
+        const categorySelectedDisplayEl = document.getElementById('categorySelectedDisplay');
+        const categoryDropdownMenuEl = document.getElementById('categoryDropdownMenu');
+        const serviceSelectedDisplayEl = document.getElementById('serviceSelectedDisplay');
+        const serviceDropdownMenuEl = document.getElementById('serviceDropdownMenu');
         const linkInputEl = document.getElementById('linkInput');
         const platformLinkHintEl = document.getElementById('platformLinkHint');
         const quantityInputEl = document.getElementById('quantityInput');
@@ -299,31 +348,70 @@
         const serviceRateTextEl = document.getElementById('serviceRateText');
         const serviceMinMaxTextEl = document.getElementById('serviceMinMaxText');
 
+        // จัดการเปิด-ปิด Custom Dropdown
+        function toggleDropdown(type) {
+            const catMenu = document.getElementById('categoryDropdownMenu');
+            const srvMenu = document.getElementById('serviceDropdownMenu');
+            const catArrow = document.getElementById('categoryArrow');
+            const srvArrow = document.getElementById('serviceArrow');
+
+            if (type === 'category') {
+                const isHidden = catMenu.classList.contains('hidden');
+                srvMenu.classList.add('hidden');
+                srvArrow.classList.remove('rotate-180');
+                if (isHidden) {
+                    catMenu.classList.remove('hidden');
+                    catArrow.classList.add('rotate-180');
+                } else {
+                    catMenu.classList.add('hidden');
+                    catArrow.classList.remove('rotate-180');
+                }
+            } else {
+                const isHidden = srvMenu.classList.contains('hidden');
+                catMenu.classList.add('hidden');
+                catArrow.classList.remove('rotate-180');
+                if (isHidden) {
+                    srvMenu.classList.remove('hidden');
+                    srvArrow.classList.add('rotate-180');
+                } else {
+                    srvMenu.classList.add('hidden');
+                    srvArrow.classList.remove('rotate-180');
+                }
+            }
+        }
+
+        // ปิด Dropdown อัตโนมัติเมื่อคลิกพื้นที่ด้านนอก
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('categoryDropdownWrapper').contains(e.target)) {
+                document.getElementById('categoryDropdownMenu').classList.add('hidden');
+                document.getElementById('categoryArrow').classList.remove('rotate-180');
+            }
+            if (!document.getElementById('serviceDropdownWrapper').contains(e.target)) {
+                document.getElementById('serviceDropdownMenu').classList.add('hidden');
+                document.getElementById('serviceArrow').classList.remove('rotate-180');
+            }
+        });
+
         // ==========================================
-        // 3. ฟังก์ชันสร้างและจัดการแถบหัวเมนูแพลตฟอร์ม
+        // 3. สร้างปุ่มหัวเมนูแพลตฟอร์ม (สลับได้ + เลื่อนได้)
         // ==========================================
         function renderPlatformTabs() {
             platformTabsEl.innerHTML = '';
-            PLATFORMS.forEach(platform => {
-                const isActive = platform.id === currentPlatformId;
+            PLATFORMS.forEach(plat => {
+                const isActive = plat.id === currentPlatformId;
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.dataset.id = platform.id;
-                
-                // สไตล์ปุ่มแท็บ: Active เป็นพื้นขาวมีเงาเหมือนปุ่ม "เปิดใช้งานบัญชีใหม่" ในภาพตัวอย่าง
-                btn.className = isActive
-                    ? 'flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-gray-900 font-semibold text-xs shadow-sm whitespace-nowrap transition-all duration-200 shrink-0'
-                    : 'flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-gray-500 hover:text-gray-800 font-medium text-xs whitespace-nowrap transition-all duration-200 shrink-0';
-
+                btn.dataset.id = plat.id;
+                btn.className = `flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+                    isActive 
+                    ? 'bg-white text-gray-900 shadow-sm' 
+                    : 'text-gray-500 hover:text-gray-800 hover:bg-white/50'
+                }`;
                 btn.innerHTML = `
-                    <i class="${platform.icon} ${isActive ? platform.color : 'text-gray-400'} text-sm"></i>
-                    <span>${platform.name}</span>
+                    <i class="${plat.icon} ${isActive ? plat.color : 'text-gray-400'}"></i>
+                    <span>${plat.name}</span>
                 `;
-
-                btn.addEventListener('click', () => {
-                    selectPlatform(platform.id, btn);
-                });
-
+                btn.addEventListener('click', () => selectPlatform(plat.id, btn));
                 platformTabsEl.appendChild(btn);
             });
         }
@@ -360,41 +448,74 @@
                 return matchPlatform && matchKeyword;
             });
 
-            // ดึงรายการหมวดหมู่ที่ไม่ซ้ำกัน
-            const categories = [...new Set(filteredServices.map(s => s.category))];
+            // ดึงรายการหมวดหมู่ที่ไม่ซ้ำกันพร้อมประเภท (ไทย / ต่างประเทศ)
+            const categoryMap = new Map();
+            filteredServices.forEach(s => {
+                if (!categoryMap.has(s.category)) {
+                    categoryMap.set(s.category, s.region);
+                }
+            });
 
-            categorySelectEl.innerHTML = '';
-            if (categories.length === 0) {
-                const opt = document.createElement('option');
-                opt.value = '';
-                opt.textContent = 'ไม่พบหมวดหมู่ที่ตรงกับการค้นหา';
-                categorySelectEl.appendChild(opt);
-                
-                serviceSelectEl.innerHTML = '<option value="">ไม่พบบริการ</option>';
+            categoryDropdownMenuEl.innerHTML = '';
+            if (categoryMap.size === 0) {
+                categorySelectedDisplayEl.innerHTML = `<span class="text-gray-400">ไม่พบหมวดหมู่ที่ตรงกับการค้นหา</span>`;
+                serviceSelectedDisplayEl.innerHTML = `<span class="text-gray-400">ไม่พบบริการ</span>`;
+                serviceDropdownMenuEl.innerHTML = '';
                 updateServiceDetails(null);
                 return;
             }
 
-            categories.forEach(cat => {
-                const opt = document.createElement('option');
-                opt.value = cat;
-                opt.textContent = cat;
-                categorySelectEl.appendChild(opt);
+            categoryMap.forEach((region, catName) => {
+                const itemBtn = document.createElement('button');
+                itemBtn.type = 'button';
+                itemBtn.className = 'w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 flex items-center gap-2.5 transition border-b border-gray-50 last:border-none';
+                itemBtn.innerHTML = `
+                    ${getRegionBadgeHTML(region)}
+                    <span class="text-gray-800 font-medium truncate">${catName}</span>
+                `;
+                itemBtn.addEventListener('click', () => {
+                    selectCategory(catName, region);
+                    document.getElementById('categoryDropdownMenu').classList.add('hidden');
+                    document.getElementById('categoryArrow').classList.remove('rotate-180');
+                });
+                categoryDropdownMenuEl.appendChild(itemBtn);
             });
 
-            // อัปเดตรายการบริการของหมวดหมู่แรก
-            populateServicesByCategory(categories[0]);
+            // เลือกหมวดหมู่แรกเป็นค่าเริ่มต้น
+            const firstEntry = categoryMap.entries().next().value;
+            selectCategory(firstEntry[0], firstEntry[1]);
+        }
+
+        function selectCategory(catName, region) {
+            currentCategory = catName;
+            categorySelectedDisplayEl.innerHTML = `
+                ${getRegionBadgeHTML(region)}
+                <span class="text-gray-800 font-medium truncate">${catName}</span>
+            `;
+            populateServicesByCategory(catName);
         }
 
         function populateServicesByCategory(selectedCategory) {
             const servicesInCat = filteredServices.filter(s => s.category === selectedCategory);
-            serviceSelectEl.innerHTML = '';
+            serviceDropdownMenuEl.innerHTML = '';
 
             servicesInCat.forEach(srv => {
-                const opt = document.createElement('option');
-                opt.value = srv.id;
-                opt.textContent = `${srv.name} — ฿${srv.rate.toFixed(2)}/1,000`;
-                serviceSelectEl.appendChild(opt);
+                const itemBtn = document.createElement('button');
+                itemBtn.type = 'button';
+                itemBtn.className = 'w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 flex items-center justify-between gap-2 transition border-b border-gray-50 last:border-none';
+                itemBtn.innerHTML = `
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        ${getSocialIconHTML(srv.socialType)}
+                        <span class="text-gray-800 font-medium truncate">${srv.name}</span>
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md shrink-0">฿${srv.rate.toFixed(2)}</span>
+                `;
+                itemBtn.addEventListener('click', () => {
+                    updateServiceDetails(srv);
+                    document.getElementById('serviceDropdownMenu').classList.add('hidden');
+                    document.getElementById('serviceArrow').classList.remove('rotate-180');
+                });
+                serviceDropdownMenuEl.appendChild(itemBtn);
             });
 
             if (servicesInCat.length > 0) {
@@ -415,6 +536,12 @@
                 calculateTotal();
                 return;
             }
+
+            // อัปเดตการแสดงผลบริการที่เลือกพร้อมไอคอนโซเชียลในช่องหลัก
+            serviceSelectedDisplayEl.innerHTML = `
+                ${getSocialIconHTML(service.socialType)}
+                <span class="text-gray-800 font-medium truncate">${service.name}</span>
+            `;
 
             // อัปเดตเรทและขั้นต่ำ-สูงสุด
             serviceRateTextEl.textContent = `เรทราคา: ฿${service.rate.toFixed(2)} / 1,000`;
@@ -449,16 +576,6 @@
         // ==========================================
         // 6. Event Listeners และการโต้ตอบต่างๆ
         // ==========================================
-        categorySelectEl.addEventListener('change', (e) => {
-            populateServicesByCategory(e.target.value);
-        });
-
-        serviceSelectEl.addEventListener('change', (e) => {
-            const srvId = parseInt(e.target.value);
-            const found = filteredServices.find(s => s.id === srvId);
-            if (found) updateServiceDetails(found);
-        });
-
         quantityInputEl.addEventListener('input', calculateTotal);
 
         searchInputEl.addEventListener('input', () => {
