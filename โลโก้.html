@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบปั๊มไลก์ & เพิ่มยอดโซเชียลอัตโนมัติ</title>
+    <!-- นำเข้า Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- นำเข้าฟอนต์ Prompt และ Inter เพื่อความสวยงามและอ่านง่าย -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- นำเข้า FontAwesome สำหรับไอคอนแพลตฟอร์มต่างๆ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Prompt', 'Inter', sans-serif;
+            background-color: #18181b; /* พื้นหลังด้านบนสีเข้มเหมือนหน้าต่างโมดอลในแอป */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ซ่อน Scrollbar ของแถบเมนูแพลตฟอร์มแต่ยังเลื่อนได้ลื่นไหล */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-end sm:justify-center items-center sm:p-4">
+
+    <!-- Container หลักจำลองหน้าต่างแอปพลิเคชันโค้งมนด้านบนเหมือนในภาพ -->
+    <div class="w-full max-w-md bg-white min-h-[94vh] sm:min-h-0 sm:rounded-[32px] rounded-t-[32px] shadow-2xl flex flex-col justify-between overflow-hidden transition-all duration-300">
+        
+        <div class="p-6 pb-8">
+            <!-- ส่วนหัว (Header): โลโก้ + ชื่อระบบ + ยอดเงินคงเหลือ -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <!-- โลโก้สีแดงโค้งมนสไตล์เดียวกับภาพตัวอย่าง -->
+                    <div class="w-11 h-11 rounded-2xl bg-[#f42236] flex items-center justify-center text-white shadow-md shadow-red-500/20 shrink-0">
+                        <i class="fa-solid fa-bolt text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-gray-900 leading-tight">สั่งซื้อบริการปั๊มยอด</h1>
+                        <p class="text-xs text-gray-400">ระบบอัตโนมัติ 24 ชั่วโมง</p>
+                    </div>
+                </div>
+                
+                <!-- ปุ่มแสดงเครดิตคงเหลือ (สไตล์เดียวกับตัวเลือกภาษา "ไทย v" ในรูป) -->
+                <button type="button" onclick="showToast('ยอดเงินคงเหลือของคุณคือ ฿1,250.00')" class="flex items-center gap-1.5 text-sm font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 px-3 py-2 rounded-xl transition">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>฿1,250.00</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 ml-0.5"></i>
+                </button>
+            </div>
+
+            <!-- แถบหัวเมนูแพลตฟอร์ม: สลับได้ และเลื่อนแนวนอนได้ (Segmented Control Style) -->
+            <div class="bg-[#f3f4f6] p-1.5 rounded-2xl mb-5 relative">
+                <div id="platformTabs" class="flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth">
+                    <!-- ปุ่มแท็บจะถูกสร้างด้วย JavaScript เพื่อให้จัดการสถานะ Active ได้แม่นยำ -->
+                </div>
+            </div>
+
+            <!-- ฟอร์มสั่งซื้อบริการ -->
+            <form id="orderForm" class="space-y-3.5" onsubmit="handleOrderSubmit(event)">
+                
+                <!-- 1. ช่องค้นหาไอดี หรือคีย์เวิร์ด -->
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="ค้นหาด้วย ID บริการ หรือ คีย์เวิร์ด..." 
+                        class="w-full bg-[#f3f4f6] text-gray-800 placeholder-gray-400 text-sm rounded-2xl pl-11 pr-10 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition"
+                    >
+                    <button type="button" id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- 2. ช่องเลือกหมวดหมู่ (Custom Dropdown พร้อมไอคอน ไทย / ต่างประเทศ) -->
+                <div class="relative" id="categoryDropdownWrapper">
+                    <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">เลือกหมวดหมู่บริการ</label>
+                    <button type="button" id="categoryDropdownBtn" onclick="toggleDropdown('category')" class="w-full bg-[#f3f4f6] text-gray-800 text-sm font-medium rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition flex items-center justify-between text-left">
+                        <div id="categorySelectedDisplay" class="flex items-center gap-2.5 truncate">
+                            <!-- แสดงหมวดหมู่ที่เลือกพร้อมไอคอน -->
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400 shrink-0 ml-2 transition-transform duration-200" id="categoryArrow"></i>
+                    </button>
+                    <!-- รายการตัวเลือกหมวดหมู่ -->
+                    <div id="categoryDropdownMenu" class="hidden absolute z-30 left-0 right-0 mt-1.5 bg-white rounded-2xl shadow-xl border border-gray-100 max-h-60 overflow-y-auto py-1.5">
+                        <!-- รายการจะถูกสร้างด้วย JavaScript -->
+                    </div>
+                </div>
+
+                <!-- 3. ช่องเลือกบริการ (Custom Dropdown พร้อมไอคอนโซเชียลของบริการนั้นๆ) -->
+                <div class="relative" id="serviceDropdownWrapper">
+                    <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">เลือกบริการ</label>
+                    <button type="button" id="serviceDropdownBtn" onclick="toggleDropdown('service')" class="w-full bg-[#f3f4f6] text-gray-800 text-sm font-medium rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition flex items-center justify-between text-left">
+                        <div id="serviceSelectedDisplay" class="flex items-center gap-2.5 truncate">
+                            <!-- แสดงบริการที่เลือกพร้อมไอคอนโซเชียล -->
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400 shrink-0 ml-2 transition-transform duration-200" id="serviceArrow"></i>
+                    </button>
+                    <!-- รายการตัวเลือกบริการ -->
+                    <div id="serviceDropdownMenu" class="hidden absolute z-30 left-0 right-0 mt-1.5 bg-white rounded-2xl shadow-xl border border-gray-100 max-h-64 overflow-y-auto py-1.5">
+                        <!-- รายการจะถูกสร้างด้วย JavaScript -->
+                    </div>
+
+                    <!-- กล่องรายละเอียดบริการย่อ (เรทราคา / ขั้นต่ำ-สูงสุด) -->
+                    <div id="serviceMeta" class="mt-2 px-3 py-2 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
+                        <span id="serviceRateText">เรท: ฿0.00 / 1,000</span>
+                        <span id="serviceMinMaxText">ขั้นต่ำ: 10 - สูงสุด: 10,000</span>
+                    </div>
+                </div>
+
+                <!-- 4. ช่องวางลิงก์ของแพลตฟอร์ม + ข้อความระบุแพลตฟอร์มด้านล่าง -->
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">ลิงก์เป้าหมาย</label>
+                    <div class="relative">
+                        <input 
+                            type="url" 
+                            id="linkInput" 
+                            required
+                            placeholder="วางลิงก์ที่นี่..." 
+                            class="w-full bg-[#f3f4f6] text-gray-800 placeholder-gray-400 text-sm rounded-2xl pl-4 pr-16 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition"
+                        >
+                        <!-- ปุ่มวางลิงก์ด่วน -->
+                        <button type="button" onclick="pasteLink()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-gray-600 hover:text-gray-900 text-xs font-medium px-2.5 py-1.5 rounded-xl shadow-sm border border-gray-100 transition">
+                            วางลิงก์
+                        </button>
+                    </div>
+                    <!-- ข้อความใต้ฟอร์มบอกว่าเป็นลิงก์ของแพลตฟอร์มไหน (เปลี่ยนอัตโนมัติตามแพลตฟอร์ม) -->
+                    <div id="platformLinkHint" class="mt-1.5 ml-1 flex items-center gap-1.5 text-xs font-medium text-blue-600">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>กรุณาวางลิงก์ของแพลตฟอร์ม: Facebook (ตัวอย่าง: https://www.facebook.com/...)</span>
+                    </div>
+                </div>
+
+                <!-- 5. ระบุจำนวนที่ต้องการ และ 6. ค่าบริการที่ต้องชำระ (จัดวางคู่กันหรือเรียงสวยแบบฟอร์มในภาพ) -->
+                <div class="grid grid-cols-2 gap-3 pt-1">
+                    <!-- ระบุจำนวนที่ต้องการ -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">จำนวนที่ต้องการ</label>
+                        <input 
+                            type="number" 
+                            id="quantityInput" 
+                            required
+                            min="10"
+                            placeholder="ระบุจำนวน" 
+                            class="w-full bg-[#f3f4f6] text-gray-900 font-semibold placeholder-gray-400 text-sm rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:bg-white border border-transparent focus:border-gray-200 transition"
+                        >
+                    </div>
+
+                    <!-- ค่าบริการที่ต้องชำระ -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1.5 ml-1">ค่าบริการที่ต้องชำระ</label>
+                        <div class="w-full bg-[#f3f4f6] rounded-2xl px-4 py-3.5 flex items-center justify-between border border-transparent">
+                            <span id="totalPriceDisplay" class="text-sm font-bold text-gray-900">฿0.00</span>
+                            <span class="text-[11px] font-medium text-gray-400">THB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ปุ่มยืนยันการสั่งซื้อสีดำเข้มเต็มความกว้าง เหมือนปุ่ม "สร้างบัญชี" ในรูปต้นแบบ -->
+                <div class="pt-3">
+                    <button type="submit" class="w-full bg-[#09090b] hover:bg-zinc-800 active:scale-[0.99] text-white font-semibold text-sm py-4 rounded-2xl shadow-lg shadow-black/15 transition-all flex items-center justify-center gap-2">
+                        <span>ยืนยันการสั่งซื้อบริการ</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- ส่วนล่างสุด: วิธีการใช้งาน / ขั้นตอนการสั่งซื้อ / การตั้งค่าลิงก์สาธารณะ / กฎและเงื่อนไข -->
+            <div class="mt-6">
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-gray-100"></div>
+                    <span class="flex-shrink mx-3 text-xs text-gray-400">คู่มือ & วิธีการใช้งานระบบ</span>
+                    <div class="flex-grow border-t border-gray-100"></div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-2.5 mt-3">
+                    <button type="button" onclick="openGuideModal('steps')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">ขั้นตอนใช้งาน</span>
+                    </button>
+
+                    <button type="button" onclick="openGuideModal('public_link')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">ลิงก์สาธารณะ</span>
+                    </button>
+
+                    <button type="button" onclick="openGuideModal('copy_link')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">วิธีคัดลอกลิงก์</span>
+                    </button>
+
+                    <button type="button" onclick="openGuideModal('rules')" class="flex flex-col items-center justify-center p-2.5 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-gray-100 transition gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700 leading-tight text-center">ข้อควรระวัง</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal แสดงคู่มือ วิธีการใช้งาน และการค้นหาลิงก์สาธารณะแบบละเอียด -->
+    <div id="guideModal" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4">
+        <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+            <!-- ส่วนหัว Modal -->
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                <div class="flex items-center gap-2.5">
+                    <div id="guideModalIcon" class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-base">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 id="guideModalTitle" class="text-base font-bold text-gray-900">หัวข้อคู่มือ</h3>
+                </div>
+                <button type="button" onclick="closeGuideModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- เนื้อหาคู่มือ (เลื่อนอ่านได้) -->
+            <div id="guideModalBody" class="p-6 overflow-y-auto text-sm text-gray-600 space-y-4 leading-relaxed">
+                <!-- เนื้อหาจะถูกแทรกด้วย JavaScript -->
+            </div>
+
+            <!-- ปุ่มปิดด้านล่าง -->
+            <div class="p-4 border-t border-gray-100 bg-white">
+                <button type="button" onclick="closeGuideModal()" class="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold py-3.5 rounded-2xl transition">
+                    เข้าใจแล้ว / ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal แจ้งเตือนแบบสวยงาม (แทนการใช้ alert) -->
+    <div id="toastModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+        <div class="bg-white rounded-3xl max-w-xs w-full p-6 text-center shadow-2xl transform transition-all">
+            <div id="toastIcon" class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 id="toastTitle" class="text-base font-bold text-gray-900 mb-1">สำเร็จ</h3>
+            <p id="toastMessage" class="text-xs text-gray-500 leading-relaxed mb-5">ข้อความแจ้งเตือน</p>
+            <button type="button" onclick="closeToast()" class="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold py-3 rounded-xl transition">
+                ตกลง
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. ข้อมูลแพลตฟอร์มและบริการทั้งหมด
+        // ==========================================
+        const PLATFORMS = [
+            { id: 'all', name: 'ทั้งหมด', icon: 'fa-solid fa-layer-group', color: 'text-gray-700' },
+            { id: 'thai', name: 'คนไทย', icon: 'fa-solid fa-flag', color: 'text-red-500' },
+            { id: 'facebook', name: 'Facebook', icon: 'fa-brands fa-facebook', color: 'text-blue-600' },
+            { id: 'tiktok', name: 'TikTok', icon: 'fa-brands fa-tiktok', color: 'text-gray-900' },
+            { id: 'instagram', name: 'Instagram', icon: 'fa-brands fa-instagram', color: 'text-pink-600' },
+            { id: 'youtube', name: 'YouTube', icon: 'fa-brands fa-youtube', color: 'text-red-600' },
+            { id: 'twitter', name: 'Twitter', icon: 'fa-brands fa-x-twitter', color: 'text-gray-900' },
+            { id: 'shopee', name: 'Shopee', icon: 'fa-solid fa-bag-shopping', color: 'text-orange-500' },
+            { id: 'twitch', name: 'Twitch', icon: 'fa-brands fa-twitch', color: 'text-purple-600' },
+            { id: 'other', name: 'อื่นๆ', icon: 'fa-solid fa-ellipsis', color: 'text-teal-600' }
+        ];
+
+        // ข้อมูลบริการจำลองแยกตามแพลตฟอร์มและหมวดหมู่ (เพิ่ม region: 'thai' | 'inter' และ socialType)
+        const SERVICES_DATA = [
+            // คนไทย
+            { id: 101, platform: 'thai', region: 'thai', socialType: 'facebook', platformLabel: 'Facebook (บัญชีคนไทยแท้)', linkExample: 'https://www.facebook.com/username/posts/123456', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 101 - ปั๊มไลก์โพสต์ Facebook คนไทยแท้ (งานไว)', rate: 65.00, min: 20, max: 5000 },
+            { id: 102, platform: 'thai', region: 'thai', socialType: 'tiktok', platformLabel: 'TikTok (บัญชีคนไทยแท้)', linkExample: 'https://www.tiktok.com/@username/video/7123456789', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 102 - ปั๊มหัวใจวิดีโอ TikTok คนไทยมีตัวตน', rate: 85.00, min: 50, max: 10000 },
+            { id: 103, platform: 'thai', region: 'thai', socialType: 'instagram', platformLabel: 'Instagram (บัญชีคนไทยแท้)', linkExample: 'https://www.instagram.com/p/CxYz12345/', category: 'บริการคนไทยแท้ 100% (ยอดนิยม)', name: 'ID 103 - เพิ่มผู้ติดตาม IG คนไทยแท้ (รับประกัน 30 วัน)', rate: 120.00, min: 50, max: 3000 },
+
+            // Facebook
+            { id: 201, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (โพสต์ / รูปภาพ / วิดีโอ)', linkExample: 'https://www.facebook.com/page/posts/123456789', category: 'Facebook - ปั๊มไลก์โพสต์ / อิโมจิ', name: 'ID 201 - ปั๊มไลก์โพสต์ Facebook ราคาประหยัด (เริ่มต้นทันที)', rate: 18.50, min: 50, max: 50000 },
+            { id: 202, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (โพสต์ / รูปภาพ)', linkExample: 'https://www.facebook.com/page/posts/123456789', category: 'Facebook - ปั๊มไลก์โพสต์ / อิโมจิ', name: 'ID 202 - ปั๊มอิโมจิ หัวใจ ❤️ / ว้าว 😮 (เลือกได้)', rate: 25.00, min: 50, max: 20000 },
+            { id: 203, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (ลิงก์เพจ หรือ โปรไฟล์)', linkExample: 'https://www.facebook.com/YourPageName', category: 'Facebook - เพิ่มผู้ติดตามเพจ / โปรไฟล์', name: 'ID 203 - เพิ่มผู้ติดตามเพจ + ถูกใจเพจ (รับประกันไม่ลด)', rate: 45.00, min: 100, max: 100000 },
+            { id: 204, platform: 'facebook', region: 'inter', socialType: 'facebook', platformLabel: 'Facebook (ลิงก์ไลฟ์สด Live Stream)', linkExample: 'https://www.facebook.com/watch/live/?v=123456', category: 'Facebook - ปั๊มคนดูไลฟ์สด (Live)', name: 'ID 204 - คนดูไลฟ์สด Facebook อยู่ครบ 60 นาที', rate: 90.00, min: 50, max: 5000 },
+
+            // TikTok
+            { id: 301, platform: 'tiktok', region: 'inter', socialType: 'tiktok', platformLabel: 'TikTok (ลิงก์วิดีโอ)', linkExample: 'https://vt.tiktok.com/ZSNxxxxxx/', category: 'TikTok - ปั๊มวิว / ยอดเข้าชมวิดีโอ', name: 'ID 301 - ปั๊มวิว TikTok ความเร็วสูง (ขึ้นทันที 0-5 นาที)', rate: 2.50, min: 100, max: 1000000 },
+            { id: 302, platform: 'tiktok', region: 'inter', socialType: 'tiktok', platformLabel: 'TikTok (ลิงก์วิดีโอ)', linkExample: 'https://www.tiktok.com/@user/video/7283910293', category: 'TikTok - ปั๊มหัวใจ (Likes)', name: 'ID 302 - ปั๊มหัวใจ TikTok คุณภาพสูง ไม่ลด', rate: 19.00, min: 50, max: 100000 },
+            { id: 303, platform: 'tiktok', region: 'inter', socialType: 'tiktok', platformLabel: 'TikTok (ลิงก์โปรไฟล์ @username)', linkExample: 'https://www.tiktok.com/@yourusername', category: 'TikTok - เพิ่มผู้ติดตาม (Followers)', name: 'ID 303 - เพิ่มผู้ติดตาม TikTok บัญชีต่างชาติ (เปิดไลฟ์ได้)', rate: 55.00, min: 100, max: 50000 },
+
+            // Instagram
+            { id: 401, platform: 'instagram', region: 'inter', socialType: 'instagram', platformLabel: 'Instagram (ลิงก์โพสต์ หรือ Reels)', linkExample: 'https://www.instagram.com/p/C8xxxxxx/', category: 'Instagram - ปั๊มไลก์รูปภาพ / Reels', name: 'ID 401 - ปั๊มไลก์ IG งานไว ราคาถูกที่สุด', rate: 12.00, min: 50, max: 100000 },
+            { id: 402, platform: 'instagram', region: 'inter', socialType: 'instagram', platformLabel: 'Instagram (ลิงก์โปรไฟล์ IG)', linkExample: 'https://www.instagram.com/yourusername/', category: 'Instagram - เพิ่มผู้ติดตาม (Followers)', name: 'ID 402 - เพิ่มผู้ติดตาม IG รับประกัน 365 วัน (เติมอัตโนมัติ)', rate: 38.00, min: 100, max: 200000 },
+
+            // YouTube
+            { id: 501, platform: 'youtube', region: 'inter', socialType: 'youtube', platformLabel: 'YouTube (ลิงก์วิดีโอ หรือ Shorts)', linkExample: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', category: 'YouTube - เพิ่มยอดวิว (Views)', name: 'ID 501 - เพิ่มยอดวิว YouTube คุณภาพสูง (ไม่ลด)', rate: 42.00, min: 100, max: 500000 },
+            { id: 502, platform: 'youtube', region: 'inter', socialType: 'youtube', platformLabel: 'YouTube (ลิงก์ช่อง YouTube Channel)', linkExample: 'https://www.youtube.com/@YourChannel', category: 'YouTube - เพิ่มผู้ติดตามช่อง (Subscribers)', name: 'ID 502 - เพิ่มซับ YouTube รับประกัน 30 วัน', rate: 280.00, min: 50, max: 10000 },
+
+            // Twitter (X)
+            { id: 601, platform: 'twitter', region: 'inter', socialType: 'twitter', platformLabel: 'Twitter / X (ลิงก์ทวีตโพสต์)', linkExample: 'https://x.com/username/status/17283910293', category: 'Twitter (X) - ปั๊มหัวใจ & รีทวีต', name: 'ID 601 - ปั๊มหัวใจโพสต์ Twitter (X) ขึ้นไว', rate: 28.00, min: 50, max: 50000 },
+            { id: 602, platform: 'twitter', region: 'inter', socialType: 'twitter', platformLabel: 'Twitter / X (ลิงก์โปรไฟล์)', linkExample: 'https://x.com/yourusername', category: 'Twitter (X) - เพิ่มผู้ติดตาม', name: 'ID 602 - เพิ่มผู้ติดตาม Twitter (X) คุณภาพสูง', rate: 65.00, min: 50, max: 25000 },
+
+            // Shopee
+            { id: 701, platform: 'shopee', region: 'thai', socialType: 'shopee', platformLabel: 'Shopee (ลิงก์ร้านค้า Shopee)', linkExample: 'https://shopee.co.th/yourshopname', category: 'Shopee - เพิ่มผู้ติดตามร้านค้า', name: 'ID 701 - เพิ่มผู้ติดตามร้านค้า Shopee (เพิ่มความน่าเชื่อถือ)', rate: 49.00, min: 100, max: 50000 },
+            { id: 702, platform: 'shopee', region: 'thai', socialType: 'shopee', platformLabel: 'Shopee (ลิงก์สินค้า)', linkExample: 'https://shopee.co.th/product/12345/67890', category: 'Shopee - ปั๊มถูกใจสินค้า', name: 'ID 702 - ปั๊มกดหัวใจสินค้า Shopee ดันอันดับค้นหา', rate: 35.00, min: 50, max: 20000 },
+
+            // Twitch
+            { id: 801, platform: 'twitch', region: 'inter', socialType: 'twitch', platformLabel: 'Twitch (ลิงก์ช่องสตรีม)', linkExample: 'https://www.twitch.tv/yourchannel', category: 'Twitch - เพิ่มผู้ติดตามช่อง', name: 'ID 801 - เพิ่มผู้ติดตาม Twitch (Followers) งานไว', rate: 32.00, min: 50, max: 50000 },
+            { id: 802, platform: 'twitch', region: 'inter', socialType: 'twitch', platformLabel: 'Twitch (ลิงก์ช่องขณะไลฟ์สด)', linkExample: 'https://www.twitch.tv/yourchannel', category: 'Twitch - คนดูสตรีมสด', name: 'ID 802 - คนดูไลฟ์สด Twitch 30 นาที', rate: 110.00, min: 20, max: 2000 },
+
+            // อื่นๆ
+            { id: 901, platform: 'other', region: 'inter', socialType: 'telegram', platformLabel: 'Telegram (ลิงก์ช่อง หรือ กลุ่ม)', linkExample: 'https://t.me/yourchannel', category: 'อื่นๆ - Telegram / Discord / Threads', name: 'ID 901 - เพิ่มสมาชิกช่อง Telegram (ไม่ลด)', rate: 45.00, min: 100, max: 100000 },
+            { id: 902, platform: 'other', region: 'inter', socialType: 'threads', platformLabel: 'Threads (ลิงก์โปรไฟล์ Threads)', linkExample: 'https://www.threads.net/@username', category: 'อื่นๆ - Telegram / Discord / Threads', name: 'ID 902 - เพิ่มผู้ติดตาม Threads บัญชีคุณภาพ', rate: 55.00, min: 50, max: 20000 }
+        ];
+
+        // ฟังก์ชันคืนค่า HTML ไอคอนธงชาติไทย / ต่างประเทศ สำหรับหมวดหมู่
+        function getRegionBadgeHTML(region) {
+            if (region === 'thai') {
+                return `
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50 text-red-600 border border-red-100 text-[11px] font-semibold shrink-0">
+                        <svg class="w-3.5 h-2.5 rounded-[2px] shadow-2xs" viewBox="0 0 900 600"><rect width="900" height="600" fill="#ED1C24"/><rect y="100" width="900" height="400" fill="#fff"/><rect y="200" width="900" height="200" fill="#241D4F"/></svg>
+                        <span>ไทย</span>
+                    </span>
+                `;
+            }
+            return `
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 border border-blue-100 text-[11px] font-semibold shrink-0">
+                    <i class="fa-solid fa-earth-americas text-[11px]"></i>
+                    <span>ต่างประเทศ</span>
+                </span>
+            `;
+        }
+
+        // ฟังก์ชันคืนค่า HTML ไอคอนโซเชียลมีเดียสำหรับรายการบริการ
+        function getSocialIconHTML(socialType) {
+            const map = {
+                facebook: { icon: 'fa-brands fa-facebook', bg: 'bg-blue-100 text-blue-600' },
+                tiktok: { icon: 'fa-brands fa-tiktok', bg: 'bg-zinc-900 text-white' },
+                instagram: { icon: 'fa-brands fa-instagram', bg: 'bg-pink-100 text-pink-600' },
+                youtube: { icon: 'fa-brands fa-youtube', bg: 'bg-red-100 text-red-600' },
+                twitter: { icon: 'fa-brands fa-x-twitter', bg: 'bg-gray-200 text-gray-900' },
+                shopee: { icon: 'fa-solid fa-bag-shopping', bg: 'bg-orange-100 text-orange-600' },
+                twitch: { icon: 'fa-brands fa-twitch', bg: 'bg-purple-100 text-purple-600' },
+                telegram: { icon: 'fa-brands fa-telegram', bg: 'bg-sky-100 text-sky-600' },
+                threads: { icon: 'fa-brands fa-threads', bg: 'bg-gray-200 text-gray-900' }
+            };
+            const item = map[socialType] || { icon: 'fa-solid fa-globe', bg: 'bg-teal-100 text-teal-600' };
+            return `<span class="w-6 h-6 rounded-lg ${item.bg} flex items-center justify-center shrink-0 text-xs"><i class="${item.icon}"></i></span>`;
+        }
+
+        // ==========================================
+        // 2. ตัวแปรเก็บสถานะปัจจุบัน (State)
+        // ==========================================
+        let currentPlatformId = 'all';
+        let currentCategory = '';
+        let filteredServices = [...SERVICES_DATA];
+        let selectedService = SERVICES_DATA[0];
+
+        // อ้างอิง DOM Elements
+        const platformTabsEl = document.getElementById('platformTabs');
+        const searchInputEl = document.getElementById('searchInput');
+        const clearSearchBtnEl = document.getElementById('clearSearchBtn');
+        const categorySelectedDisplayEl = document.getElementById('categorySelectedDisplay');
+        const categoryDropdownMenuEl = document.getElementById('categoryDropdownMenu');
+        const serviceSelectedDisplayEl = document.getElementById('serviceSelectedDisplay');
+        const serviceDropdownMenuEl = document.getElementById('serviceDropdownMenu');
+        const linkInputEl = document.getElementById('linkInput');
+        const platformLinkHintEl = document.getElementById('platformLinkHint');
+        const quantityInputEl = document.getElementById('quantityInput');
+        const totalPriceDisplayEl = document.getElementById('totalPriceDisplay');
+        const serviceRateTextEl = document.getElementById('serviceRateText');
+        const serviceMinMaxTextEl = document.getElementById('serviceMinMaxText');
+
+        // จัดการเปิด-ปิด Custom Dropdown
+        function toggleDropdown(type) {
+            const catMenu = document.getElementById('categoryDropdownMenu');
+            const srvMenu = document.getElementById('serviceDropdownMenu');
+            const catArrow = document.getElementById('categoryArrow');
+            const srvArrow = document.getElementById('serviceArrow');
+
+            if (type === 'category') {
+                const isHidden = catMenu.classList.contains('hidden');
+                srvMenu.classList.add('hidden');
+                srvArrow.classList.remove('rotate-180');
+                if (isHidden) {
+                    catMenu.classList.remove('hidden');
+                    catArrow.classList.add('rotate-180');
+                } else {
+                    catMenu.classList.add('hidden');
+                    catArrow.classList.remove('rotate-180');
+                }
+            } else {
+                const isHidden = srvMenu.classList.contains('hidden');
+                catMenu.classList.add('hidden');
+                catArrow.classList.remove('rotate-180');
+                if (isHidden) {
+                    srvMenu.classList.remove('hidden');
+                    srvArrow.classList.add('rotate-180');
+                } else {
+                    srvMenu.classList.add('hidden');
+                    srvArrow.classList.remove('rotate-180');
+                }
+            }
+        }
+
+        // ปิด Dropdown อัตโนมัติเมื่อคลิกพื้นที่ด้านนอก
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('categoryDropdownWrapper').contains(e.target)) {
+                document.getElementById('categoryDropdownMenu').classList.add('hidden');
+                document.getElementById('categoryArrow').classList.remove('rotate-180');
+            }
+            if (!document.getElementById('serviceDropdownWrapper').contains(e.target)) {
+                document.getElementById('serviceDropdownMenu').classList.add('hidden');
+                document.getElementById('serviceArrow').classList.remove('rotate-180');
+            }
+        });
+
+        // ==========================================
+        // 3. สร้างปุ่มหัวเมนูแพลตฟอร์ม (สลับได้ + เลื่อนได้)
+        // ==========================================
+        function renderPlatformTabs() {
+            platformTabsEl.innerHTML = '';
+            PLATFORMS.forEach(plat => {
+                const isActive = plat.id === currentPlatformId;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.dataset.id = plat.id;
+                btn.className = `flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+                    isActive 
+                    ? 'bg-white text-gray-900 shadow-sm' 
+                    : 'text-gray-500 hover:text-gray-800 hover:bg-white/50'
+                }`;
+                btn.innerHTML = `
+                    <i class="${plat.icon} ${isActive ? plat.color : 'text-gray-400'}"></i>
+                    <span>${plat.name}</span>
+                `;
+                btn.addEventListener('click', () => selectPlatform(plat.id, btn));
+                platformTabsEl.appendChild(btn);
+            });
+        }
+
+        // เมื่อผู้ใช้กดเลือกหัวเมนูแพลตฟอร์ม
+        function selectPlatform(platformId, btnElement) {
+            currentPlatformId = platformId;
+            renderPlatformTabs();
+
+            // เลื่อนปุ่มที่เลือกให้อยู่กึ่งกลางแถบเมนูอัตโนมัติ (Smooth Scroll)
+            setTimeout(() => {
+                const activeBtn = platformTabsEl.querySelector(`button[data-id="${platformId}"]`);
+                if (activeBtn) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }, 10);
+
+            updateCategoriesAndServices();
+        }
+
+        // ==========================================
+        // 4. ระบบกรองหมวดหมู่ บริการ และการค้นหา
+        // ==========================================
+        function updateCategoriesAndServices() {
+            const keyword = searchInputEl.value.trim().toLowerCase();
+
+            // กรองบริการตามแพลตฟอร์มที่เลือก และคำค้นหา (ID หรือ คีย์เวิร์ด)
+            filteredServices = SERVICES_DATA.filter(item => {
+                const matchPlatform = (currentPlatformId === 'all') || (item.platform === currentPlatformId);
+                const matchKeyword = !keyword || 
+                    item.name.toLowerCase().includes(keyword) || 
+                    item.category.toLowerCase().includes(keyword) ||
+                    item.id.toString().includes(keyword);
+                return matchPlatform && matchKeyword;
+            });
+
+            // ดึงรายการหมวดหมู่ที่ไม่ซ้ำกันพร้อมประเภท (ไทย / ต่างประเทศ)
+            const categoryMap = new Map();
+            filteredServices.forEach(s => {
+                if (!categoryMap.has(s.category)) {
+                    categoryMap.set(s.category, s.region);
+                }
+            });
+
+            categoryDropdownMenuEl.innerHTML = '';
+            if (categoryMap.size === 0) {
+                categorySelectedDisplayEl.innerHTML = `<span class="text-gray-400">ไม่พบหมวดหมู่ที่ตรงกับการค้นหา</span>`;
+                serviceSelectedDisplayEl.innerHTML = `<span class="text-gray-400">ไม่พบบริการ</span>`;
+                serviceDropdownMenuEl.innerHTML = '';
+                updateServiceDetails(null);
+                return;
+            }
+
+            categoryMap.forEach((region, catName) => {
+                const itemBtn = document.createElement('button');
+                itemBtn.type = 'button';
+                itemBtn.className = 'w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 flex items-center gap-2.5 transition border-b border-gray-50 last:border-none';
+                itemBtn.innerHTML = `
+                    ${getRegionBadgeHTML(region)}
+                    <span class="text-gray-800 font-medium truncate">${catName}</span>
+                `;
+                itemBtn.addEventListener('click', () => {
+                    selectCategory(catName, region);
+                    document.getElementById('categoryDropdownMenu').classList.add('hidden');
+                    document.getElementById('categoryArrow').classList.remove('rotate-180');
+                });
+                categoryDropdownMenuEl.appendChild(itemBtn);
+            });
+
+            // เลือกหมวดหมู่แรกเป็นค่าเริ่มต้น
+            const firstEntry = categoryMap.entries().next().value;
+            selectCategory(firstEntry[0], firstEntry[1]);
+        }
+
+        function selectCategory(catName, region) {
+            currentCategory = catName;
+            categorySelectedDisplayEl.innerHTML = `
+                ${getRegionBadgeHTML(region)}
+                <span class="text-gray-800 font-medium truncate">${catName}</span>
+            `;
+            populateServicesByCategory(catName);
+        }
+
+        function populateServicesByCategory(selectedCategory) {
+            const servicesInCat = filteredServices.filter(s => s.category === selectedCategory);
+            serviceDropdownMenuEl.innerHTML = '';
+
+            servicesInCat.forEach(srv => {
+                const itemBtn = document.createElement('button');
+                itemBtn.type = 'button';
+                itemBtn.className = 'w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 flex items-center justify-between gap-2 transition border-b border-gray-50 last:border-none';
+                itemBtn.innerHTML = `
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        ${getSocialIconHTML(srv.socialType)}
+                        <span class="text-gray-800 font-medium truncate">${srv.name}</span>
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md shrink-0">฿${srv.rate.toFixed(2)}</span>
+                `;
+                itemBtn.addEventListener('click', () => {
+                    updateServiceDetails(srv);
+                    document.getElementById('serviceDropdownMenu').classList.add('hidden');
+                    document.getElementById('serviceArrow').classList.remove('rotate-180');
+                });
+                serviceDropdownMenuEl.appendChild(itemBtn);
+            });
+
+            if (servicesInCat.length > 0) {
+                updateServiceDetails(servicesInCat[0]);
+            }
+        }
+
+        // ==========================================
+        // 5. อัปเดตรายละเอียดบริการ ข้อความแจ้งแพลตฟอร์มใต้ช่องลิงก์ และคำนวณราคา
+        // ==========================================
+        function updateServiceDetails(service) {
+            selectedService = service;
+
+            if (!service) {
+                serviceRateTextEl.textContent = 'เรท: ฿0.00 / 1,000';
+                serviceMinMaxTextEl.textContent = 'ขั้นต่ำ: 0 - สูงสุด: 0';
+                platformLinkHintEl.innerHTML = `<i class="fa-solid fa-circle-exclamation text-amber-500"></i><span class="text-amber-600">กรุณาเลือกบริการก่อนวางลิงก์</span>`;
+                calculateTotal();
+                return;
+            }
+
+            // อัปเดตการแสดงผลบริการที่เลือกพร้อมไอคอนโซเชียลในช่องหลัก
+            serviceSelectedDisplayEl.innerHTML = `
+                ${getSocialIconHTML(service.socialType)}
+                <span class="text-gray-800 font-medium truncate">${service.name}</span>
+            `;
+
+            // อัปเดตเรทและขั้นต่ำ-สูงสุด
+            serviceRateTextEl.textContent = `เรทราคา: ฿${service.rate.toFixed(2)} / 1,000`;
+            serviceMinMaxTextEl.textContent = `ขั้นต่ำ: ${service.min.toLocaleString()} - สูงสุด: ${service.max.toLocaleString()}`;
+
+            // ตั้งค่า min/max และ placeholder ของช่องจำนวน
+            quantityInputEl.min = service.min;
+            quantityInputEl.max = service.max;
+            quantityInputEl.placeholder = `ขั้นต่ำ ${service.min.toLocaleString()}`;
+
+            // อัปเดต Placeholder และข้อความใต้ช่องลิงก์ให้ตรงกับแพลตฟอร์มนั้นๆ เป๊ะๆ
+            linkInputEl.placeholder = `วางลิงก์ ${service.platformLabel} ที่นี่...`;
+            platformLinkHintEl.innerHTML = `
+                <i class="fa-solid fa-link text-blue-600 shrink-0"></i>
+                <span>ต้องเป็นลิงก์ของแพลตฟอร์ม: <strong class="underline">${service.platformLabel}</strong> (เช่น ${service.linkExample})</span>
+            `;
+
+            calculateTotal();
+        }
+
+        // คำนวณค่าบริการที่ต้องชำระแบบ Real-time
+        function calculateTotal() {
+            if (!selectedService) {
+                totalPriceDisplayEl.textContent = '฿0.00';
+                return;
+            }
+            const qty = parseFloat(quantityInputEl.value) || 0;
+            const total = (qty / 1000) * selectedService.rate;
+            totalPriceDisplayEl.textContent = `฿${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        // ==========================================
+        // 6. Event Listeners และการโต้ตอบต่างๆ
+        // ==========================================
+        quantityInputEl.addEventListener('input', calculateTotal);
+
+        searchInputEl.addEventListener('input', () => {
+            if (searchInputEl.value.length > 0) {
+                clearSearchBtnEl.classList.remove('hidden');
+            } else {
+                clearSearchBtnEl.classList.add('hidden');
+            }
+            updateCategoriesAndServices();
+        });
+
+        function clearSearch() {
+            searchInputEl.value = '';
+            clearSearchBtnEl.classList.add('hidden');
+            updateCategoriesAndServices();
+        }
+
+        // ฟังก์ชันวางลิงก์จาก Clipboard (พร้อม Fallback)
+        async function pasteLink() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    linkInputEl.value = text;
+                    linkInputEl.focus();
+                }
+            } catch (err) {
+                linkInputEl.focus();
+                showToast('กรุณากดค้างในช่องกรอกลิงก์แล้วเลือก "วาง" (Paste)', 'info');
+            }
+        }
+
+        // จัดการเมื่อกดยืนยันสั่งซื้อ
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            if (!selectedService) {
+                showToast('กรุณาเลือกบริการที่ต้องการสั่งซื้อ', 'error');
+                return;
+            }
+
+            const qty = parseInt(quantityInputEl.value) || 0;
+            if (qty < selectedService.min || qty > selectedService.max) {
+                showToast(`กรุณาระบุจำนวนระหว่าง ${selectedService.min.toLocaleString()} ถึง ${selectedService.max.toLocaleString()}`, 'error');
+                return;
+            }
+
+            const total = ((qty / 1000) * selectedService.rate).toFixed(2);
+            showToast(
+                `สั่งซื้อ "${selectedService.name}" จำนวน ${qty.toLocaleString()} เรียบร้อยแล้ว ยอดชำระ ฿${total}`,
+                'success',
+                'ส่งคำสั่งซื้อสำเร็จ!'
+            );
+        }
+
+        // ระบบ Modal แจ้งเตือนแทน alert()
+        function showToast(message, type = 'success', title = 'แจ้งเตือนระบบ') {
+            const modal = document.getElementById('toastModal');
+            const iconEl = document.getElementById('toastIcon');
+            const titleEl = document.getElementById('toastTitle');
+            const msgEl = document.getElementById('toastMessage');
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+
+            if (type === 'error') {
+                iconEl.className = 'w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4 text-2xl';
+                iconEl.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            } else if (type === 'info') {
+                iconEl.className = 'w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-4 text-2xl';
+                iconEl.innerHTML = '<i class="fa-solid fa-info"></i>';
+            } else {
+                iconEl.className = 'w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-2xl';
+                iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeToast() {
+            const modal = document.getElementById('toastModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ==========================================
+        // 7. ระบบคู่มือ วิธีการใช้งาน และการตั้งค่าลิงก์สาธารณะจริง
+        // ==========================================
+        const GUIDE_CONTENTS = {
+            steps: {
+                title: 'ขั้นตอนการใช้งานระบบปั๊มยอด',
+                icon: 'fa-solid fa-list-check',
+                iconClass: 'bg-indigo-100 text-indigo-600',
+                html: `
+                    <div class="space-y-3">
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">เลือกแพลตฟอร์มและหมวดหมู่</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">กดเลือกไอคอนแพลตฟอร์มด้านบน (เช่น Facebook, TikTok, IG) จากนั้นเลือกหมวดหมู่ที่ต้องการ (บริการคนไทย หรือ ต่างประเทศ)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">เลือกบริการและตรวจสอบเรทราคา</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">เลือกบริการย่อยที่ต้องการ เช่น ปั๊มไลก์โพสต์ หรือ เพิ่มผู้ติดตาม ระบบจะแสดงราคาต่อ 1,000 และจำนวนขั้นต่ำ-สูงสุดให้อัตโนมัติ</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">วางลิงก์สาธารณะ (Public Link)</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">คัดลอกลิงก์โพสต์หรือโปรไฟล์ที่ <strong>เปิดสาธารณะแล้ว</strong> มาวางในช่องลิงก์เป้าหมาย (ตรวจสอบให้ตรงกับตัวอย่างใต้ช่อง)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-xs">ระบุจำนวนและกดยืนยันสั่งซื้อ</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">ใส่ตัวเลขจำนวนที่ต้องการ ระบบจะคำนวณค่าบริการทันที จากนั้นกดปุ่ม <strong>ยืนยันการสั่งซื้อบริการ</strong> ระบบจะเริ่มทำงานภายใน 0-15 นาที</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            public_link: {
+                title: 'วิธีตั้งค่าบัญชี & ลิงก์ให้เป็นสาธารณะ',
+                icon: 'fa-solid fa-globe',
+                iconClass: 'bg-blue-100 text-blue-600',
+                html: `
+                    <p class="text-xs text-gray-500 bg-blue-50 text-blue-700 p-3 rounded-xl border border-blue-100">
+                        <i class="fa-solid fa-circle-info mr-1"></i>
+                        <strong>สำคัญมาก:</strong> หากบัญชีตั้งค่าเป็น "ส่วนตัว (Private)" หรือโพสต์จำกัดอายุ/ประเทศ ระบบจะไม่สามารถส่งยอดได้
+                    </p>
+                    <div class="space-y-3 mt-2">
+                        <div class="p-3 rounded-2xl border border-gray-100">
+                            <h4 class="font-bold text-blue-600 text-xs flex items-center gap-1.5"><i class="fa-brands fa-facebook"></i> Facebook (เฟซบุ๊ก)</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li><strong>ปั๊มไลก์โพสต์:</strong> กดจุด 3 จุดมุมขวาบนของโพสต์ > แก้ไขความเป็นส่วนตัว > เลือกเป็น <strong>สาธารณะ (รูปโลก)</strong></li>
+                                <li><strong>ปั๊มผู้ติดตามโปรไฟล์:</strong> ไปที่ การตั้งค่า > ผู้ติดตามและเนื้อหาสาธารณะ > เปิดให้ "ทุกคน" สามารถติดตามได้</li>
+                            </ul>
+                        </div>
+                        <div class="p-3 rounded-2xl border border-gray-100">
+                            <h4 class="font-bold text-gray-900 text-xs flex items-center gap-1.5"><i class="fa-brands fa-tiktok"></i> TikTok (ติ๊กต็อก)</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li>ไปที่หน้าโปรไฟล์ > ขีด 3 ขีดมุมขวาบน > การตั้งค่าและความเป็นส่วนตัว > ความเป็นส่วนตัว > <strong>ปิด "บัญชีส่วนตัว"</strong></li>
+                                <li>สำหรับคลิปวิดีโอ: กดที่คลิป > จุด 3 จุด > การตั้งค่าความเป็นส่วนตัว > เลือก <strong>ทุกคน</strong></li>
+                            </ul>
+                        </div>
+                        <div class="p-3 rounded-2xl border border-gray-100">
+                            <h4 class="font-bold text-pink-600 text-xs flex items-center gap-1.5"><i class="fa-brands fa-instagram"></i> Instagram (อินสตาแกรม)</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li>ไปที่โปรไฟล์ > ขีด 3 ขีดมุมขวาบน > ความเป็นส่วนตัวของบัญชี > <strong>ปิดสวิตช์ "บัญชีส่วนตัว"</strong> (ห้ามเปิดค้างไว้ระหว่างรอระบบทำงาน)</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            copy_link: {
+                title: 'วิธีค้นหาและคัดลอกลิงก์ที่ถูกต้อง',
+                icon: 'fa-solid fa-link',
+                iconClass: 'bg-amber-100 text-amber-600',
+                html: `
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <h4 class="font-bold text-gray-900 text-xs">1. การคัดลอกลิงก์โพสต์ / รูปภาพ / คลิปวิดีโอ</h4>
+                            <p class="text-xs text-gray-600 mt-1">กดปุ่ม <strong>"แชร์ (Share)"</strong> ที่ใต้โพสต์หรือคลิปวิดีโอนั้นๆ แล้วเลือกเมนู <strong>"คัดลอกลิงก์ (Copy Link)"</strong> จากนั้นนำมาวางในช่องได้เลย</p>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                            <h4 class="font-bold text-gray-900 text-xs">2. การคัดลอกลิงก์โปรไฟล์ / ช่อง / เพจ</h4>
+                            <ul class="text-xs text-gray-600 list-disc pl-4 mt-1 space-y-1">
+                                <li><strong>Facebook:</strong> เข้าหน้าโปรไฟล์หรือเพจ > กดปุ่มจุด 3 จุด (...) > เลื่อนลงล่างสุดกด <strong>"คัดลอกลิงก์"</strong></li>
+                                <li><strong>TikTok:</strong> เข้าหน้าโปรไฟล์ > กดที่ชื่อ @username ของตัวเองเพื่อคัดลอก หรือกดปุ่มแชร์โปรไฟล์มุมขวาบน > คัดลอกลิงก์</li>
+                                <li><strong>Instagram:</strong> เข้าหน้าโปรไฟล์ > กดปุ่ม <strong>"แชร์โปรไฟล์"</strong> > กด "คัดลอกลิงก์"</li>
+                                <li><strong>YouTube:</strong> เข้าหน้าช่อง > กดจุด 3 จุดมุมขวาบน > แชร์ > คัดลอกลิงก์</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            rules: {
+                title: 'ข้อควรระวังก่อนกดสั่งซื้อ',
+                icon: 'fa-solid fa-shield-halved',
+                iconClass: 'bg-rose-100 text-rose-600',
+                html: `
+                    <ul class="space-y-2.5 text-xs text-gray-600">
+                        <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-rose-50/70 border border-rose-100">
+                            <i class="fa-solid fa-triangle-exclamation text-rose-500 mt-0.5"></i>
+                            <span><strong>ห้ามสั่งซื้อซ้ำซ้อน:</strong> ห้ามกดสั่งบริการประเภทเดียวกันในลิงก์เดิมซ้ำ หากออเดอร์เก่ายังขึ้นไม่ครบ (อาจทำให้ยอดทับซ้อนและได้ไม่ครบ)</span>
+                        </li>
+                        <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-gray-50 border border-gray-100">
+                            <i class="fa-solid fa-user-lock text-gray-700 mt-0.5"></i>
+                            <span><strong>ห้ามเปลี่ยนชื่อบัญชีหรือตั้งส่วนตัว:</strong> ระหว่างที่ระบบกำลังดำเนินการ ห้ามเปลี่ยน @Username หรือปิดบัญชีเป็นส่วนตัวเด็ดขาด</span>
+                        </li>
+                        <li class="flex items-start gap-2.5 p-2.5 rounded-xl bg-gray-50 border border-gray-100">
+                            <i class="fa-solid fa-link-slash text-gray-700 mt-0.5"></i>
+                            <span><strong>ตรวจสอบประเภทลิงก์ให้ตรง:</strong> เช่น บริการเพิ่มผู้ติดตาม ให้ใส่ <em>ลิงก์โปรไฟล์</em> ห้ามนำ <em>ลิงก์โพสต์</em> มาใส่แทน</span>
+                        </li>
+                    </ul>
+                `
+            }
+        };
+
+        function openGuideModal(key) {
+            const data = GUIDE_CONTENTS[key];
+            if (!data) return;
+
+            const modal = document.getElementById('guideModal');
+            const iconBox = document.getElementById('guideModalIcon');
+            const titleEl = document.getElementById('guideModalTitle');
+            const bodyEl = document.getElementById('guideModalBody');
+
+            iconBox.className = `w-9 h-9 rounded-xl ${data.iconClass} flex items-center justify-center text-base`;
+            iconBox.innerHTML = `<i class="${data.icon}"></i>`;
+            titleEl.textContent = data.title;
+            bodyEl.innerHTML = data.html;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGuideModal() {
+            const modal = document.getElementById('guideModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // เริ่มต้นทำงานเมื่อโหลดหน้าเว็บ
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPlatformTabs();
+            updateCategoriesAndServices();
+        });
+    </script>
+</body>
+</html>
