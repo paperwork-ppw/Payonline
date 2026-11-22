@@ -218,6 +218,75 @@
       color: #1f2937;
     }
 
+    /* ========================================================================= */
+    /* หน้าประกาศข้อตกลงและเงื่อนไขการใช้บริการแบบเต็มจอ (ไม่มีแถบหัวเลื่อน)       */
+    /* ========================================================================= */
+    .policy-fullscreen-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 210;
+      background: #ffffff;
+      color: #111827;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .policy-fullscreen-modal.open {
+      display: flex;
+    }
+    .policy-doc-topbar {
+      height: 54px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      flex-shrink: 0;
+    }
+    .policy-doc-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 20px 32px;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .policy-doc-bottombar {
+      height: 76px;
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 0 16px;
+      flex-shrink: 0;
+    }
+    .policy-circle-nav-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 9999px;
+      border: 1.5px solid #d1d5db;
+      background: #ffffff;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.18s ease;
+      cursor: pointer;
+    }
+    .policy-circle-nav-btn:hover:not(:disabled) {
+      border-color: #e11d2e;
+      color: #e11d2e;
+      background: #fff1f2;
+    }
+    .policy-circle-nav-btn:disabled {
+      opacity: 0.32;
+      cursor: not-allowed;
+    }
+
     /* Bottom Navigation Bar */
     .bottom-nav {
       position: fixed;
@@ -1308,7 +1377,7 @@
   <!-- TAB 3: ประวัติธุรกรรม & คำสั่งซื้อ                                          -->
   <!-- ========================================================================= -->
   <section id="tab-history" class="tab-view max-w-3xl mx-auto px-4 pt-5 pb-10">
-    <div class="flex items-center justify-between mb-4">
+    <div id="tourTargetHistoryHeader" class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-2">
         <span class="w-1 h-4 rounded-full bg-[#e11d2e]"></span>
         <h2 class="text-base font-bold text-gray-900">ประวัติธุรกรรมและการสั่งซื้อ</h2>
@@ -1316,7 +1385,7 @@
       <span class="text-xs text-gray-500" id="historyCountLabel">ทั้งหมด 3 รายการ</span>
     </div>
 
-    <div class="flex gap-2 overflow-x-auto no-scrollbar mb-4">
+    <div id="tourTargetHistoryFilters" class="flex gap-2 overflow-x-auto no-scrollbar mb-4">
       <button type="button" data-hfilter="ALL" onclick="filterHistoryList('ALL', this)" class="hist-filter-btn px-3.5 py-1.5 rounded-full bg-[#e11d2e] text-white text-xs font-semibold shrink-0">ทั้งหมด</button>
       <button type="button" data-hfilter="สั่งซื้อ/เติมเกมส์" onclick="filterHistoryList('สั่งซื้อ/เติมเกมส์', this)" class="hist-filter-btn px-3.5 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 text-xs font-semibold shrink-0">สั่งซื้อ &amp; เติมเกมส์</button>
       <button type="button" data-hfilter="ปั๊มยอดโซเชียล" onclick="filterHistoryList('ปั๊มยอดโซเชียล', this)" class="hist-filter-btn px-3.5 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 text-xs font-semibold shrink-0">ปั๊มไลก์</button>
@@ -1368,7 +1437,7 @@
   <!-- TAB 5: หน้าโปรไฟล์ & ตั้งค่า                                               -->
   <!-- ========================================================================= -->
   <section id="tab-settings" class="tab-view max-w-3xl mx-auto px-4 pt-4 pb-10">
-    <div class="bg-white rounded-2xl border border-gray-100 p-4 mb-3.5 shadow-xs">
+    <div id="tourTargetProfileCard" class="bg-white rounded-2xl border border-gray-100 p-4 mb-3.5 shadow-xs">
       <div class="flex items-center justify-between">
         <div>
           <div class="flex items-center gap-2">
@@ -1508,30 +1577,58 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- TAB 10: ข้อตกลงและเงื่อนไขการใช้บริการ & นโยบาย (ครบทุก 23 หัวข้อ แบบประกาศ) -->
+  <!-- MODAL เต็มจอ: ข้อตกลงและเงื่อนไขการใช้บริการ & นโยบาย (ไม่มีแถบหัวเลื่อน)     -->
   <!-- ========================================================================= -->
-  <section id="tab-policy" class="tab-view max-w-3xl mx-auto px-4 pt-4 pb-12">
-    <div class="flex items-center justify-between gap-2 mb-3">
-      <button type="button" onclick="switchMainTab('services')" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-xs font-bold text-gray-800">
-        <i class="fa-solid fa-arrow-left"></i> หน้าหลัก
+  <div id="policyFullscreenModal" class="policy-fullscreen-modal" role="dialog" aria-modal="true" aria-label="เอกสารข้อตกลงและเงื่อนไขการใช้บริการ">
+    <!-- แถบหัวด้านบน: ปุ่มย้อนกลับ (<), ชื่อหัวข้อตรงกลาง, ปุ่มรีเฟรช (↻) และปุ่มปิด (×) -->
+    <header class="policy-doc-topbar">
+      <button type="button" onclick="stepPolicyDocument(-1)" class="w-10 h-10 flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full text-lg" aria-label="ย้อนกลับ">
+        <i class="fa-solid fa-chevron-left"></i>
       </button>
-      <button type="button" onclick="openSideDrawer()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-50 text-[#e11d2e] text-xs font-bold">
-        <i class="fa-solid fa-list"></i> เลือกหมวดข้อตกลง
-      </button>
-    </div>
 
-    <!-- ช่องค้นหาและสลับหมวดข้อตกลง -->
-    <div class="bg-white rounded-xl border border-gray-200 p-3 mb-4">
-      <div class="relative mb-2.5">
-        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-        <input type="text" id="policySearchInput" oninput="renderPolicyQuickSelector()" placeholder="ค้นหาข้อตกลง เงื่อนไข นโยบาย หรือความรับผิดชอบ..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-3 py-2 text-xs outline-none focus:border-[#e11d2e]">
+      <h2 id="policyTopTitle" class="text-[15px] sm:text-base font-bold text-gray-900 truncate px-2 text-center">
+        ข้อตกลงการใช้
+      </h2>
+
+      <div class="flex items-center gap-0.5 shrink-0">
+        <button type="button" onclick="refreshPolicyDocument()" class="w-10 h-10 flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full text-base" aria-label="รีเฟรชเอกสาร">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+        <button type="button" onclick="closePolicyFullscreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 hover:bg-gray-100 rounded-full text-lg" aria-label="ปิดหน้าเอกสาร">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div id="policyQuickSelector" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
+    </header>
+
+    <!-- เนื้อหาเอกสารข้อตกลงฉบับเต็ม (ไม่มีแถบหมวดเลื่อนด้านบน) -->
+    <div id="policyDocumentScrollArea" class="policy-doc-body">
+      <div id="policyAnnouncementContainer"></div>
     </div>
 
-    <!-- กล่องประกาศหลักของข้อตกลงและเงื่อนไข -->
-    <div id="policyAnnouncementContainer"></div>
-  </section>
+    <!-- แถบปุ่มวงกลมด้านล่าง: ย้อนกลับ / กลับหน้าหลัก / ถัดไป -->
+    <footer class="policy-doc-bottombar">
+      <div class="flex flex-col items-center gap-1">
+        <button type="button" id="policyCirclePrevBtn" onclick="stepPolicyDocument(-1)" class="policy-circle-nav-btn" aria-label="ย้อนกลับ">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span class="text-[10px] font-medium text-gray-500">ย้อนกลับ</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-1">
+        <button type="button" onclick="closePolicyFullscreen()" class="policy-circle-nav-btn border-gray-800 text-gray-900" aria-label="กลับหน้าหลัก">
+          <i class="fa-solid fa-house"></i>
+        </button>
+        <span class="text-[10px] font-semibold text-gray-800">กลับหน้าหลัก</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-1">
+        <button type="button" id="policyCircleNextBtn" onclick="stepPolicyDocument(1)" class="policy-circle-nav-btn" aria-label="ถัดไป">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <span class="text-[10px] font-medium text-gray-500">ถัดไป</span>
+      </div>
+    </footer>
+  </div>
 
   <!-- ========================================================================= -->
   <!-- TAB 9: ระบบสมาชิก เข้าสู่ระบบ / สมัครสมาชิก / ลืมรหัสผ่าน (มีลูกตาทุกช่อง)   -->
@@ -2270,93 +2367,81 @@
 
     window.openPolicyTab = function(sectionId) {
       currentPolicyId = sectionId || 's1';
-      switchMainTab('policy');
-      renderPolicyQuickSelector();
+      const modal = document.getElementById('policyFullscreenModal');
+      if (modal) modal.classList.add('open');
       renderPolicyAnnouncement();
+      const scrollArea = document.getElementById('policyDocumentScrollArea');
+      if (scrollArea) scrollArea.scrollTop = 0;
     };
 
-    function renderPolicyQuickSelector() {
-      const container = document.getElementById('policyQuickSelector');
-      const kw = (document.getElementById('policySearchInput')?.value || '').trim().toLowerCase();
-      const filtered = POLICY_SECTIONS.filter(s =>
-        !kw || s.title.toLowerCase().includes(kw) || s.group.toLowerCase().includes(kw) || s.intro.join(' ').toLowerCase().includes(kw)
-      );
+    window.closePolicyFullscreen = function() {
+      const modal = document.getElementById('policyFullscreenModal');
+      if (modal) modal.classList.remove('open');
+      switchMainTab('services');
+    };
 
-      if (!filtered.length) {
-        container.innerHTML = `<span class="text-xs text-gray-400 py-1">ไม่พบหัวข้อที่ค้นหา</span>`;
+    window.stepPolicyDocument = function(dir) {
+      const idx = POLICY_SECTIONS.findIndex(s => s.id === currentPolicyId);
+      const nextIdx = idx + dir;
+      if (nextIdx < 0) {
+        closePolicyFullscreen();
         return;
       }
+      if (nextIdx >= POLICY_SECTIONS.length) return;
+      openPolicyTab(POLICY_SECTIONS[nextIdx].id);
+    };
 
-      container.innerHTML = filtered.map(s => {
-        const active = s.id === currentPolicyId;
-        return `
-          <button type="button" onclick="openPolicyTab('${s.id}')" class="px-3 py-1.5 rounded-lg text-[11px] font-semibold whitespace-nowrap shrink-0 transition ${active ? 'bg-[#e11d2e] text-white' : 'bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-[#e11d2e]'}">
-            ${s.title}
-          </button>
-        `;
-      }).join('');
-    }
+    window.refreshPolicyDocument = function() {
+      const scrollArea = document.getElementById('policyDocumentScrollArea');
+      if (scrollArea) scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+      renderPolicyAnnouncement();
+      showTopBannerToast('อัปเดตเนื้อหาล่าสุดแล้ว', 'แสดงเนื้อหาข้อตกลงและเงื่อนไขฉบับสมบูรณ์');
+    };
 
     function renderPolicyAnnouncement() {
       const idx = POLICY_SECTIONS.findIndex(s => s.id === currentPolicyId);
       const sec = idx >= 0 ? POLICY_SECTIONS[idx] : POLICY_SECTIONS[0];
-      const prev = idx > 0 ? POLICY_SECTIONS[idx - 1] : null;
-      const next = idx < POLICY_SECTIONS.length - 1 ? POLICY_SECTIONS[idx + 1] : null;
+      const hasPrev = idx > 0;
+      const hasNext = idx < POLICY_SECTIONS.length - 1;
+
+      const topTitleEl = document.getElementById('policyTopTitle');
+      if (topTitleEl) topTitleEl.textContent = sec.title;
+
+      const prevBtn = document.getElementById('policyCirclePrevBtn');
+      const nextBtn = document.getElementById('policyCircleNextBtn');
+      if (prevBtn) prevBtn.disabled = !hasPrev;
+      if (nextBtn) nextBtn.disabled = !hasNext;
 
       document.getElementById('policyAnnouncementContainer').innerHTML = `
-        <article class="notif-card-item">
-          <div class="notif-card-head flex items-center justify-between gap-2">
-            <span>ประกาศอย่างเป็นทางการ • ${sec.group}</span>
-            <span class="text-[10px] font-bold text-[#e11d2e] shrink-0">22 พ.ย. 2569</span>
+        <article class="text-gray-800 space-y-5">
+          <div>
+            <div class="text-xs font-medium text-gray-400 mb-1">${sec.group} • ฉบับสมบูรณ์ (${idx + 1}/${POLICY_SECTIONS.length})</div>
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">${sec.title}</h1>
+            <p class="text-xs text-gray-500 mt-1">YHT YAHATERM STORE — ข้อตกลงและเงื่อนไขการใช้บริการ (มีผลบังคับใช้ 22 พฤศจิกายน 2569)</p>
           </div>
 
-          <div class="p-4 sm:p-5 space-y-4">
-            <div class="border-b border-gray-100 pb-3">
-              <div class="text-[11px] font-semibold text-gray-400">${sec.group} / ${sec.title}</div>
-              <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 mt-1">${sec.title}</h1>
-              <div class="text-xs text-gray-500 mt-1">YHT YAHATERM STORE — ข้อตกลงและเงื่อนไขการใช้บริการ</div>
-            </div>
+          <section class="space-y-2.5">
+            <h2 class="text-sm sm:text-base font-bold text-gray-900">1. บทนำและขอบเขตการบังคับใช้ (Introduction &amp; Scope)</h2>
+            <ol class="list-decimal pl-5 space-y-2 text-xs sm:text-[13.5px] text-gray-600 leading-relaxed">
+              ${sec.intro.map(p => `<li>${p}</li>`).join('')}
+            </ol>
+          </section>
 
-            <div class="p-3.5 rounded-lg bg-gray-50 border-l-4 border-[#e11d2e] text-xs text-gray-600 leading-relaxed">
-              ประกาศฉบับนี้ใช้บังคับกับบริการของ <strong>YHT YAHATERM STORE</strong> เพื่อให้ผู้ใช้งานและร้านค้าเข้าใจสิทธิ หน้าที่ และขั้นตอนการดำเนินงานอย่างโปร่งใสและเป็นธรรมตามกฎหมาย
-            </div>
+          ${POLICY_BASE_CLAUSES.map((clause, cIdx) => `
+            <section class="space-y-1.5">
+              <h2 class="text-sm sm:text-base font-bold text-gray-900">${cIdx + 2}. ${clause.title}</h2>
+              <p class="text-xs sm:text-[13.5px] text-gray-600 leading-relaxed pl-1">
+                ${clause.text}
+              </p>
+            </section>
+          `).join('')}
 
-            <div>
-              <h2 class="text-sm font-extrabold text-gray-900 mb-2">1. บทนำและขอบเขตการบังคับใช้</h2>
-              <div class="space-y-2 text-xs sm:text-[13px] text-gray-700 leading-relaxed">
-                ${sec.intro.map((p, i) => `<p><strong>1.${i + 1}</strong> ${p}</p>`).join('')}
-              </div>
-            </div>
-
-            <div class="pt-2 border-t border-gray-100">
-              <h2 class="text-sm font-extrabold text-gray-900 mb-2.5">2. ข้อกำหนดและกระบวนการดำเนินงาน</h2>
-              <div class="space-y-3 text-xs sm:text-[13px] text-gray-700 leading-relaxed">
-                ${POLICY_BASE_CLAUSES.map((c, j) => `
-                  <div class="bg-gray-50/70 rounded-lg p-3 border border-gray-100">
-                    <div class="font-bold text-gray-900 mb-1">2.${j + 1} ${c.title}</div>
-                    <p class="text-gray-600">${c.text}</p>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-
-            <div class="pt-2 border-t border-gray-100 text-xs text-gray-600 leading-relaxed">
-              <h2 class="text-sm font-extrabold text-gray-900 mb-1.5">3. การติดต่อและการใช้สิทธิ</h2>
-              <p>หากมีข้อสงสัยหรือต้องการใช้สิทธิตามประกาศฉบับนี้ กรุณาติดต่อช่องทางบริการลูกค้าของ YHT YAHATERM STORE พร้อมระบุหมายเลขคำสั่งซื้อและรายละเอียดที่เกี่ยวข้อง</p>
-            </div>
-
-            <div class="flex items-center justify-between gap-2 pt-3 border-t border-gray-100">
-              <button type="button" ${!prev ? 'disabled' : ''} onclick="openPolicyTab('${prev ? prev.id : sec.id}')" class="px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 disabled:opacity-35">
-                ← ${prev ? prev.title : 'ก่อนหน้า'}
-              </button>
-              <button type="button" onclick="copyPolicySectionText()" class="px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-800">
-                คัดลอกประกาศ
-              </button>
-              <button type="button" ${!next ? 'disabled' : ''} onclick="openPolicyTab('${next ? next.id : sec.id}')" class="px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 disabled:opacity-35">
-                ${next ? next.title : 'ถัดไป'} →
-              </button>
-            </div>
-          </div>
+          <section class="space-y-1.5 pt-2 border-t border-gray-100">
+            <h2 class="text-sm sm:text-base font-bold text-gray-900">${POLICY_BASE_CLAUSES.length + 2}. การติดต่อและการใช้สิทธิตามข้อตกลง</h2>
+            <p class="text-xs sm:text-[13.5px] text-gray-600 leading-relaxed pl-1">
+              หากผู้ใช้งานมีข้อสงสัย ต้องการขอตรวจสอบรายการ หรือต้องการใช้สิทธิตามข้อตกลงฉบับนี้ สามารถติดต่อฝ่ายบริการลูกค้าของ YHT YAHATERM STORE ได้ตลอด 24 ชั่วโมง พร้อมระบุหมายเลขคำสั่งซื้อและรายละเอียดที่เกี่ยวข้อง
+            </p>
+          </section>
         </article>
       `;
     }
@@ -2468,8 +2553,7 @@
         notifications: 'nav-services',
         cart: 'nav-store',
         auth: 'nav-settings',
-        info: 'nav-services',
-        policy: 'nav-services'
+        info: 'nav-services'
       };
       const activeNavBtn = document.getElementById(navMap[tabName] || 'nav-services');
       if (activeNavBtn) activeNavBtn.classList.add('active');
@@ -2478,10 +2562,6 @@
       if (tabName === 'history') renderHistoryList('ALL');
       if (tabName === 'cart') renderFullCartTab();
       if (tabName === 'notifications') renderNotificationCards();
-      if (tabName === 'policy') {
-        renderPolicyQuickSelector();
-        renderPolicyAnnouncement();
-      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       if (!seenTourSections.has(tabName) && TAB_TOURS[tabName]) {
@@ -3856,13 +3936,14 @@
         { target: '#smmLinkInput', title: 'วางลิงก์เป้าหมายและระบุจำนวน', desc: 'วางลิงก์โพสต์หรือโปรไฟล์สาธารณะ แล้วกรอกจำนวน ระบบจะคำนวณค่าบริการให้อัตโนมัติ' }
       ],
       history: [
-        { target: '#tab-history', title: 'ประวัติธุรกรรมและคำสั่งซื้อ', desc: 'ตรวจสอบสถานะการเติมเกมส์ การสั่งซื้อสินค้า ปั๊มไลก์ และการฝาก-ถอนเงินย้อนหลังได้ทั้งหมด' }
+        { target: '#tourTargetHistoryHeader', title: 'ประวัติธุรกรรมและคำสั่งซื้อ', desc: 'ตรวจสอบสถานะการเติมเกมส์ การสั่งซื้อสินค้า ปั๊มไลก์ และการฝาก-ถอนเงินย้อนหลังได้ทั้งหมด' },
+        { target: '#tourTargetHistoryFilters', title: 'ตัวกรองประเภทรายการ', desc: 'เลือกดูเฉพาะรายการสั่งซื้อ/เติมเกมส์ ปั๊มไลก์ หรือประวัติฝาก-ถอนเงินได้ทันที' }
       ],
       promo: [
         { target: '#promoRedeemInput', title: 'กรอกโค้ดเงินสดและโค้ดส่วนลด', desc: 'กรอกโค้ดสิทธิพิเศษ เช่น YHT100 หรือ FREE50 เพื่อรับเครดิตเข้ากระเป๋า Wallet ทันที' }
       ],
       settings: [
-        { target: '#tab-settings', title: 'โปรไฟล์และการตั้งค่าบัญชี', desc: 'คัดลอกเลข UID 1296271634 จัดการบัญชีธนาคาร ฝาก-ถอนเงิน และเปิดคู่มือการใช้งานได้จากหน้านี้' }
+        { target: '#tourTargetProfileCard', title: 'โปรไฟล์และการตั้งค่าบัญชี', desc: 'คัดลอกเลข UID 1296271634 จัดการบัญชีธนาคาร ฝาก-ถอนเงิน และเปิดคู่มือการใช้งานได้จากหน้านี้' }
       ]
     };
 
@@ -3876,41 +3957,58 @@
       const tip = document.getElementById('tourArrowTip');
       const targetEl = document.querySelector(step.target);
 
+      const vh = window.innerHeight;
+      const vw = window.innerWidth;
+      const cardWidth = Math.min(330, vw - 32);
+
       if (!targetEl) {
         ring.style.display = 'none';
-        card.style.left = '16px';
-        card.style.top = '120px';
         tip.style.display = 'none';
+        card.style.left = `${Math.max(16, (vw - cardWidth) / 2)}px`;
+        card.style.top = '120px';
+        card.style.bottom = 'auto';
         return;
       }
 
       const rect = targetEl.getBoundingClientRect();
       const pad = 6;
+      const ringTop = Math.max(4, rect.top - pad);
+      const ringBottom = Math.min(vh - 4, rect.bottom + pad);
+      const ringHeight = Math.max(36, ringBottom - ringTop);
+
       ring.style.display = 'block';
       ring.style.left = `${Math.max(4, rect.left - pad)}px`;
-      ring.style.top = `${Math.max(4, rect.top - pad)}px`;
-      ring.style.width = `${Math.min(window.innerWidth - 8, rect.width + pad * 2)}px`;
-      ring.style.height = `${rect.height + pad * 2}px`;
+      ring.style.top = `${ringTop}px`;
+      ring.style.width = `${Math.min(vw - 8, rect.width + pad * 2)}px`;
+      ring.style.height = `${ringHeight}px`;
 
-      const cardWidth = Math.min(330, window.innerWidth - 32);
       const centerX = rect.left + rect.width / 2;
-      let cardLeft = Math.max(16, Math.min(window.innerWidth - cardWidth - 16, centerX - cardWidth / 2));
+      const cardLeft = Math.max(16, Math.min(vw - cardWidth - 16, centerX - cardWidth / 2));
       card.style.left = `${cardLeft}px`;
 
+      const cardHeight = card.offsetHeight || 168;
+      const spaceBelow = vh - (ringBottom + 16);
+      const spaceAbove = ringTop - 16;
+
       const arrowLeft = Math.max(20, Math.min(cardWidth - 34, centerX - cardLeft - 7));
-      tip.style.display = 'block';
       tip.style.left = `${arrowLeft}px`;
 
-      if (rect.top > window.innerHeight * 0.55) {
+      if (spaceBelow >= cardHeight + 12) {
+        tip.style.display = 'block';
+        card.style.bottom = 'auto';
+        card.style.top = `${ringBottom + 14}px`;
+        tip.style.bottom = 'auto';
+        tip.style.top = '-7px';
+      } else if (spaceAbove >= cardHeight + 12) {
+        tip.style.display = 'block';
         card.style.top = 'auto';
-        card.style.bottom = `${window.innerHeight - rect.top + 18}px`;
+        card.style.bottom = `${vh - ringTop + 14}px`;
         tip.style.top = 'auto';
         tip.style.bottom = '-7px';
       } else {
+        tip.style.display = 'none';
         card.style.bottom = 'auto';
-        card.style.top = `${rect.bottom + 18}px`;
-        tip.style.bottom = 'auto';
-        tip.style.top = '-7px';
+        card.style.top = `${Math.max(76, Math.min(vh - cardHeight - 84, (vh - cardHeight) / 2))}px`;
       }
     }
 
@@ -3921,7 +4019,7 @@
       document.getElementById('tourStepTitle').textContent = step.title;
       document.getElementById('tourStepDesc').textContent = step.desc;
       document.getElementById('tourPrevBtn').style.visibility = currentTourIndex === 0 ? 'hidden' : 'visible';
-      document.getElementById('tourNextBtn').textContent = currentTourIndex === currentTourSteps.length - 1 ? 'เสร็จสิ้น' : 'ถัดไป';
+      document.getElementById('tourNextBtn').textContent = currentTourIndex === currentTourSteps.length - 1 ? 'ตกลง' : 'ถัดไป';
       positionSpotlightForStep(step);
     }
 
@@ -3990,4 +4088,4 @@
     });
   </script>
 </body>
-    </html>
+  </html>
