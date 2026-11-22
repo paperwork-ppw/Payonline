@@ -801,7 +801,12 @@
     <div class="px-4 py-3.5 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
       <div>
         <div class="text-xs font-bold text-gray-900" id="drawerUserName">Yahaterm</div>
-        <div class="text-[11px] text-gray-500">UID: <span class="font-semibold text-gray-800">1296271634</span></div>
+        <div class="flex items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
+          <span>UID: <strong class="font-semibold text-gray-800">1296271634</strong></span>
+          <button type="button" onclick="copyTextWithAlert('1296271634', 'คัดลอกรหัสกระเป๋า 1296271634 เรียบร้อยแล้ว')" class="text-gray-500 hover:text-[#e11d2e] p-0.5 transition" title="คัดลอกรหัสกระเป๋า / UID">
+            <i class="fa-regular fa-copy text-xs"></i>
+          </button>
+        </div>
       </div>
       <div class="flex items-center gap-1.5">
         <button type="button" onclick="closeSideDrawer();switchMainTab('auth')" class="px-2.5 py-1 rounded-lg bg-red-50 text-[#e11d2e] text-[11px] font-bold">
@@ -815,6 +820,12 @@
       <!-- 1. หน้าหลัก -->
       <button type="button" onclick="closeSideDrawer();switchMainTab('services')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-left">
         <span class="flex items-center gap-3 font-medium text-gray-800"><i class="fa-solid fa-house w-4 text-gray-500"></i> หน้าหลัก</span>
+        <i class="fa-solid fa-chevron-right text-[11px] text-gray-400"></i>
+      </button>
+
+      <!-- 1.1 โปรไฟล์ของฉัน -->
+      <button type="button" onclick="closeSideDrawer();switchMainTab('settings')" class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 text-left">
+        <span class="flex items-center gap-3 font-medium text-gray-800"><i class="fa-regular fa-circle-user w-4 text-gray-500"></i> โปรไฟล์ของฉัน</span>
         <i class="fa-solid fa-chevron-right text-[11px] text-gray-400"></i>
       </button>
 
@@ -1448,8 +1459,8 @@
           </div>
           <div class="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
             <span>UID: <strong class="text-gray-800" id="profileUidValue">1296271634</strong></span>
-            <button type="button" onclick="copyTextWithAlert('1296271634', 'คัดลอกไปยังคลิปบอร์ดแล้ว!')" class="text-gray-500 hover:text-[#e11d2e] p-1" title="คัดลอก UID">
-              <i class="fa-regular fa-copy"></i>
+            <button type="button" onclick="copyTextWithAlert('1296271634', 'คัดลอกรหัสกระเป๋า 1296271634 เรียบร้อยแล้ว')" class="text-gray-500 hover:text-[#e11d2e] p-1 transition" title="คัดลอก UID">
+              <i class="fa-regular fa-copy text-xs"></i>
             </button>
           </div>
           <div class="flex items-center gap-2 mt-2">
@@ -3388,6 +3399,11 @@
       ],
       cards: [
         { id: 'VISA / Mastercard', name: 'VISA / Mastercard', color: '#1a1f71', short: 'CARD', type: 'qr' }
+      ],
+      crypto: [
+        { id: 'USDT-TRC20', name: 'USDT (TRC20)', color: '#10b981', short: 'TRC20', type: 'bank', bankTitle: 'USDT Deposit (TRC20 Network)', accNum: 'TYHT9x84kLm29pQr72vBn45cXz81aWq30', accName: 'YHT Official Crypto Vault', appTag: 'TRC20', cardBg: 'linear-gradient(155deg, #047857 0%, #064e3b 55%, #022c22 100%)' },
+        { id: 'USDT-BEP20', name: 'USDT (BEP20)', color: '#f59e0b', short: 'BEP20', type: 'bank', bankTitle: 'USDT Deposit (BEP20 BNB Chain)', accNum: '0x94b2c71e8a50d3f6219c847a10e5b2c94d71a830', accName: 'YHT Official Crypto Vault', appTag: 'BEP20', cardBg: 'linear-gradient(155deg, #b45309 0%, #78350f 55%, #451a03 100%)' },
+        { id: 'BTC-BTC', name: 'Bitcoin (BTC Network)', color: '#f97316', short: 'BTC', type: 'bank', bankTitle: 'Bitcoin Deposit (BTC Network)', accNum: 'bc1qyht849201948yahatermwallet998877', accName: 'YHT Official Crypto Vault', appTag: 'BTC', cardBg: 'linear-gradient(155deg, #c2410c 0%, #7c2d12 55%, #431407 100%)' }
       ]
     };
 
@@ -3459,6 +3475,7 @@
           <button type="button" class="dp-cat-tab ${depositCatTab === 'wallet' ? 'active' : ''}" onclick="switchDepositCat('wallet')">💳 วอลเล็ต</button>
           <button type="button" class="dp-cat-tab ${depositCatTab === 'mobile' ? 'active' : ''}" onclick="switchDepositCat('mobile')">📱 โมบายแบงก์กิ้ง</button>
           <button type="button" class="dp-cat-tab ${depositCatTab === 'cards' ? 'active' : ''}" onclick="switchDepositCat('cards')">🪪 Cards</button>
+          <button type="button" class="dp-cat-tab ${depositCatTab === 'crypto' ? 'active' : ''}" onclick="switchDepositCat('crypto')">🪙 คริปโต</button>
         </div>
 
         <div class="dp-channel-list">
@@ -3556,7 +3573,7 @@
       const createdAt = formatThaiDateTime(now);
       const expiresAt = formatThaiDateTime(expire);
 
-      const allChannels = [...DEPOSIT_CHANNELS.recommend, ...DEPOSIT_CHANNELS.wallet, ...DEPOSIT_CHANNELS.mobile, ...DEPOSIT_CHANNELS.cards];
+      const allChannels = [...DEPOSIT_CHANNELS.recommend, ...DEPOSIT_CHANNELS.wallet, ...DEPOSIT_CHANNELS.mobile, ...DEPOSIT_CHANNELS.cards, ...DEPOSIT_CHANNELS.crypto];
       const channelObj = allChannels.find(c => c.id === channelId) || DEPOSIT_CHANNELS.recommend[0];
       const isQR = channelObj.type === 'qr';
 
